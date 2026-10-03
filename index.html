@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AnimeHindiZone</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0b12;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Header */
+    header {
+      background: #11111b;
+      padding: 18px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #252535;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #8b5cf6;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #a78bfa;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 430px;
+      padding: 70px 5%;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, #0b0b12 15%, rgba(11,11,18,.75), rgba(11,11,18,.2)),
+        linear-gradient(180deg, transparent, #0b0b12);
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #a78bfa;
+    }
+
+    .hero p {
+      color: #bbb;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #7c3aed;
+      color: white;
+      padding: 13px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #8b5cf6;
+    }
+
+    /* Search */
+    .search-box {
+      padding: 20px 5%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 15px 18px;
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      background: #171724;
+      color: white;
+      font-size: 15px;
+    }
+
+    /* Sections */
+    section {
+      padding: 25px 5%;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-title span {
+      color: #8b5cf6;
+    }
+
+    /* Anime Grid */
+    .anime-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    .anime-card {
+      background: #151520;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: .3s;
+    }
+
+    .anime-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(124,58,237,.2);
+    }
+
+    .anime-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .anime-info {
+      padding: 12px;
+    }
+
+    .anime-info h3 {
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .anime-info p {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #7c3aed;
+      padding: 4px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    /* Schedule */
+    .schedule {
+      display: grid;
+      gap: 10px;
+    }
+
+    .schedule-item {
+      background: #151520;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .schedule-item span {
+      color: #a78bfa;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 50px;
+      padding: 30px 5%;
+      text-align: center;
+      background: #11111b;
+      color: #888;
+    }
+
+    /* Mobile */
+    @media (max-width: 800px) {
+
+      header {
+        padding: 15px 4%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 360px;
+        padding: 50px 5%;
+      }
+
+      .hero h1 {
+        font-size: 35px;
+      }
+
+      .anime-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .anime-card img {
+        height: 230px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">AnimeHindiZone</div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#latest">Latest</a>
+      <a href="#popular">Popular</a>
+      <a href="#schedule">Schedule</a>
+    </nav>
+  </header>
+
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Watch <span>Anime</span> Online</h1>
+
+      <p>
+        Discover the latest anime, Hindi dubbed anime,
+        popular series and upcoming episodes in one place.
+      </p>
+
+      <a href="#latest" class="btn">Explore Anime</a>
+    </div>
+  </div>
+
+
+  <!-- Search -->
+  <div class="search-box">
+    <input
+      type="text"
+      id="search"
+      placeholder="Search anime..."
+      onkeyup="searchAnime()"
+    >
+  </div>
+
+
+  <!-- Latest -->
+  <section id="latest">
+
+    <h2 class="section-title">
+      Latest <span>Anime</span>
+    </h2>
+
+    <div class="anime-grid" id="animeGrid">
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Anime+1">
+        <div class="anime-info">
+          <h3>Anime Name 1</h3>
+          <p>Hindi • Episode 12</p>
+          <span class="badge">HD</span>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Anime+2">
+        <div class="anime-info">
+          <h3>Anime Name 2</h3>
+          <p>Hindi • Episode 08</p>
+          <span class="badge">HD</span>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Anime+3">
+        <div class="anime-info">
+          <h3>Anime Name 3</h3>
+          <p>Hindi • Episode 05</p>
+          <span class="badge">HD</span>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Anime+4">
+        <div class="anime-info">
+          <h3>Anime Name 4</h3>
+          <p>Hindi • Episode 10</p>
+          <span class="badge">HD</span>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Anime+5">
+        <div class="anime-info">
+          <h3>Anime Name 5</h3>
+          <p>Hindi • Episode 03</p>
+          <span class="badge">HD</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Popular -->
+  <section id="popular">
+
+    <h2 class="section-title">
+      Popular <span>Anime</span>
+    </h2>
+
+    <div class="anime-grid">
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Popular+1">
+        <div class="anime-info">
+          <h3>Popular Anime 1</h3>
+          <p>Hindi • 24 Episodes</p>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Popular+2">
+        <div class="anime-info">
+          <h3>Popular Anime 2</h3>
+          <p>Hindi • 12 Episodes</p>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Popular+3">
+        <div class="anime-info">
+          <h3>Popular Anime 3</h3>
+          <p>Hindi • 24 Episodes</p>
+        </div>
+      </div>
+
+      <div class="anime-card">
+        <img src="https://via.placeholder.com/300x400/191525/ffffff?text=Popular+4">
+        <div class="anime-info">
+          <h3>Popular Anime 4</h
