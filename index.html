@@ -41,14 +41,32 @@ header{
   font-weight:800;
 }
 
+nav{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
 nav a{
   color:#ddd;
   text-decoration:none;
-  margin-left:20px;
 }
 
 nav a:hover{
   color:#9b5cff;
+}
+
+/* ADMIN BUTTON */
+.admin-link{
+  background:#8239f3;
+  color:white !important;
+  padding:9px 14px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.admin-link:hover{
+  background:#9b5cff;
 }
 
 /* HERO */
@@ -91,6 +109,10 @@ nav a:hover{
   padding:14px 25px;
   border-radius:10px;
   font-weight:bold;
+}
+
+.btn:hover{
+  background:#9b5cff;
 }
 
 /* MAIN */
@@ -233,6 +255,7 @@ footer{
   .grid{
     grid-template-columns:repeat(3,1fr);
   }
+
 }
 
 @media(max-width:650px){
@@ -241,13 +264,27 @@ footer{
     padding:16px 5%;
   }
 
+  .nav{
+    flex-direction:column;
+    gap:14px;
+  }
+
   .logo{
     font-size:21px;
   }
 
+  nav{
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
   nav a{
-    margin-left:8px;
     font-size:12px;
+  }
+
+  .admin-link{
+    padding:8px 11px;
   }
 
   .hero{
@@ -290,6 +327,7 @@ footer{
   .section-title{
     font-size:25px;
   }
+
 }
 </style>
 
@@ -308,10 +346,29 @@ footer{
     </div>
 
     <nav>
-      <a href="#home">Home</a>
-      <a href="#latest">Latest</a>
-      <a href="#popular">Popular</a>
-      <a href="#schedule">Schedule</a>
+
+      <a href="#home">
+        Home
+      </a>
+
+      <a href="#latest">
+        Latest
+      </a>
+
+      <a href="#popular">
+        Popular
+      </a>
+
+      <a href="#schedule">
+        Schedule
+      </a>
+
+      <!-- ADMIN PANEL -->
+
+      <a href="admin.html" class="admin-link">
+        Admin
+      </a>
+
     </nav>
 
   </div>
@@ -372,7 +429,7 @@ Latest <span>Anime</span>
 <div class="grid" id="animeGrid">
 
 
-<!-- SOLO LEVELING CLICKABLE -->
+<!-- SOLO LEVELING -->
 
 <a href="anime-details.html" class="card">
 
@@ -382,7 +439,9 @@ Latest <span>Anime</span>
 
   <div class="card-info">
 
-    <h3>Solo Leveling</h3>
+    <h3>
+      Solo Leveling
+    </h3>
 
     <div class="meta">
       Season 2 • Episode 13
@@ -407,7 +466,9 @@ Latest <span>Anime</span>
 
   <div class="card-info">
 
-    <h3>One Piece</h3>
+    <h3>
+      One Piece
+    </h3>
 
     <div class="meta">
       Episode 1150+
@@ -432,7 +493,9 @@ Latest <span>Anime</span>
 
   <div class="card-info">
 
-    <h3>Demon Slayer</h3>
+    <h3>
+      Demon Slayer
+    </h3>
 
     <div class="meta">
       Latest Season
@@ -457,7 +520,9 @@ Latest <span>Anime</span>
 
   <div class="card-info">
 
-    <h3>Jujutsu Kaisen</h3>
+    <h3>
+      Jujutsu Kaisen
+    </h3>
 
     <div class="meta">
       Season 2
@@ -482,301 +547,12 @@ Latest <span>Anime</span>
 
   <div class="card-info">
 
-    <h3>Attack on Titan</h3>
+    <h3>
+      Attack on Titan
+    </h3>
 
     <div class="meta">
       Complete Series
     </div>
 
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</div>
-
-
-<!-- NARUTO -->
-
-<div class="card">
-
-  <div class="poster">
-    <h3>Naruto</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Naruto</h3>
-
-    <div class="meta">
-      Complete Series
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</div>
-
-
-<!-- BLEACH -->
-
-<div class="card">
-
-  <div class="poster">
-    <h3>Bleach</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Bleach</h3>
-
-    <div class="meta">
-      Thousand-Year Blood War
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</div>
-
-
-<!-- DRAGON BALL -->
-
-<div class="card">
-
-  <div class="poster">
-    <h3>Dragon Ball</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Dragon Ball</h3>
-
-    <div class="meta">
-      Popular Series
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- POPULAR -->
-
-<section class="section" id="popular">
-
-<h2 class="section-title">
-Popular <span>Anime</span>
-</h2>
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="poster">
-<h3>Death Note</h3>
-</div>
-
-<div class="card-info">
-
-<h3>Death Note</h3>
-
-<div class="meta">
-37 Episodes
-</div>
-
-<span class="badge">
-Hindi
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="poster">
-<h3>My Hero Academia</h3>
-</div>
-
-<div class="card-info">
-
-<h3>My Hero Academia</h3>
-
-<div class="meta">
-Popular Series
-</div>
-
-<span class="badge">
-Hindi
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="poster">
-<h3>Hunter x Hunter</h3>
-</div>
-
-<div class="card-info">
-
-<h3>Hunter x Hunter</h3>
-
-<div class="meta">
-148 Episodes
-</div>
-
-<span class="badge">
-Hindi
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="poster">
-<h3>Black Clover</h3>
-</div>
-
-<div class="card-info">
-
-<h3>Black Clover</h3>
-
-<div class="meta">
-170 Episodes
-</div>
-
-<span class="badge">
-Hindi
-</span>
-
-</div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- SCHEDULE -->
-
-<section class="section" id="schedule">
-
-<h2 class="section-title">
-Anime <span>Schedule</span>
-</h2>
-
-
-<div class="schedule">
-
-
-<div class="schedule-item">
-<strong>Monday</strong>
-<span class="day">MON</span>
-</div>
-
-
-<div class="schedule-item">
-<strong>Tuesday</strong>
-<span class="day">TUE</span>
-</div>
-
-
-<div class="schedule-item">
-<strong>Wednesday</strong>
-<span class="day">WED</span>
-</div>
-
-
-<div class="schedule-item">
-<strong>Thursday</strong>
-<span class="day">THU</span>
-</div>
-
-
-<div class="schedule-item">
-<strong>Friday</strong>
-<span class="day">FRI</span>
-</div>
-
-
-</div>
-
-</section>
-
-
-</main>
-
-
-<footer>
-
-© 2026 AnimeHindiZone
-
-</footer>
-
-
-<script>
-
-function searchAnime(){
-
-  let input =
-  document
-  .getElementById("search")
-  .value
-  .toLowerCase();
-
-  let cards =
-  document
-  .querySelectorAll("#animeGrid .card");
-
-  cards.forEach(function(card){
-
-    let name =
-    card.innerText.toLowerCase();
-
-    if(name.includes(input)){
-
-      card.style.display="block";
-
-    }else{
-
-      card.style.display="none";
-
-    }
-
-  });
-
-}
-
-</script>
-
-
-</body>
-</html>
+    <
