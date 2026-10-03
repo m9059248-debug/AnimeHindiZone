@@ -6,7 +6,6 @@
 
 <title>Admin Panel - AnimeHindiZone</title>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -68,7 +67,9 @@ h2{
   margin-bottom:18px;
 }
 
-input{
+input,
+textarea,
+select{
   width:100%;
   padding:14px;
   border-radius:9px;
@@ -77,6 +78,11 @@ input{
   color:white;
   outline:none;
   font-size:15px;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
 }
 
 button{
@@ -120,6 +126,22 @@ button:hover{
   color:#9b5cff;
 }
 
+label{
+  display:block;
+  margin:15px 0 8px;
+  color:#ccc;
+}
+
+.form-btn{
+  width:100%;
+  margin-top:20px;
+}
+
+.message{
+  margin-top:15px;
+  color:#9b5cff;
+}
+
 .search{
   display:flex;
   gap:10px;
@@ -160,16 +182,14 @@ button:hover{
   text-align:center;
   padding:15px;
   font-weight:bold;
+  overflow:hidden;
 }
 
-.info h2{
-  margin-bottom:10px;
-}
-
-.info p{
-  color:#aaa;
-  line-height:1.6;
-  margin-bottom:12px;
+.poster img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
 }
 
 .tag{
@@ -179,26 +199,6 @@ button:hover{
   border-radius:6px;
   margin:3px;
   font-size:12px;
-}
-
-.form{
-  display:none;
-}
-
-label{
-  display:block;
-  margin:15px 0 8px;
-  color:#ccc;
-}
-
-.add-btn{
-  width:100%;
-  margin-top:20px;
-}
-
-.message{
-  margin-top:15px;
-  color:#9b5cff;
 }
 
 .episode-item{
@@ -229,6 +229,14 @@ label{
 
 .hidden{
   display:none !important;
+}
+
+.success{
+  color:#50e38a;
+}
+
+.error{
+  color:#ff5c70;
 }
 
 @media(max-width:700px){
@@ -263,9 +271,7 @@ label{
 
 <body>
 
-<!-- =========================
-     LOGIN SCREEN
-========================= -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
@@ -296,19 +302,14 @@ label{
       Login
     </button>
 
-    <div
-      id="loginMessage"
-      class="status">
-    </div>
+    <div id="loginMessage" class="status"></div>
 
   </div>
 
 </div>
 
 
-<!-- =========================
-     ADMIN PANEL
-========================= -->
+<!-- ADMIN PANEL -->
 
 <div id="adminPanel" class="hidden">
 
@@ -344,6 +345,106 @@ label{
 <main class="container">
 
   <h1>⚙️ Admin Panel</h1>
+
+
+  <!-- ADD ANIME -->
+
+  <div class="box">
+
+    <h2>➕ Add New Anime</h2>
+
+    <label>Anime Name</label>
+
+    <input
+      id="newAnimeTitle"
+      type="text"
+      placeholder="Example: Solo Leveling"
+    >
+
+    <label>Anime ID</label>
+
+    <input
+      id="newAnimeId"
+      type="text"
+      placeholder="Example: solo-leveling"
+    >
+
+    <label>Thumbnail URL</label>
+
+    <input
+      id="newAnimeThumbnail"
+      type="url"
+      placeholder="https://example.com/thumbnail.jpg"
+    >
+
+    <label>Banner URL</label>
+
+    <input
+      id="newAnimeBanner"
+      type="url"
+      placeholder="https://example.com/banner.jpg"
+    >
+
+    <label>Description</label>
+
+    <textarea
+      id="newAnimeDescription"
+      placeholder="Anime description..."
+    ></textarea>
+
+    <label>Genre</label>
+
+    <input
+      id="newAnimeGenre"
+      type="text"
+      placeholder="Action, Fantasy, Adventure"
+    >
+
+    <label>Season</label>
+
+    <input
+      id="newAnimeSeason"
+      type="text"
+      placeholder="Season 1"
+    >
+
+    <label>Language</label>
+
+    <input
+      id="newAnimeLanguage"
+      type="text"
+      value="Hindi"
+      placeholder="Hindi"
+    >
+
+    <label>Status</label>
+
+    <select id="newAnimeStatus">
+
+      <option value="Ongoing">
+        Ongoing
+      </option>
+
+      <option value="Completed">
+        Completed
+      </option>
+
+      <option value="Upcoming">
+        Upcoming
+      </option>
+
+    </select>
+
+    <button
+      class="form-btn"
+      onclick="addAnime()"
+    >
+      ➕ Save Anime
+    </button>
+
+    <div id="animeMessage" class="message"></div>
+
+  </div>
 
 
   <!-- SEARCH ANIME -->
@@ -382,19 +483,32 @@ label{
       Anime
     </div>
 
-    <div class="info">
+    <div>
 
       <h2 id="animeTitle">
         Anime Name
       </h2>
 
-      <p id="animeDescription">
+      <p
+        id="animeDescription"
+        style="color:#aaa;line-height:1.6;margin-bottom:12px;"
+      >
         Description
       </p>
 
-      <p>
+      <p style="margin-bottom:10px;">
         <b>Season:</b>
         <span id="animeSeason">-</span>
+      </p>
+
+      <p style="margin-bottom:10px;">
+        <b>Language:</b>
+        <span id="animeLanguage">-</span>
+      </p>
+
+      <p style="margin-bottom:10px;">
+        <b>Status:</b>
+        <span id="animeStatus">-</span>
       </p>
 
       <div id="animeTags"></div>
@@ -407,15 +521,14 @@ label{
   <!-- ADD EPISODE -->
 
   <div
-    class="box form"
+    class="box"
     id="episodeForm"
+    style="display:none;"
   >
 
     <h2>🎬 Add Episode</h2>
 
-    <label>
-      Episode Number
-    </label>
+    <label>Episode Number</label>
 
     <input
       id="episodeNumber"
@@ -424,9 +537,7 @@ label{
       placeholder="Example: 14"
     >
 
-    <label>
-      Episode Title
-    </label>
+    <label>Episode Title</label>
 
     <input
       id="episodeTitle"
@@ -434,9 +545,7 @@ label{
       placeholder="Example: New Episode"
     >
 
-    <label>
-      Video URL
-    </label>
+    <label>Video URL</label>
 
     <input
       id="videoUrl"
@@ -445,21 +554,18 @@ label{
     >
 
     <button
-      class="add-btn"
+      class="form-btn"
       onclick="addEpisode()"
     >
       ➕ Add Episode
     </button>
 
-    <div
-      id="message"
-      class="message">
-    </div>
+    <div id="message" class="message"></div>
 
   </div>
 
 
-  <!-- EPISODE LIST -->
+  <!-- EPISODES -->
 
   <div class="box">
 
@@ -483,7 +589,7 @@ label{
 <script>
 
 /* =========================
-   SUPABASE CONFIG
+   SUPABASE
 ========================= */
 
 const SUPABASE_URL =
@@ -499,8 +605,12 @@ const supabaseClient =
   );
 
 
+let selectedAnime = null;
+
+
 /* =========================
-   ANIME DATABASE
+   OLD ANIME DATABASE
+   Keeps existing episodes working
 ========================= */
 
 const animeDatabase = [
@@ -511,7 +621,11 @@ const animeDatabase = [
     description:
     "Solo Leveling is an action fantasy anime following a hunter who grows stronger through mysterious powers and challenging battles.",
     genres:["Action","Fantasy","Adventure"],
-    season:"Season 2"
+    season:"Season 2",
+    language:"Hindi",
+    status:"Completed",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -520,7 +634,11 @@ const animeDatabase = [
     description:
     "One Piece follows Monkey D. Luffy and his crew on their adventure across the Grand Line.",
     genres:["Action","Adventure","Fantasy"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Ongoing",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -529,7 +647,11 @@ const animeDatabase = [
     description:
     "Demon Slayer follows Tanjiro Kamado as he fights demons while searching for a way to help his sister.",
     genres:["Action","Fantasy"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Ongoing",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -538,7 +660,11 @@ const animeDatabase = [
     description:
     "Jujutsu Kaisen follows Yuji Itadori as he enters the world of cursed spirits and jujutsu sorcerers.",
     genres:["Action","Supernatural"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Ongoing",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -547,7 +673,11 @@ const animeDatabase = [
     description:
     "Naruto follows a young ninja who dreams of becoming the strongest leader of his village.",
     genres:["Action","Adventure"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Completed",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -556,7 +686,11 @@ const animeDatabase = [
     description:
     "Attack on Titan follows humanity's struggle for survival against mysterious giant Titans.",
     genres:["Action","Drama","Fantasy"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Completed",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -565,7 +699,11 @@ const animeDatabase = [
     description:
     "Bleach follows Ichigo Kurosaki after he gains the powers of a Soul Reaper.",
     genres:["Action","Supernatural"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Completed",
+    thumbnail:"",
+    banner:""
   },
 
   {
@@ -574,13 +712,14 @@ const animeDatabase = [
     description:
     "Dragon Ball follows Goku and his friends through adventures, battles and powerful opponents.",
     genres:["Action","Adventure"],
-    season:"Multiple Seasons"
+    season:"Multiple Seasons",
+    language:"Hindi",
+    status:"Completed",
+    thumbnail:"",
+    banner:""
   }
 
 ];
-
-
-let selectedAnime = null;
 
 
 /* =========================
@@ -593,7 +732,8 @@ async function checkSession(){
     data:{
       session
     }
-  } = await supabaseClient.auth.getSession();
+  } =
+  await supabaseClient.auth.getSession();
 
 
   if(session){
@@ -625,7 +765,6 @@ async function loginAdmin(){
     document
     .getElementById("loginPassword")
     .value;
-
 
   const message =
     document
@@ -731,16 +870,208 @@ function showAdminPanel(){
 
 
 /* =========================
+   ADD ANIME
+========================= */
+
+async function addAnime(){
+
+  const title =
+    document
+    .getElementById("newAnimeTitle")
+    .value
+    .trim();
+
+  const animeId =
+    document
+    .getElementById("newAnimeId")
+    .value
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,"-");
+
+  const thumbnail =
+    document
+    .getElementById("newAnimeThumbnail")
+    .value
+    .trim();
+
+  const banner =
+    document
+    .getElementById("newAnimeBanner")
+    .value
+    .trim();
+
+  const description =
+    document
+    .getElementById("newAnimeDescription")
+    .value
+    .trim();
+
+  const genre =
+    document
+    .getElementById("newAnimeGenre")
+    .value
+    .trim();
+
+  const season =
+    document
+    .getElementById("newAnimeSeason")
+    .value
+    .trim();
+
+  const language =
+    document
+    .getElementById("newAnimeLanguage")
+    .value
+    .trim();
+
+  const status =
+    document
+    .getElementById("newAnimeStatus")
+    .value;
+
+  const message =
+    document
+    .getElementById("animeMessage");
+
+
+  if(!title){
+
+    message.className = "message error";
+    message.textContent =
+      "❌ Anime name enter karo.";
+
+    return;
+  }
+
+
+  if(!animeId){
+
+    message.className = "message error";
+    message.textContent =
+      "❌ Anime ID enter karo.";
+
+    return;
+  }
+
+
+  message.className = "message";
+  message.textContent =
+    "Anime save ho raha hai...";
+
+
+  /* Duplicate check */
+
+  const {
+    data:existing,
+    error:checkError
+  } =
+  await supabaseClient
+  .from("anime")
+  .select("id")
+  .eq("anime_id",animeId)
+  .limit(1);
+
+
+  if(checkError){
+
+    message.className = "message error";
+    message.textContent =
+      "❌ " + checkError.message;
+
+    return;
+  }
+
+
+  if(existing && existing.length > 0){
+
+    message.className = "message error";
+    message.textContent =
+      "❌ Ye Anime ID already exist karti hai.";
+
+    return;
+  }
+
+
+  /* Insert */
+
+  const {
+    error
+  } =
+  await supabaseClient
+  .from("anime")
+  .insert({
+
+    anime_id:animeId,
+
+    title:title,
+
+    thumbnail_url:
+      thumbnail || null,
+
+    banner_url:
+      banner || null,
+
+    description:
+      description || null,
+
+    genre:
+      genre || null,
+
+    season:
+      season || null,
+
+    language:
+      language || "Hindi",
+
+    status:
+      status || "Ongoing"
+
+  });
+
+
+  if(error){
+
+    message.className = "message error";
+    message.textContent =
+      "❌ " + error.message;
+
+    return;
+  }
+
+
+  message.className = "message success";
+
+  message.textContent =
+    "✅ " + title +
+    " successfully added!";
+
+
+  /* Clear form */
+
+  document.getElementById("newAnimeTitle").value = "";
+  document.getElementById("newAnimeId").value = "";
+  document.getElementById("newAnimeThumbnail").value = "";
+  document.getElementById("newAnimeBanner").value = "";
+  document.getElementById("newAnimeDescription").value = "";
+  document.getElementById("newAnimeGenre").value = "";
+  document.getElementById("newAnimeSeason").value = "";
+  document.getElementById("newAnimeLanguage").value = "Hindi";
+  document.getElementById("newAnimeStatus").value = "Ongoing";
+
+}
+
+
+/* =========================
    SEARCH ANIME
 ========================= */
 
-function searchAnime(){
-
-  const input =
-    document.getElementById("animeSearch");
+async function searchAnime(){
 
   const search =
-    input.value
+    document
+    .getElementById("animeSearch")
+    .value
     .toLowerCase()
     .trim();
 
@@ -759,14 +1090,102 @@ function searchAnime(){
   }
 
 
-  const matches =
-    animeDatabase.filter(function(anime){
+  /* Search Supabase anime */
 
-      return anime.title
-        .toLowerCase()
-        .includes(search);
+  const {
+    data:dbAnime,
+    error
+  } =
+  await supabaseClient
+  .from("anime")
+  .select("*")
+  .ilike("title","%" + search + "%");
+
+
+  if(error){
+
+    results.innerHTML =
+      '<div class="empty">❌ ' +
+      error.message +
+      '</div>';
+
+    return;
+  }
+
+
+  const matches = [];
+
+
+  /* Add Supabase anime */
+
+  if(dbAnime){
+
+    dbAnime.forEach(function(anime){
+
+      matches.push({
+
+        id:anime.anime_id,
+
+        title:anime.title,
+
+        description:
+          anime.description || "",
+
+        genres:
+          anime.genre
+          ? anime.genre
+            .split(",")
+            .map(function(g){
+              return g.trim();
+            })
+          : [],
+
+        season:
+          anime.season || "-",
+
+        language:
+          anime.language || "Hindi",
+
+        status:
+          anime.status || "Ongoing",
+
+        thumbnail:
+          anime.thumbnail_url || "",
+
+        banner:
+          anime.banner_url || ""
+
+      });
 
     });
+
+  }
+
+
+  /* Also search old anime database */
+
+  animeDatabase.forEach(function(anime){
+
+    const already =
+      matches.some(function(item){
+
+        return item.id === anime.id;
+
+      });
+
+
+    if(
+      !already &&
+      anime.title
+      .toLowerCase()
+      .includes(search)
+    ){
+
+      matches.push(anime);
+
+    }
+
+  });
 
 
   if(matches.length === 0){
@@ -785,13 +1204,15 @@ function searchAnime(){
 
     div.className = "result";
 
-    div.textContent = anime.title;
+    div.textContent =
+      anime.title;
 
-    div.onclick = function(){
+    div.onclick =
+      function(){
 
-      selectAnime(anime);
+        selectAnime(anime);
 
-    };
+      };
 
     results.appendChild(div);
 
@@ -801,20 +1222,23 @@ function searchAnime(){
 
 
 /* =========================
-   ENTER KEY SEARCH
+   ENTER SEARCH
 ========================= */
 
 document
 .getElementById("animeSearch")
-.addEventListener("keydown",function(event){
+.addEventListener(
+  "keydown",
+  function(event){
 
-  if(event.key === "Enter"){
+    if(event.key === "Enter"){
 
-    searchAnime();
+      searchAnime();
+
+    }
 
   }
-
-});
+);
 
 
 /* =========================
@@ -845,19 +1269,47 @@ async function selectAnime(anime){
   document
   .getElementById("animeDescription")
   .textContent =
-  anime.description;
+  anime.description ||
+  "No description available.";
 
 
   document
   .getElementById("animeSeason")
   .textContent =
-  anime.season;
+  anime.season || "-";
 
 
   document
-  .getElementById("poster")
+  .getElementById("animeLanguage")
   .textContent =
-  anime.title;
+  anime.language || "Hindi";
+
+
+  document
+  .getElementById("animeStatus")
+  .textContent =
+  anime.status || "-";
+
+
+  const poster =
+    document.getElementById("poster");
+
+
+  if(anime.thumbnail){
+
+    poster.innerHTML =
+      '<img src="' +
+      anime.thumbnail +
+      '" alt="' +
+      anime.title +
+      '">';
+
+  }else{
+
+    poster.textContent =
+      anime.title;
+
+  }
 
 
   const tags =
@@ -866,18 +1318,25 @@ async function selectAnime(anime){
   tags.innerHTML = "";
 
 
-  anime.genres.forEach(function(genre){
+  if(anime.genres){
 
-    const span =
-      document.createElement("span");
+    anime.genres.forEach(function(genre){
 
-    span.className = "tag";
+      if(!genre) return;
 
-    span.textContent = genre;
+      const span =
+        document.createElement("span");
 
-    tags.appendChild(span);
+      span.className = "tag";
 
-  });
+      span.textContent =
+        genre;
+
+      tags.appendChild(span);
+
+    });
+
+  }
 
 
   document
@@ -886,6 +1345,11 @@ async function selectAnime(anime){
   "<div class='result'>✅ Selected: "
   + anime.title +
   "</div>";
+
+
+  document
+  .getElementById("message")
+  .textContent = "";
 
 
   await displayEpisodes();
@@ -954,8 +1418,6 @@ async function addEpisode(){
     "Episode save ho raha hai...";
 
 
-  /* Check duplicate in Supabase */
-
   const {
     data:existing,
     error:checkError
@@ -987,8 +1449,6 @@ async function addEpisode(){
     return;
   }
 
-
-  /* Insert episode */
 
   const {
     error
@@ -1025,11 +1485,9 @@ async function addEpisode(){
   .getElementById("episodeNumber")
   .value = "";
 
-
   document
   .getElementById("episodeTitle")
   .value = "";
-
 
   document
   .getElementById("videoUrl")
@@ -1075,7 +1533,10 @@ async function displayEpisodes(){
   .from("episodes")
   .select("*")
   .eq("anime_id",selectedAnime.id)
-  .order("episode_number",{ascending:true});
+  .order(
+    "episode_number",
+    {ascending:true}
+  );
 
 
   if(error){
@@ -1133,7 +1594,8 @@ async function displayEpisodes(){
 
     title.textContent =
       episode.episode_title ||
-      "Episode " + episode.episode_number;
+      "Episode " +
+      episode.episode_number;
 
 
     left.appendChild(bold);
@@ -1146,7 +1608,8 @@ async function displayEpisodes(){
 
     button.className = "delete";
 
-    button.textContent = "Delete";
+    button.textContent =
+      "Delete";
 
 
     button.onclick =
@@ -1217,24 +1680,26 @@ async function deleteEpisode(id){
 
 
 /* =========================
-   AUTH STATE LISTENER
+   AUTH STATE
 ========================= */
 
 supabaseClient
 .auth
-.onAuthStateChange(function(event,session){
+.onAuthStateChange(
+  function(event,session){
 
-  if(session){
+    if(session){
 
-    showAdminPanel();
+      showAdminPanel();
 
-  }else{
+    }else{
 
-    showLogin();
+      showLogin();
+
+    }
 
   }
-
-});
+);
 
 
 /* =========================
