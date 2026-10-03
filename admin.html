@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel - AnimeHindiZone</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#09090f;
+  color:white;
+}
+
+header{
+  background:#11111b;
+  border-bottom:1px solid #292936;
+  padding:18px 6%;
+}
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  color:#9b5cff;
+  font-size:26px;
+  font-weight:800;
+}
+
+.home{
+  color:#ddd;
+  text-decoration:none;
+}
+
+.container{
+  width:92%;
+  max-width:1000px;
+  margin:40px auto;
+}
+
+h1{
+  margin-bottom:25px;
+}
+
+.box{
+  background:#11111b;
+  border:1px solid #292936;
+  border-radius:15px;
+  padding:25px;
+  margin-bottom:25px;
+}
+
+h2{
+  margin-bottom:18px;
+}
+
+.search{
+  display:flex;
+  gap:10px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:9px;
+  border:1px solid #30303d;
+  background:#09090f;
+  color:white;
+  outline:none;
+}
+
+button{
+  border:none;
+  border-radius:9px;
+  padding:14px 20px;
+  background:#8239f3;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#9b5cff;
+}
+
+.results{
+  margin-top:15px;
+}
+
+.result{
+  padding:15px;
+  background:#171722;
+  border:1px solid #292936;
+  border-radius:10px;
+  margin-top:10px;
+  cursor:pointer;
+}
+
+.result:hover{
+  border-color:#9b5cff;
+}
+
+.anime-details{
+  display:none;
+  grid-template-columns:160px 1fr;
+  gap:25px;
+  margin-top:25px;
+}
+
+.poster{
+  height:230px;
+  background:linear-gradient(145deg,#281044,#0d0d15);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:15px;
+}
+
+.info h2{
+  margin-bottom:10px;
+}
+
+.info p{
+  color:#aaa;
+  line-height:1.6;
+  margin-bottom:10px;
+}
+
+.tag{
+  display:inline-block;
+  background:#7135c9;
+  padding:6px 10px;
+  border-radius:6px;
+  margin:3px;
+  font-size:12px;
+}
+
+.form{
+  display:none;
+  margin-top:25px;
+}
+
+label{
+  display:block;
+  margin:15px 0 8px;
+  color:#ccc;
+}
+
+.add-btn{
+  margin-top:20px;
+  width:100%;
+}
+
+.episode-item{
+  background:#171722;
+  border:1px solid #292936;
+  border-radius:10px;
+  padding:15px;
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.delete{
+  background:#b52b3d;
+  padding:9px 13px;
+}
+
+.message{
+  margin-top:15px;
+  color:#9b5cff;
+}
+
+@media(max-width:700px){
+
+  .search{
+    flex-direction:column;
+  }
+
+  .anime-details{
+    grid-template-columns:1fr;
+  }
+
+  .poster{
+    height:280px;
+  }
+
+  .episode-item{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+
+    <div class="logo">
+      AnimeHindiZone Admin
+    </div>
+
+    <a href="index.html" class="home">
+      ← Website
+    </a>
+
+  </div>
+</header>
+
+
+<main class="container">
+
+<h1>Admin Panel</h1>
+
+
+<!-- SEARCH -->
+
+<div class="box">
+
+  <h2>🔎 Search Anime</h2>
+
+  <div class="search">
+
+    <input
+      type="text"
+      id="animeSearch"
+      placeholder="Enter anime name..."
+    >
+
+    <button onclick="searchAnime()">
+      Search
+    </button>
+
+  </div>
+
+  <div id="results" class="results"></div>
+
+</div>
+
+
+<!-- ANIME DETAILS -->
+
+<div class="box anime-details" id="animeDetails">
+
+  <div class="poster" id="poster">
+    Anime Poster
+  </div>
+
+  <div class="info">
+
+    <h2 id="animeTitle">
+      Anime Name
+    </h2>
+
+    <p id="animeDescription">
+      Description
+    </p>
+
+    <div id="animeTags"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ADD EPISODE -->
+
+<div class="box form" id="episodeForm">
+
+  <h2>🎬 Add Episode</h2>
+
+  <label>
+    Episode Number
+  </label>
+
+  <input
+    type="number"
+    id="episodeNumber"
+    placeholder="Example: 14"
+    min="1"
+  >
+
+
+  <label>
+    Episode Title
+  </label>
+
+  <input
+    type="text"
+    id="episodeTitle"
+    placeholder="Example: New Beginning"
+  >
+
+
+  <label>
+    Video URL
+  </label>
+
+  <input
+    type="url"
+    id="videoUrl"
+    placeholder="https://example.com/video"
+  >
+
+
+  <button
+    class="add-btn"
+    onclick="addEpisode()"
+  >
+    + Add Episode
+  </button>
+
+  <div
+    id="message"
+    class="message">
+  </div>
+
+</div>
+
+
+<!-- EPISODES -->
+
+<div class="box">
+
+  <h2>📺 Added Episodes</h2>
+
+  <div id="episodeList">
+    No episodes added yet.
+  </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* Demo anime database */
+
+const animeDatabase = [
+
+  {
+    id:"solo-leveling",
+    title:"Solo Leveling",
+    description:
+    "Solo Leveling is an action fantasy anime following a hunter who grows stronger through mysterious powers and challenging battles.",
+    genres:["Action","Fantasy","Adventure"],
+    season:"Season 2"
+  },
+
+  {
+    id:"one-piece",
+    title:"One Piece",
+    description:
+    "One Piece follows Monkey D. Luffy and his crew on their adventure across the Grand Line.",
+    genres:["Action","Adventure","Fantasy"],
+    season:"Multiple Seasons"
+  },
+
+  {
+    id:"demon-slayer",
+    title:"Demon Slayer",
+    description:
+    "Demon Slayer follows Tanjiro Kamado as he fights demons while searching for a way to help his sister.",
+    genres:["Action","Fantasy"],
+    season:"Multiple Seasons"
+  },
+
+  {
+    id:"jujutsu-kaisen",
+    title:"Jujutsu Kaisen",
+    description:
+    "Jujutsu Kaisen follows Yuji Itadori as he enters the world of cursed spirits and jujutsu sorcerers.",
+    genres:["Action","Supernatural"],
+    season:"Multiple Seasons"
+  },
+
+  {
+    id:"naruto",
+    title:"Naruto",
+    description:
+    "Naruto follows a young ninja who dreams of becoming the strongest leader of his village.",
+    genres:["Action","Adventure"],
+    season:"Multiple Seasons"
+  }
+
+];
+
+
+let selectedAnime = null;
+
+
+/* SEARCH */
+
+function searchAnime(){
+
+  const search =
+    document
+    .getElementById("animeSearch")
+    .value
+    .toLowerCase()
+    .trim();
+
+  const results =
+    document.getElementById("results");
+
+  results.innerHTML = "";
+
+  if(!search){
+
+    results.innerHTML =
+      "<p style='color:#999'>Enter an anime name.</p>";
+
+    return;
+  }
+
+
+  const matches =
+    animeDatabase.filter(anime =>
+      anime.title
+      .toLowerCase()
+      .includes(search)
+    );
+
+
+  if(matches.length === 0){
+
+    results.innerHTML =
+      "<p style='color:#999'>Anime not found.</p>";
+
+    return;
+  }
+
+
+  matches.forEach(anime => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "result";
+
+    div.textContent =
+      anime.title;
+
+    div.onclick = function(){
+
+      selectAnime(anime);
+
+    };
+
+    results.appendChild(div);
+
+  });
+
+}
+
+
+/* SELECT ANIME */
+
+function selectAnime(anime){
+
+  selectedAnime = anime;
+
+
+  document
+  .getElementById("results")
+  .innerHTML =
+  "<p style='color:#9b5cff'>Selected: "
+  + anime.title +
+  "</p>";
+
+
+  document
+  .getElementById("animeDetails")
+  .style.display = "grid";
+
+
+  document
+  .getElementById("episodeForm")
+  .style.display = "block";
+
+
+  document
+  .getElementById("animeTitle")
+  .textContent =
+  anime.title;
+
+
+  document
+  .getElementById("animeDescription")
+  .textContent =
+  anime.description;
+
+
+  document
+  .getElementById("poster")
+  .textContent =
+  anime.title;
+
+
+  const tags =
+    document.getElementById("animeTags");
+
+  tags.innerHTML = "";
+
+
+  anime.genres.forEach(genre => {
+
+    const span =
+      document.createElement("span");
+
+    span.className = "tag";
+
+    span.textContent = genre;
+
+    tags.appendChild(span);
+
+  });
+
+
+  displayEpisodes();
+
+}
+
+
+/* ADD EPISODE */
+
+function addEpisode(){
+
+  if(!selectedAnime){
+
+    alert("Please select an anime first.");
+
+    return;
+  }
+
+
+  const number =
+    document
+    .getElementById("episodeNumber")
+    .value;
+
+
+  const title =
+    document
+    .getElementById("episodeTitle")
+    .value;
+
+
+  const video =
+    document
+    .getElementById("videoUrl")
+    .value;
+
+
+  if(!number || !video){
+
+    alert(
+      "Episode number and video URL are required."
+    );
+
+    return;
+  }
+
+
+  const key =
+    "episodes_" + selectedAnime.id;
+
+
+  let episodes =
+    JSON.parse(
+      localStorage.getItem(key)
+    ) || [];
+
+
+  episodes.push({
+
+    number:Number(number),
+
+    title:title ||
+    "Episode " + number,
+
+    video:video
+
+  });
+
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(episodes)
+  );
+
+
+  document
+  .getElementById("episodeNumber")
+  .value = "";
+
+
+  document
+  .getElementById("episodeTitle")
+  .value = "";
+
+
+  document
+  .getElementById("videoUrl")
+  .value = "";
+
+
+  document
+  .getElementById("message")
+  .textContent =
+  "✅ Episode added successfully!";
+
+
+  displayEpisodes();
+
+}
+
+
+/* DISPLAY EPISODES */
+
+function displayEpisodes(){
+
+  if(!selectedAnime)
+    return;
+
+
+  const key =
+    "episodes_" + selectedAnime.id;
+
+
+  const episodes =
+    JSON.parse(
+      localStorage.getItem(key)
+    ) || [];
+
+
+  const list =
+    document.getElementById("episodeList");
+
+
+  if(episodes.length === 0){
+
+    list.innerHTML =
+      "No episodes added yet.";
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  episodes
+  .sort((a,b) =>
+    a.number - b.number
+  )
+  .forEach((episode,index) => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "episode-item";
+
+
+    div.innerHTML = `
+
+      <div>
+
+        <b>
+          Episode ${episode.number}
+        </b>
+
+        <br>
+
+        <span style="color:#999">
+          ${episode.title}
+        </span>
+
+      </div>
+
+      <button
+        class="delete"
+        onclick="deleteEpisode(${index})">
+
+        Delete
+
+      </button>
+
+    `;
+
+
+    list.appendChild(div);
+
+  });
+
+}
+
+
+/* DELETE EPISODE */
+
+function deleteEpisode(index){
+
+  if(!selectedAnime)
+    return;
+
+
+  if(!confirm(
+    "Delete this episode?"
+  )){
+    return;
+  }
+
+
+  const key =
+    "episodes_" + selectedAnime.id;
+
+
+  let episodes =
+    JSON.parse(
+      localStorage.getItem(key)
+    ) || [];
+
+
+  episodes.splice(index,1);
+
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(episodes)
+  );
+
+
+  displayEpisodes();
+
+}
+
+</script>
+
+</body>
+</html>
