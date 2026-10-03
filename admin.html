@@ -6,6 +6,9 @@
 
 <title>Admin Panel - AnimeHindiZone</title>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   margin:0;
@@ -29,6 +32,7 @@ header{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:15px;
 }
 
 .logo{
@@ -64,11 +68,6 @@ h2{
   margin-bottom:18px;
 }
 
-.search{
-  display:flex;
-  gap:10px;
-}
-
 input{
   width:100%;
   padding:14px;
@@ -92,6 +91,38 @@ button{
 
 button:hover{
   background:#9b5cff;
+}
+
+.login-box{
+  max-width:450px;
+  margin:80px auto;
+}
+
+.login-box input{
+  margin-bottom:12px;
+}
+
+.login-btn{
+  width:100%;
+}
+
+.logout{
+  background:#b52b3d;
+  padding:10px 15px;
+}
+
+.logout:hover{
+  background:#d9364f;
+}
+
+.status{
+  margin-top:12px;
+  color:#9b5cff;
+}
+
+.search{
+  display:flex;
+  gap:10px;
 }
 
 .results{
@@ -128,6 +159,7 @@ button:hover{
   justify-content:center;
   text-align:center;
   padding:15px;
+  font-weight:bold;
 }
 
 .info h2{
@@ -195,10 +227,18 @@ label{
   color:#888;
 }
 
+.hidden{
+  display:none !important;
+}
+
 @media(max-width:700px){
 
   .logo{
     font-size:21px;
+  }
+
+  .nav{
+    flex-wrap:wrap;
   }
 
   .search{
@@ -223,6 +263,55 @@ label{
 
 <body>
 
+<!-- =========================
+     LOGIN SCREEN
+========================= -->
+
+<div id="loginScreen">
+
+  <div class="box login-box">
+
+    <h2>🔐 Admin Login</h2>
+
+    <p style="color:#999;margin-bottom:18px;">
+      AnimeHindiZone Admin Panel
+    </p>
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Admin email"
+    >
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button
+      class="login-btn"
+      onclick="loginAdmin()"
+    >
+      Login
+    </button>
+
+    <div
+      id="loginMessage"
+      class="status">
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN PANEL
+========================= -->
+
+<div id="adminPanel" class="hidden">
+
 <header>
 
   <div class="nav">
@@ -231,9 +320,21 @@ label{
       AnimeHindiZone Admin
     </div>
 
-    <a href="index.html" class="home">
-      ← Website
-    </a>
+    <div>
+
+      <a href="index.html" class="home">
+        ← Website
+      </a>
+
+      <button
+        class="logout"
+        onclick="logoutAdmin()"
+        style="margin-left:10px;"
+      >
+        Logout
+      </button>
+
+    </div>
 
   </div>
 
@@ -323,7 +424,6 @@ label{
       placeholder="Example: 14"
     >
 
-
     <label>
       Episode Title
     </label>
@@ -333,7 +433,6 @@ label{
       type="text"
       placeholder="Example: New Episode"
     >
-
 
     <label>
       Video URL
@@ -345,14 +444,12 @@ label{
       placeholder="https://example.com/video"
     >
 
-
     <button
       class="add-btn"
       onclick="addEpisode()"
     >
       ➕ Add Episode
     </button>
-
 
     <div
       id="message"
@@ -380,8 +477,27 @@ label{
 
 </main>
 
+</div>
+
 
 <script>
+
+/* =========================
+   SUPABASE CONFIG
+========================= */
+
+const SUPABASE_URL =
+  "https://gmacsiymybvfcxydvkla.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
 
 /* =========================
    ANIME DATABASE
@@ -468,7 +584,154 @@ let selectedAnime = null;
 
 
 /* =========================
-   SEARCH
+   CHECK LOGIN
+========================= */
+
+async function checkSession(){
+
+  const {
+    data:{
+      session
+    }
+  } = await supabaseClient.auth.getSession();
+
+
+  if(session){
+
+    showAdminPanel();
+
+  }else{
+
+    showLogin();
+
+  }
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function loginAdmin(){
+
+  const email =
+    document
+    .getElementById("loginEmail")
+    .value
+    .trim();
+
+  const password =
+    document
+    .getElementById("loginPassword")
+    .value;
+
+
+  const message =
+    document
+    .getElementById("loginMessage");
+
+
+  if(!email || !password){
+
+    message.textContent =
+      "Email aur password enter karo.";
+
+    return;
+  }
+
+
+  message.textContent =
+    "Login ho raha hai...";
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient.auth.signInWithPassword({
+
+    email:email,
+
+    password:password
+
+  });
+
+
+  if(error){
+
+    message.textContent =
+      "❌ " + error.message;
+
+    return;
+  }
+
+
+  if(data.session){
+
+    message.textContent =
+      "✅ Login successful!";
+
+    showAdminPanel();
+
+  }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logoutAdmin(){
+
+  await supabaseClient.auth.signOut();
+
+  selectedAnime = null;
+
+  showLogin();
+
+}
+
+
+/* =========================
+   SHOW LOGIN
+========================= */
+
+function showLogin(){
+
+  document
+  .getElementById("loginScreen")
+  .classList.remove("hidden");
+
+
+  document
+  .getElementById("adminPanel")
+  .classList.add("hidden");
+
+}
+
+
+/* =========================
+   SHOW ADMIN
+========================= */
+
+function showAdminPanel(){
+
+  document
+  .getElementById("loginScreen")
+  .classList.add("hidden");
+
+
+  document
+  .getElementById("adminPanel")
+  .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   SEARCH ANIME
 ========================= */
 
 function searchAnime(){
@@ -558,7 +821,7 @@ document
    SELECT ANIME
 ========================= */
 
-function selectAnime(anime){
+async function selectAnime(anime){
 
   selectedAnime = anime;
 
@@ -625,7 +888,7 @@ function selectAnime(anime){
   "</div>";
 
 
-  displayEpisodes();
+  await displayEpisodes();
 
 }
 
@@ -634,7 +897,7 @@ function selectAnime(anime){
    ADD EPISODE
 ========================= */
 
-function addEpisode(){
+async function addEpisode(){
 
   if(!selectedAnime){
 
@@ -645,26 +908,35 @@ function addEpisode(){
 
 
   const number =
-    document
-    .getElementById("episodeNumber")
-    .value;
+    Number(
+      document
+      .getElementById("episodeNumber")
+      .value
+    );
 
 
   const title =
     document
     .getElementById("episodeTitle")
-    .value;
+    .value
+    .trim();
 
 
   const video =
     document
     .getElementById("videoUrl")
-    .value;
+    .value
+    .trim();
 
 
-  if(!number){
+  const message =
+    document
+    .getElementById("message");
 
-    alert("Episode number enter karo.");
+
+  if(!number || number < 1){
+
+    alert("Valid episode number enter karo.");
 
     return;
   }
@@ -678,63 +950,75 @@ function addEpisode(){
   }
 
 
-  const key =
-    "episodes_" +
-    selectedAnime.id;
+  message.textContent =
+    "Episode save ho raha hai...";
 
 
-  let episodes =
-    JSON.parse(
-      localStorage.getItem(key)
-    ) || [];
+  /* Check duplicate in Supabase */
+
+  const {
+    data:existing,
+    error:checkError
+  } =
+  await supabaseClient
+  .from("episodes")
+  .select("id")
+  .eq("anime_id",selectedAnime.id)
+  .eq("episode_number",number)
+  .limit(1);
 
 
-  /* Check duplicate */
+  if(checkError){
 
-  const alreadyExists =
-    episodes.some(function(ep){
-
-      return ep.number === Number(number);
-
-    });
-
-
-  if(alreadyExists){
-
-    alert(
-      "Episode " +
-      number +
-      " already added hai."
-    );
+    message.textContent =
+      "❌ " + checkError.message;
 
     return;
   }
 
 
-  episodes.push({
+  if(existing && existing.length > 0){
 
-    number:Number(number),
+    message.textContent =
+      "❌ Episode " +
+      number +
+      " already added hai.";
 
-    title:
+    return;
+  }
+
+
+  /* Insert episode */
+
+  const {
+    error
+  } =
+  await supabaseClient
+  .from("episodes")
+  .insert({
+
+    anime_id:selectedAnime.id,
+
+    anime_title:selectedAnime.title,
+
+    episode_number:number,
+
+    episode_title:
       title ||
       "Episode " + number,
 
-    video:video
+    video_url:video
 
   });
 
 
-  episodes.sort(function(a,b){
+  if(error){
 
-    return a.number - b.number;
+    message.textContent =
+      "❌ " + error.message;
 
-  });
-
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(episodes)
-  );
+    return;
+  }
 
 
   document
@@ -752,15 +1036,13 @@ function addEpisode(){
   .value = "";
 
 
-  document
-  .getElementById("message")
-  .textContent =
-  "✅ Episode " +
-  number +
-  " added successfully!";
+  message.textContent =
+    "✅ Episode " +
+    number +
+    " successfully saved!";
 
 
-  displayEpisodes();
+  await displayEpisodes();
 
 }
 
@@ -769,7 +1051,7 @@ function addEpisode(){
    DISPLAY EPISODES
 ========================= */
 
-function displayEpisodes(){
+async function displayEpisodes(){
 
   if(!selectedAnime){
 
@@ -777,22 +1059,37 @@ function displayEpisodes(){
   }
 
 
-  const key =
-    "episodes_" +
-    selectedAnime.id;
-
-
-  const episodes =
-    JSON.parse(
-      localStorage.getItem(key)
-    ) || [];
-
-
   const list =
     document.getElementById("episodeList");
 
 
-  if(episodes.length === 0){
+  list.innerHTML =
+    '<div class="empty">Episodes load ho rahe hain...</div>';
+
+
+  const {
+    data:episodes,
+    error
+  } =
+  await supabaseClient
+  .from("episodes")
+  .select("*")
+  .eq("anime_id",selectedAnime.id)
+  .order("episode_number",{ascending:true});
+
+
+  if(error){
+
+    list.innerHTML =
+      '<div class="empty">❌ ' +
+      error.message +
+      '</div>';
+
+    return;
+  }
+
+
+  if(!episodes || episodes.length === 0){
 
     list.innerHTML =
       '<div class="empty">Abhi koi episode add nahi hua.</div>';
@@ -804,7 +1101,7 @@ function displayEpisodes(){
   list.innerHTML = "";
 
 
-  episodes.forEach(function(episode,index){
+  episodes.forEach(function(episode){
 
     const div =
       document.createElement("div");
@@ -813,32 +1110,55 @@ function displayEpisodes(){
       "episode-item";
 
 
-    div.innerHTML = `
+    const left =
+      document.createElement("div");
 
-      <div>
 
-        <b>
-          Episode ${episode.number}
-        </b>
+    const bold =
+      document.createElement("b");
 
-        <br>
+    bold.textContent =
+      "Episode " +
+      episode.episode_number;
 
-        <span style="color:#999">
-          ${episode.title}
-        </span>
 
-      </div>
+    const br =
+      document.createElement("br");
 
-      <button
-        class="delete"
-        onclick="deleteEpisode(${index})">
 
-        Delete
+    const title =
+      document.createElement("span");
 
-      </button>
+    title.style.color = "#999";
 
-    `;
+    title.textContent =
+      episode.episode_title ||
+      "Episode " + episode.episode_number;
 
+
+    left.appendChild(bold);
+    left.appendChild(br);
+    left.appendChild(title);
+
+
+    const button =
+      document.createElement("button");
+
+    button.className = "delete";
+
+    button.textContent = "Delete";
+
+
+    button.onclick =
+      function(){
+
+        deleteEpisode(episode.id);
+
+      };
+
+
+    div.appendChild(left);
+    div.appendChild(button);
 
     list.appendChild(div);
 
@@ -851,7 +1171,7 @@ function displayEpisodes(){
    DELETE EPISODE
 ========================= */
 
-function deleteEpisode(index){
+async function deleteEpisode(id){
 
   if(!selectedAnime){
 
@@ -861,7 +1181,7 @@ function deleteEpisode(index){
 
   const confirmDelete =
     confirm(
-      "Kya tum Episode delete karna chahte ho?"
+      "Kya tum ye episode delete karna chahte ho?"
     );
 
 
@@ -871,29 +1191,57 @@ function deleteEpisode(index){
   }
 
 
-  const key =
-    "episodes_" +
-    selectedAnime.id;
+  const {
+    error
+  } =
+  await supabaseClient
+  .from("episodes")
+  .delete()
+  .eq("id",id);
 
 
-  let episodes =
-    JSON.parse(
-      localStorage.getItem(key)
-    ) || [];
+  if(error){
+
+    alert(
+      "❌ Delete failed: " +
+      error.message
+    );
+
+    return;
+  }
 
 
-  episodes.splice(index,1);
-
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(episodes)
-  );
-
-
-  displayEpisodes();
+  await displayEpisodes();
 
 }
+
+
+/* =========================
+   AUTH STATE LISTENER
+========================= */
+
+supabaseClient
+.auth
+.onAuthStateChange(function(event,session){
+
+  if(session){
+
+    showAdminPanel();
+
+  }else{
+
+    showLogin();
+
+  }
+
+});
+
+
+/* =========================
+   START
+========================= */
+
+checkSession();
 
 </script>
 
