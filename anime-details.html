@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Anime Details - AnimeHindiZone</title>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -72,6 +72,7 @@ header{
   justify-content:center;
   text-align:center;
   padding:20px;
+
   background:
     radial-gradient(circle at 30% 20%,#a45cff66,transparent 35%),
     linear-gradient(145deg,#281044,#0d0d15);
@@ -195,40 +196,53 @@ footer{
 <header>
   <div class="nav">
     <div class="logo">AnimeHindiZone</div>
-    <a class="back" href="index.html">← Home</a>
+
+    <a class="back" href="index.html">
+      ← Home
+    </a>
   </div>
 </header>
+
 
 <main class="container">
 
   <section class="details">
 
     <div class="poster">
-      <h2>Solo Leveling</h2>
+      <h2 id="posterTitle">Loading...</h2>
     </div>
+
 
     <div class="info">
 
-      <h1>Solo Leveling</h1>
+      <h1 id="animeTitle">Loading...</h1>
 
-      <div class="tags">
-        <span class="tag">Hindi</span>
-        <span class="tag">Action</span>
-        <span class="tag">Fantasy</span>
-        <span class="tag">Season 2</span>
-      </div>
 
-      <p class="description">
-        Solo Leveling is an action fantasy anime following
-        a hunter who grows stronger through mysterious
-        powers and challenging battles.
+      <div class="tags" id="animeTags"></div>
+
+
+      <p class="description" id="animeDescription">
+        Loading anime information...
       </p>
 
+
       <p class="description">
-        <b>Episodes:</b> <span id="episodeCount">Loading...</span><br>
-        <b>Language:</b> Hindi / Japanese<br>
-        <b>Status:</b> Completed
+
+        <b>Episodes:</b>
+        <span id="episodeCount">Loading...</span>
+
+        <br>
+
+        <b>Language:</b>
+        Hindi / Japanese
+
+        <br>
+
+        <b>Status:</b>
+        <span id="animeStatus">Ongoing</span>
+
       </p>
+
 
       <a href="#episodes" class="watch">
         View Episodes
@@ -238,23 +252,34 @@ footer{
 
   </section>
 
+
   <section class="episodes" id="episodes">
 
     <h2>Episodes</h2>
 
     <div class="episode-list" id="episodeList">
-      <div class="loading">Loading episodes...</div>
+
+      <div class="loading">
+        Loading episodes...
+      </div>
+
     </div>
 
   </section>
 
 </main>
 
+
 <footer>
   © 2026 AnimeHindiZone
 </footer>
 
+
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
   "https://gmacsiymybvfcxydvkla.supabase.co";
@@ -269,6 +294,271 @@ const supabaseClient =
   );
 
 
+/* =========================
+   ANIME DATABASE
+========================= */
+
+const animeDatabase = {
+
+  "solo-leveling": {
+
+    title: "Solo Leveling",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Fantasy",
+      "Adventure"
+    ],
+
+    season: "Season 2",
+
+    status: "Completed",
+
+    description:
+      "Solo Leveling is an action fantasy anime following a hunter who grows stronger through mysterious powers and challenging battles."
+
+  },
+
+
+  "one-piece": {
+
+    title: "One Piece",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Adventure"
+    ],
+
+    season: "Ongoing",
+
+    status: "Ongoing",
+
+    description:
+      "One Piece follows Monkey D. Luffy and his crew on their journey across the Grand Line in search of the legendary One Piece treasure."
+
+  },
+
+
+  "demon-slayer": {
+
+    title: "Demon Slayer",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Fantasy"
+    ],
+
+    season: "Latest Season",
+
+    status: "Ongoing",
+
+    description:
+      "Demon Slayer follows Tanjiro Kamado as he joins the Demon Slayer Corps after his family is attacked by demons."
+
+  },
+
+
+  "jujutsu-kaisen": {
+
+    title: "Jujutsu Kaisen",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Fantasy"
+    ],
+
+    season: "Season 2",
+
+    status: "Ongoing",
+
+    description:
+      "Jujutsu Kaisen follows Yuji Itadori as he becomes involved in the dangerous world of cursed spirits and jujutsu sorcerers."
+
+  },
+
+
+  "naruto": {
+
+    title: "Naruto",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Adventure"
+    ],
+
+    season: "Complete Series",
+
+    status: "Completed",
+
+    description:
+      "Naruto follows a young ninja who dreams of becoming the strongest leader of his village."
+
+  },
+
+
+  "attack-on-titan": {
+
+    title: "Attack on Titan",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Fantasy"
+    ],
+
+    season: "Complete Series",
+
+    status: "Completed",
+
+    description:
+      "Attack on Titan follows humanity's struggle for survival against mysterious giant Titans."
+
+  },
+
+
+  "bleach": {
+
+    title: "Bleach",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Supernatural"
+    ],
+
+    season: "Complete Series",
+
+    status: "Completed",
+
+    description:
+      "Bleach follows Ichigo Kurosaki after he gains the powers of a Soul Reaper and becomes involved in supernatural battles."
+
+  },
+
+
+  "dragon-ball": {
+
+    title: "Dragon Ball",
+
+    genres: [
+      "Hindi",
+      "Action",
+      "Adventure"
+    ],
+
+    season: "Complete Series",
+
+    status: "Completed",
+
+    description:
+      "Dragon Ball follows Goku and his friends through exciting martial arts battles and adventures."
+
+  }
+
+};
+
+
+/* =========================
+   GET ANIME ID
+========================= */
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const animeId =
+  params.get("id") || "solo-leveling";
+
+
+/* =========================
+   LOAD ANIME INFORMATION
+========================= */
+
+function loadAnimeInfo(){
+
+  const anime =
+    animeDatabase[animeId];
+
+  if(!anime){
+
+    document.getElementById("animeTitle")
+      .textContent = "Anime Not Found";
+
+    document.getElementById("posterTitle")
+      .textContent = "Not Found";
+
+    document.getElementById("animeDescription")
+      .textContent =
+      "This anime is not available.";
+
+    document.getElementById("animeTags")
+      .innerHTML = "";
+
+    return;
+
+  }
+
+
+  document.title =
+    anime.title + " - AnimeHindiZone";
+
+
+  document.getElementById("animeTitle")
+    .textContent = anime.title;
+
+
+  document.getElementById("posterTitle")
+    .textContent = anime.title;
+
+
+  document.getElementById("animeDescription")
+    .textContent = anime.description;
+
+
+  document.getElementById("animeStatus")
+    .textContent = anime.status;
+
+
+  const tags =
+    document.getElementById("animeTags");
+
+  tags.innerHTML = "";
+
+
+  anime.genres.forEach(function(tag){
+
+    const span =
+      document.createElement("span");
+
+    span.className = "tag";
+
+    span.textContent = tag;
+
+    tags.appendChild(span);
+
+  });
+
+
+  const season =
+    document.createElement("span");
+
+  season.className = "tag";
+
+  season.textContent = anime.season;
+
+  tags.appendChild(season);
+
+}
+
+
+/* =========================
+   LOAD EPISODES
+========================= */
+
 async function loadEpisodes(){
 
   const episodeList =
@@ -277,12 +567,41 @@ async function loadEpisodes(){
   const episodeCount =
     document.getElementById("episodeCount");
 
-  // Existing episodes from Supabase
-  const { data, error } = await supabaseClient
-    .from("episodes")
-    .select("episode_number, episode_title")
-    .eq("anime_id","solo-leveling")
-    .order("episode_number",{ascending:true});
+
+  const anime =
+    animeDatabase[animeId];
+
+
+  if(!anime){
+
+    episodeList.innerHTML =
+      '<div class="error">Anime not found.</div>';
+
+    episodeCount.textContent = "0";
+
+    return;
+
+  }
+
+
+  const { data, error } =
+    await supabaseClient
+
+      .from("episodes")
+
+      .select(
+        "episode_number, episode_title"
+      )
+
+      .eq("anime_id", animeId)
+
+      .order(
+        "episode_number",
+        {
+          ascending:true
+        }
+      );
+
 
   if(error){
 
@@ -291,39 +610,60 @@ async function loadEpisodes(){
     episodeList.innerHTML =
       '<div class="error">Episodes load nahi ho paaye.</div>';
 
-    episodeCount.textContent = "Error";
+    episodeCount.textContent =
+      "Error";
 
     return;
+
   }
 
+
   episodeList.innerHTML = "";
+
 
   if(!data || data.length === 0){
 
     episodeList.innerHTML =
       '<div class="loading">No episodes available.</div>';
 
-    episodeCount.textContent = "0";
+    episodeCount.textContent =
+      "0";
 
     return;
+
   }
 
-  episodeCount.textContent = data.length;
+
+  episodeCount.textContent =
+    data.length;
+
 
   data.forEach(function(ep){
 
     const link =
       document.createElement("a");
 
-    link.className = "episode";
+
+    link.className =
+      "episode";
+
+
+    /*
+      Anime ID bhi watch page ko bhej rahe hain.
+    */
 
     link.href =
-      "watch.html?episode=" +
+      "watch.html?id=" +
+      encodeURIComponent(animeId) +
+      "&episode=" +
       encodeURIComponent(ep.episode_number);
+
 
     link.textContent =
       ep.episode_title ||
-      "Episode " + ep.episode_number;
+      "Episode " +
+      ep.episode_number;
+
 
     episodeList.appendChild(link);
 
@@ -331,6 +671,12 @@ async function loadEpisodes(){
 
 }
 
+
+/* =========================
+   START
+========================= */
+
+loadAnimeInfo();
 
 loadEpisodes();
 
