@@ -27,13 +27,13 @@ header{
 
 .nav{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
 }
 
 .logo{
   color:#9b5cff;
-  font-size:26px;
+  font-size:25px;
   font-weight:800;
 }
 
@@ -45,7 +45,7 @@ header{
 .container{
   width:92%;
   max-width:1000px;
-  margin:40px auto;
+  margin:35px auto;
 }
 
 h1{
@@ -56,8 +56,8 @@ h1{
   background:#11111b;
   border:1px solid #292936;
   border-radius:15px;
-  padding:25px;
-  margin-bottom:25px;
+  padding:22px;
+  margin-bottom:22px;
 }
 
 h2{
@@ -77,12 +77,13 @@ input{
   background:#09090f;
   color:white;
   outline:none;
+  font-size:15px;
 }
 
 button{
-  border:none;
+  border:0;
   border-radius:9px;
-  padding:14px 20px;
+  padding:13px 20px;
   background:#8239f3;
   color:white;
   font-weight:bold;
@@ -112,15 +113,16 @@ button:hover{
 
 .anime-details{
   display:none;
-  grid-template-columns:160px 1fr;
+  grid-template-columns:170px 1fr;
   gap:25px;
-  margin-top:25px;
 }
 
 .poster{
-  height:230px;
-  background:linear-gradient(145deg,#281044,#0d0d15);
+  height:240px;
   border-radius:12px;
+  background:
+  radial-gradient(circle at 30% 20%,#a45cff66,transparent 35%),
+  linear-gradient(145deg,#281044,#0d0d15);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -135,7 +137,7 @@ button:hover{
 .info p{
   color:#aaa;
   line-height:1.6;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .tag{
@@ -149,7 +151,6 @@ button:hover{
 
 .form{
   display:none;
-  margin-top:25px;
 }
 
 label{
@@ -159,8 +160,13 @@ label{
 }
 
 .add-btn{
-  margin-top:20px;
   width:100%;
+  margin-top:20px;
+}
+
+.message{
+  margin-top:15px;
+  color:#9b5cff;
 }
 
 .episode-item{
@@ -169,10 +175,11 @@ label{
   border-radius:10px;
   padding:15px;
   margin-top:10px;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
+  gap:15px;
 }
 
 .delete{
@@ -180,12 +187,19 @@ label{
   padding:9px 13px;
 }
 
-.message{
-  margin-top:15px;
-  color:#9b5cff;
+.delete:hover{
+  background:#d9364f;
+}
+
+.empty{
+  color:#888;
 }
 
 @media(max-width:700px){
+
+  .logo{
+    font-size:21px;
+  }
 
   .search{
     flex-direction:column;
@@ -210,6 +224,7 @@ label{
 <body>
 
 <header>
+
   <div class="nav">
 
     <div class="logo">
@@ -221,137 +236,156 @@ label{
     </a>
 
   </div>
+
 </header>
 
 
 <main class="container">
 
-<h1>Admin Panel</h1>
+  <h1>⚙️ Admin Panel</h1>
 
 
-<!-- SEARCH -->
+  <!-- SEARCH ANIME -->
 
-<div class="box">
+  <div class="box">
 
-  <h2>🔎 Search Anime</h2>
+    <h2>🔎 Search Anime</h2>
 
-  <div class="search">
+    <div class="search">
 
-    <input
-      type="text"
-      id="animeSearch"
-      placeholder="Enter anime name..."
-    >
+      <input
+        id="animeSearch"
+        type="text"
+        placeholder="Search anime name..."
+      >
 
-    <button onclick="searchAnime()">
-      Search
-    </button>
+      <button onclick="searchAnime()">
+        Search
+      </button>
 
-  </div>
+    </div>
 
-  <div id="results" class="results"></div>
-
-</div>
-
-
-<!-- ANIME DETAILS -->
-
-<div class="box anime-details" id="animeDetails">
-
-  <div class="poster" id="poster">
-    Anime Poster
-  </div>
-
-  <div class="info">
-
-    <h2 id="animeTitle">
-      Anime Name
-    </h2>
-
-    <p id="animeDescription">
-      Description
-    </p>
-
-    <div id="animeTags"></div>
+    <div id="results" class="results"></div>
 
   </div>
 
-</div>
 
-
-<!-- ADD EPISODE -->
-
-<div class="box form" id="episodeForm">
-
-  <h2>🎬 Add Episode</h2>
-
-  <label>
-    Episode Number
-  </label>
-
-  <input
-    type="number"
-    id="episodeNumber"
-    placeholder="Example: 14"
-    min="1"
-  >
-
-
-  <label>
-    Episode Title
-  </label>
-
-  <input
-    type="text"
-    id="episodeTitle"
-    placeholder="Example: New Beginning"
-  >
-
-
-  <label>
-    Video URL
-  </label>
-
-  <input
-    type="url"
-    id="videoUrl"
-    placeholder="https://example.com/video"
-  >
-
-
-  <button
-    class="add-btn"
-    onclick="addEpisode()"
-  >
-    + Add Episode
-  </button>
+  <!-- ANIME DETAILS -->
 
   <div
-    id="message"
-    class="message">
+    class="box anime-details"
+    id="animeDetails"
+  >
+
+    <div class="poster" id="poster">
+      Anime
+    </div>
+
+    <div class="info">
+
+      <h2 id="animeTitle">
+        Anime Name
+      </h2>
+
+      <p id="animeDescription">
+        Description
+      </p>
+
+      <p>
+        <b>Season:</b>
+        <span id="animeSeason">-</span>
+      </p>
+
+      <div id="animeTags"></div>
+
+    </div>
+
   </div>
 
-</div>
+
+  <!-- ADD EPISODE -->
+
+  <div
+    class="box form"
+    id="episodeForm"
+  >
+
+    <h2>🎬 Add Episode</h2>
+
+    <label>
+      Episode Number
+    </label>
+
+    <input
+      id="episodeNumber"
+      type="number"
+      min="1"
+      placeholder="Example: 14"
+    >
 
 
-<!-- EPISODES -->
+    <label>
+      Episode Title
+    </label>
 
-<div class="box">
+    <input
+      id="episodeTitle"
+      type="text"
+      placeholder="Example: New Episode"
+    >
 
-  <h2>📺 Added Episodes</h2>
 
-  <div id="episodeList">
-    No episodes added yet.
+    <label>
+      Video URL
+    </label>
+
+    <input
+      id="videoUrl"
+      type="url"
+      placeholder="https://example.com/video"
+    >
+
+
+    <button
+      class="add-btn"
+      onclick="addEpisode()"
+    >
+      ➕ Add Episode
+    </button>
+
+
+    <div
+      id="message"
+      class="message">
+    </div>
+
   </div>
 
-</div>
+
+  <!-- EPISODE LIST -->
+
+  <div class="box">
+
+    <h2>📺 Episodes</h2>
+
+    <div id="episodeList">
+
+      <div class="empty">
+        Pehle anime search karke select karo.
+      </div>
+
+    </div>
+
+  </div>
 
 </main>
 
 
 <script>
 
-/* Demo anime database */
+/* =========================
+   ANIME DATABASE
+========================= */
 
 const animeDatabase = [
 
@@ -398,6 +432,33 @@ const animeDatabase = [
     "Naruto follows a young ninja who dreams of becoming the strongest leader of his village.",
     genres:["Action","Adventure"],
     season:"Multiple Seasons"
+  },
+
+  {
+    id:"attack-on-titan",
+    title:"Attack on Titan",
+    description:
+    "Attack on Titan follows humanity's struggle for survival against mysterious giant Titans.",
+    genres:["Action","Drama","Fantasy"],
+    season:"Multiple Seasons"
+  },
+
+  {
+    id:"bleach",
+    title:"Bleach",
+    description:
+    "Bleach follows Ichigo Kurosaki after he gains the powers of a Soul Reaper.",
+    genres:["Action","Supernatural"],
+    season:"Multiple Seasons"
+  },
+
+  {
+    id:"dragon-ball",
+    title:"Dragon Ball",
+    description:
+    "Dragon Ball follows Goku and his friends through adventures, battles and powerful opponents.",
+    genres:["Action","Adventure"],
+    season:"Multiple Seasons"
   }
 
 ];
@@ -406,14 +467,17 @@ const animeDatabase = [
 let selectedAnime = null;
 
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
 function searchAnime(){
 
+  const input =
+    document.getElementById("animeSearch");
+
   const search =
-    document
-    .getElementById("animeSearch")
-    .value
+    input.value
     .toLowerCase()
     .trim();
 
@@ -422,41 +486,43 @@ function searchAnime(){
 
   results.innerHTML = "";
 
+
   if(!search){
 
     results.innerHTML =
-      "<p style='color:#999'>Enter an anime name.</p>";
+      '<div class="empty">Anime name enter karo.</div>';
 
     return;
   }
 
 
   const matches =
-    animeDatabase.filter(anime =>
-      anime.title
-      .toLowerCase()
-      .includes(search)
-    );
+    animeDatabase.filter(function(anime){
+
+      return anime.title
+        .toLowerCase()
+        .includes(search);
+
+    });
 
 
   if(matches.length === 0){
 
     results.innerHTML =
-      "<p style='color:#999'>Anime not found.</p>";
+      '<div class="empty">Anime nahi mila.</div>';
 
     return;
   }
 
 
-  matches.forEach(anime => {
+  matches.forEach(function(anime){
 
     const div =
       document.createElement("div");
 
     div.className = "result";
 
-    div.textContent =
-      anime.title;
+    div.textContent = anime.title;
 
     div.onclick = function(){
 
@@ -471,19 +537,30 @@ function searchAnime(){
 }
 
 
-/* SELECT ANIME */
+/* =========================
+   ENTER KEY SEARCH
+========================= */
+
+document
+.getElementById("animeSearch")
+.addEventListener("keydown",function(event){
+
+  if(event.key === "Enter"){
+
+    searchAnime();
+
+  }
+
+});
+
+
+/* =========================
+   SELECT ANIME
+========================= */
 
 function selectAnime(anime){
 
   selectedAnime = anime;
-
-
-  document
-  .getElementById("results")
-  .innerHTML =
-  "<p style='color:#9b5cff'>Selected: "
-  + anime.title +
-  "</p>";
 
 
   document
@@ -509,6 +586,12 @@ function selectAnime(anime){
 
 
   document
+  .getElementById("animeSeason")
+  .textContent =
+  anime.season;
+
+
+  document
   .getElementById("poster")
   .textContent =
   anime.title;
@@ -520,7 +603,7 @@ function selectAnime(anime){
   tags.innerHTML = "";
 
 
-  anime.genres.forEach(genre => {
+  anime.genres.forEach(function(genre){
 
     const span =
       document.createElement("span");
@@ -534,18 +617,28 @@ function selectAnime(anime){
   });
 
 
+  document
+  .getElementById("results")
+  .innerHTML =
+  "<div class='result'>✅ Selected: "
+  + anime.title +
+  "</div>";
+
+
   displayEpisodes();
 
 }
 
 
-/* ADD EPISODE */
+/* =========================
+   ADD EPISODE
+========================= */
 
 function addEpisode(){
 
   if(!selectedAnime){
 
-    alert("Please select an anime first.");
+    alert("Pehle anime select karo.");
 
     return;
   }
@@ -569,18 +662,25 @@ function addEpisode(){
     .value;
 
 
-  if(!number || !video){
+  if(!number){
 
-    alert(
-      "Episode number and video URL are required."
-    );
+    alert("Episode number enter karo.");
+
+    return;
+  }
+
+
+  if(!video){
+
+    alert("Video URL enter karo.");
 
     return;
   }
 
 
   const key =
-    "episodes_" + selectedAnime.id;
+    "episodes_" +
+    selectedAnime.id;
 
 
   let episodes =
@@ -589,14 +689,44 @@ function addEpisode(){
     ) || [];
 
 
+  /* Check duplicate */
+
+  const alreadyExists =
+    episodes.some(function(ep){
+
+      return ep.number === Number(number);
+
+    });
+
+
+  if(alreadyExists){
+
+    alert(
+      "Episode " +
+      number +
+      " already added hai."
+    );
+
+    return;
+  }
+
+
   episodes.push({
 
     number:Number(number),
 
-    title:title ||
-    "Episode " + number,
+    title:
+      title ||
+      "Episode " + number,
 
     video:video
+
+  });
+
+
+  episodes.sort(function(a,b){
+
+    return a.number - b.number;
 
   });
 
@@ -625,7 +755,9 @@ function addEpisode(){
   document
   .getElementById("message")
   .textContent =
-  "✅ Episode added successfully!";
+  "✅ Episode " +
+  number +
+  " added successfully!";
 
 
   displayEpisodes();
@@ -633,16 +765,21 @@ function addEpisode(){
 }
 
 
-/* DISPLAY EPISODES */
+/* =========================
+   DISPLAY EPISODES
+========================= */
 
 function displayEpisodes(){
 
-  if(!selectedAnime)
+  if(!selectedAnime){
+
     return;
+  }
 
 
   const key =
-    "episodes_" + selectedAnime.id;
+    "episodes_" +
+    selectedAnime.id;
 
 
   const episodes =
@@ -658,21 +795,16 @@ function displayEpisodes(){
   if(episodes.length === 0){
 
     list.innerHTML =
-      "No episodes added yet.";
+      '<div class="empty">Abhi koi episode add nahi hua.</div>';
 
     return;
-
   }
 
 
   list.innerHTML = "";
 
 
-  episodes
-  .sort((a,b) =>
-    a.number - b.number
-  )
-  .forEach((episode,index) => {
+  episodes.forEach(function(episode,index){
 
     const div =
       document.createElement("div");
@@ -715,23 +847,33 @@ function displayEpisodes(){
 }
 
 
-/* DELETE EPISODE */
+/* =========================
+   DELETE EPISODE
+========================= */
 
 function deleteEpisode(index){
 
-  if(!selectedAnime)
+  if(!selectedAnime){
+
     return;
+  }
 
 
-  if(!confirm(
-    "Delete this episode?"
-  )){
+  const confirmDelete =
+    confirm(
+      "Kya tum Episode delete karna chahte ho?"
+    );
+
+
+  if(!confirmDelete){
+
     return;
   }
 
 
   const key =
-    "episodes_" + selectedAnime.id;
+    "episodes_" +
+    selectedAnime.id;
 
 
   let episodes =
