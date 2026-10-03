@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Watch Episode - AnimeHindiZone</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#09090f;
+  color:white;
+}
+
+header{
+  background:#11111b;
+  border-bottom:1px solid #292936;
+  padding:18px 6%;
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:27px;
+  font-weight:800;
+  color:#9b5cff;
+}
+
+.back{
+  color:#ddd;
+  text-decoration:none;
+}
+
+.back:hover{
+  color:#9b5cff;
+}
+
+.container{
+  width:90%;
+  max-width:1100px;
+  margin:40px auto;
+}
+
+.title{
+  margin-bottom:20px;
+}
+
+.title h1{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.title p{
+  color:#999;
+}
+
+.player{
+  background:#000;
+  border:1px solid #292936;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+video{
+  width:100%;
+  display:block;
+  min-height:300px;
+  background:#000;
+}
+
+.notice{
+  margin-top:20px;
+  padding:18px;
+  background:#11111b;
+  border:1px solid #292936;
+  border-radius:12px;
+  color:#aaa;
+  line-height:1.6;
+}
+
+.episodes{
+  margin-top:35px;
+}
+
+.episodes h2{
+  margin-bottom:18px;
+}
+
+.episode-list{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+
+.episode{
+  background:#171722;
+  border:1px solid #292936;
+  color:#ddd;
+  padding:14px;
+  text-align:center;
+  border-radius:9px;
+  text-decoration:none;
+}
+
+.episode:hover{
+  border-color:#9b5cff;
+  color:white;
+}
+
+.active{
+  background:#7135c9;
+  border-color:#9b5cff;
+}
+
+footer{
+  margin-top:70px;
+  padding:30px;
+  text-align:center;
+  background:#11111b;
+  color:#888;
+}
+
+@media(max-width:700px){
+
+  .logo{
+    font-size:22px;
+  }
+
+  .container{
+    width:94%;
+  }
+
+  .title h1{
+    font-size:25px;
+  }
+
+  video{
+    min-height:220px;
+  }
+
+  .episode-list{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">AnimeHindiZone</div>
+
+    <a href="anime-details.html" class="back">
+      ← Back
+    </a>
+  </div>
+</header>
+
+
+<main class="container">
+
+  <div class="title">
+    <h1 id="episodeTitle">Solo Leveling - Episode 1</h1>
+    <p>Season 2 • Hindi</p>
+  </div>
+
+
+  <div class="player">
+
+    <video controls poster="">
+      <!--
+      Yahan baad me apni legally licensed/self-hosted
+      video file ka URL add karna.
+      
+      Example:
+      <source src="YOUR_VIDEO_URL.mp4" type="video/mp4">
+      -->
+
+      Your browser does not support the video player.
+    </video>
+
+  </div>
+
+
+  <div class="notice">
+    <b>Video Player</b><br>
+    Yahan tum baad me apne licensed ya khud-hosted
+    video ka URL add kar sakte ho.
+  </div>
+
+
+  <section class="episodes">
+
+    <h2>Episodes</h2>
+
+    <div class="episode-list">
+
+      <a class="episode" href="watch.html?episode=1">
+        Episode 1
+      </a>
+
+      <a class="episode" href="watch.html?episode=2">
+        Episode 2
+      </a>
+
+      <a class="episode" href="watch.html?episode=3">
+        Episode 3
+      </a>
+
+      <a class="episode" href="watch.html?episode=4">
+        Episode 4
+      </a>
+
+      <a class="episode" href="watch.html?episode=5">
+        Episode 5
+      </a>
+
+      <a class="episode" href="watch.html?episode=6">
+        Episode 6
+      </a>
+
+      <a class="episode" href="watch.html?episode=7">
+        Episode 7
+      </a>
+
+      <a class="episode" href="watch.html?episode=8">
+        Episode 8
+      </a>
+
+      <a class="episode" href="watch.html?episode=9">
+        Episode 9
+      </a>
+
+      <a class="episode" href="watch.html?episode=10">
+        Episode 10
+      </a>
+
+      <a class="episode" href="watch.html?episode=11">
+        Episode 11
+      </a>
+
+      <a class="episode" href="watch.html?episode=12">
+        Episode 12
+      </a>
+
+      <a class="episode" href="watch.html?episode=13">
+        Episode 13
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+  © 2026 AnimeHindiZone
+</footer>
+
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const episode = params.get("episode") || "1";
+
+document.getElementById("episodeTitle").textContent =
+  "Solo Leveling - Episode " + episode;
+
+document.querySelectorAll(".episode").forEach(function(button){
+
+  if(button.textContent.trim() === "Episode " + episode){
+    button.classList.add("active");
+  }
+
+});
+
+</script>
+
+</body>
+</html>
