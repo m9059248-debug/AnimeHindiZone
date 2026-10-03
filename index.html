@@ -1,930 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AnimeHindiZone</title>
 
 <style>
-
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#09090f;
-  color:white;
+    background:#0b0b0f;
+    color:#fff;
+    font-family:Arial,sans-serif;
 }
-
-/* HEADER */
 
 header{
-  background:#11111b;
-  border-bottom:1px solid #292936;
-  padding:18px 6%;
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-.nav{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+    background:#15151d;
+    padding:18px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+    border-bottom:1px solid #252532;
 }
 
 .logo{
-  color:#9b5cff;
-  font-size:26px;
-  font-weight:800;
-}
-
-nav{
-  display:flex;
-  align-items:center;
-  gap:20px;
+    font-size:24px;
+    font-weight:bold;
+    color:#ff3d71;
 }
 
 nav a{
-  color:#ddd;
-  text-decoration:none;
+    color:#fff;
+    text-decoration:none;
+    margin-left:18px;
+    font-size:14px;
 }
 
 nav a:hover{
-  color:#9b5cff;
+    color:#ff3d71;
 }
-
-.admin-link{
-  background:#8239f3;
-  color:white !important;
-  padding:9px 14px;
-  border-radius:8px;
-  font-weight:bold;
-}
-
-.admin-link:hover{
-  background:#9b5cff;
-}
-
-
-/* HERO */
 
 .hero{
-  padding:80px 6%;
-  min-height:480px;
-  display:flex;
-  align-items:center;
-
-  background:
-  radial-gradient(circle at 80% 40%,#7432d955,transparent 35%),
-  linear-gradient(135deg,#0b0b12,#171020);
-}
-
-.hero-content{
-  max-width:700px;
+    padding:45px 5%;
+    background:linear-gradient(135deg,#151522,#0b0b0f);
 }
 
 .hero h1{
-  font-size:56px;
-  margin-bottom:20px;
-}
-
-.hero h1 span{
-  color:#9b5cff;
+    font-size:34px;
+    margin-bottom:10px;
 }
 
 .hero p{
-  color:#b9b9c5;
-  font-size:18px;
-  line-height:1.7;
-  margin-bottom:28px;
+    color:#aaa;
 }
-
-.btn{
-  display:inline-block;
-  background:#8239f3;
-  color:white;
-  text-decoration:none;
-  padding:14px 25px;
-  border-radius:10px;
-  font-weight:bold;
-}
-
-.btn:hover{
-  background:#9b5cff;
-}
-
-
-/* MAIN */
 
 .container{
-  width:88%;
-  max-width:1200px;
-  margin:auto;
-}
-
-.search-box{
-  margin:40px 0;
-}
-
-.search-box input{
-  width:100%;
-  padding:18px 22px;
-  background:#171722;
-  border:1px solid #292936;
-  border-radius:12px;
-  color:white;
-  font-size:17px;
-  outline:none;
-}
-
-.search-box input:focus{
-  border-color:#9b5cff;
-}
-
-
-/* SECTION */
-
-.section{
-  margin:55px 0;
+    padding:30px 5%;
 }
 
 .section-title{
-  font-size:30px;
-  margin-bottom:25px;
+    font-size:24px;
+    margin-bottom:20px;
 }
 
-.section-title span{
-  color:#9b5cff;
+.search-box{
+    width:100%;
+    padding:13px 16px;
+    border:none;
+    outline:none;
+    border-radius:8px;
+    background:#171720;
+    color:#fff;
+    margin-bottom:25px;
 }
-
-
-/* GRID */
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:18px;
 }
 
-
-/* CARD */
-
 .card{
-  display:block;
-  color:white;
-  text-decoration:none;
-  background:#151520;
-  border:1px solid #292936;
-  border-radius:14px;
-  overflow:hidden;
-  transition:0.25s;
+    background:#15151d;
+    border-radius:10px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.2s;
+    border:1px solid #24242f;
 }
 
 .card:hover{
-  transform:translateY(-6px);
-  border-color:#9b5cff;
+    transform:translateY(-5px);
+    border-color:#ff3d71;
 }
 
-
-/* POSTER */
-
-.poster{
-  height:280px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  text-align:center;
-  padding:20px;
-
-  background:
-  radial-gradient(circle at 30% 20%,#a45cff55,transparent 35%),
-  linear-gradient(145deg,#281044,#0d0d15);
+.card img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+    display:block;
+    background:#20202a;
 }
-
-.poster h3{
-  font-size:24px;
-}
-
-
-/* CARD INFO */
 
 .card-info{
-  padding:16px;
+    padding:12px;
 }
 
-.card-info h3{
-  margin-bottom:8px;
-  font-size:18px;
+.card-title{
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:6px;
 }
 
-.meta{
-  color:#9999a8;
-  font-size:14px;
+.card-status{
+    color:#ff3d71;
+    font-size:12px;
 }
 
-.badge{
-  display:inline-block;
-  margin-top:12px;
-  background:#7135c9;
-  padding:5px 9px;
-  border-radius:6px;
-  font-size:12px;
+.loading,
+.empty{
+    text-align:center;
+    color:#aaa;
+    padding:30px;
 }
-
-
-/* SCHEDULE */
-
-.schedule{
-  display:grid;
-  gap:12px;
-}
-
-.schedule-item{
-  background:#151520;
-  border:1px solid #292936;
-  border-radius:10px;
-  padding:18px;
-
-  display:flex;
-  justify-content:space-between;
-}
-
-.day{
-  color:#9b5cff;
-  font-weight:bold;
-}
-
-
-/* FOOTER */
 
 footer{
-  margin-top:70px;
-  padding:30px;
-  text-align:center;
-  background:#11111b;
-  color:#888;
+    margin-top:50px;
+    padding:25px;
+    text-align:center;
+    background:#15151d;
+    color:#888;
 }
 
+@media(max-width:600px){
+    .hero h1{
+        font-size:27px;
+    }
 
-/* MOBILE */
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
 
-@media(max-width:900px){
+    .card img{
+        height:220px;
+    }
 
-  .grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
+    nav a{
+        margin-left:8px;
+        font-size:12px;
+    }
 }
-
-
-@media(max-width:650px){
-
-  header{
-    padding:16px 5%;
-  }
-
-  .nav{
-    flex-direction:column;
-    gap:14px;
-  }
-
-  .logo{
-    font-size:21px;
-  }
-
-  nav{
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-
-  nav a{
-    font-size:12px;
-  }
-
-  .admin-link{
-    padding:8px 11px;
-  }
-
-  .hero{
-    padding:60px 5%;
-  }
-
-  .hero h1{
-    font-size:40px;
-  }
-
-  .hero p{
-    font-size:16px;
-  }
-
-  .container{
-    width:90%;
-  }
-
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-  }
-
-  .poster{
-    height:220px;
-  }
-
-  .poster h3{
-    font-size:19px;
-  }
-
-  .card-info{
-    padding:12px;
-  }
-
-  .card-info h3{
-    font-size:15px;
-  }
-
-  .section-title{
-    font-size:25px;
-  }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- HEADER -->
-
 <header>
-
-  <div class="nav">
-
-    <div class="logo">
-      AnimeHindiZone
-    </div>
+    <div class="logo">AnimeHindiZone</div>
 
     <nav>
-
-      <a href="#home">
-        Home
-      </a>
-
-      <a href="#latest">
-        Latest
-      </a>
-
-      <a href="#popular">
-        Popular
-      </a>
-
-      <a href="#schedule">
-        Schedule
-      </a>
-
-      <a href="admin.html" class="admin-link">
-        Admin
-      </a>
-
+        <a href="index.html">Home</a>
+        <a href="#latest">Latest</a>
+        <a href="#popular">Popular</a>
+        <a href="#schedule">Schedule</a>
     </nav>
-
-  </div>
-
 </header>
 
-
-<!-- HERO -->
-
-<section class="hero" id="home">
-
-  <div class="hero-content">
-
-    <h1>
-      Watch <span>Anime</span> Online
-    </h1>
-
-    <p>
-      Discover latest anime, popular series,
-      Hindi dubbed anime and upcoming episodes.
-    </p>
-
-    <a href="#latest" class="btn">
-      Explore Anime
-    </a>
-
-  </div>
-
+<section class="hero">
+    <h1>Watch Anime in Hindi</h1>
+    <p>Latest anime, episodes and more.</p>
 </section>
 
+<div class="container">
 
-<main class="container">
+    <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="Search anime..."
+    >
 
+    <h2 class="section-title" id="latest">Latest Anime</h2>
 
-<!-- SEARCH -->
-
-<div class="search-box">
-
-  <input
-    type="text"
-    id="search"
-    placeholder="Search anime..."
-    onkeyup="searchAnime()"
-  >
+    <div id="animeGrid" class="grid">
+        <div class="loading">Loading anime...</div>
+    </div>
 
 </div>
 
-
-<!-- LATEST -->
-
-<section class="section" id="latest">
-
-<h2 class="section-title">
-Latest <span>Anime</span>
-</h2>
-
-
-<div class="grid" id="animeGrid">
-
-
-<!-- SOLO LEVELING -->
-
-<a
-  href="anime-details.html?id=solo-leveling"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Solo Leveling</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Solo Leveling</h3>
-
-    <div class="meta">
-      Season 2 • Episode 13
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- ONE PIECE -->
-
-<a
-  href="anime-details.html?id=one-piece"
-  class="card"
->
-
-  <div class="poster">
-    <h3>One Piece</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>One Piece</h3>
-
-    <div class="meta">
-      Episode 1150+
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- DEMON SLAYER -->
-
-<a
-  href="anime-details.html?id=demon-slayer"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Demon Slayer</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Demon Slayer</h3>
-
-    <div class="meta">
-      Latest Season
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- JUJUTSU KAISEN -->
-
-<a
-  href="anime-details.html?id=jujutsu-kaisen"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Jujutsu Kaisen</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Jujutsu Kaisen</h3>
-
-    <div class="meta">
-      Season 2
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- NARUTO -->
-
-<a
-  href="anime-details.html?id=naruto"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Naruto</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Naruto</h3>
-
-    <div class="meta">
-      Complete Series
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- ATTACK ON TITAN -->
-
-<a
-  href="anime-details.html?id=attack-on-titan"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Attack on Titan</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Attack on Titan</h3>
-
-    <div class="meta">
-      Complete Series
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- BLEACH -->
-
-<a
-  href="anime-details.html?id=bleach"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Bleach</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Bleach</h3>
-
-    <div class="meta">
-      Complete Series
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
-<!-- DRAGON BALL -->
-
-<a
-  href="anime-details.html?id=dragon-ball"
-  class="card"
->
-
-  <div class="poster">
-    <h3>Dragon Ball</h3>
-  </div>
-
-  <div class="card-info">
-
-    <h3>Dragon Ball</h3>
-
-    <div class="meta">
-      Complete Series
-    </div>
-
-    <span class="badge">
-      Hindi
-    </span>
-
-  </div>
-
-</a>
-
-
+<div class="container" id="popular">
+    <h2 class="section-title">Popular Anime</h2>
+    <div id="popularGrid" class="grid"></div>
 </div>
 
-</section>
-
-
-<!-- POPULAR -->
-
-<section class="section" id="popular">
-
-<h2 class="section-title">
-Popular <span>Anime</span>
-</h2>
-
-
-<div class="grid">
-
-  <a
-    href="anime-details.html?id=solo-leveling"
-    class="card"
-  >
-
-    <div class="poster">
-      <h3>Solo Leveling</h3>
+<div class="container" id="schedule">
+    <h2 class="section-title">Anime Schedule</h2>
+    <div class="empty">
+        Schedule system coming soon...
     </div>
-
-    <div class="card-info">
-
-      <h3>Solo Leveling</h3>
-
-      <div class="meta">
-        Popular • Season 2
-      </div>
-
-      <span class="badge">
-        Hindi
-      </span>
-
-    </div>
-
-  </a>
-
-
-  <a
-    href="anime-details.html?id=one-piece"
-    class="card"
-  >
-
-    <div class="poster">
-      <h3>One Piece</h3>
-    </div>
-
-    <div class="card-info">
-
-      <h3>One Piece</h3>
-
-      <div class="meta">
-        Popular
-      </div>
-
-      <span class="badge">
-        Hindi
-      </span>
-
-    </div>
-
-  </a>
-
-
-  <a
-    href="anime-details.html?id=demon-slayer"
-    class="card"
-  >
-
-    <div class="poster">
-      <h3>Demon Slayer</h3>
-    </div>
-
-    <div class="card-info">
-
-      <h3>Demon Slayer</h3>
-
-      <div class="meta">
-        Popular
-      </div>
-
-      <span class="badge">
-        Hindi
-      </span>
-
-    </div>
-
-  </a>
-
-
-  <a
-    href="anime-details.html?id=jujutsu-kaisen"
-    class="card"
-  >
-
-    <div class="poster">
-      <h3>Jujutsu Kaisen</h3>
-    </div>
-
-    <div class="card-info">
-
-      <h3>Jujutsu Kaisen</h3>
-
-      <div class="meta">
-        Popular • Season 2
-      </div>
-
-      <span class="badge">
-        Hindi
-      </span>
-
-    </div>
-
-  </a>
-
 </div>
-
-</section>
-
-
-<!-- SCHEDULE -->
-
-<section class="section" id="schedule">
-
-<h2 class="section-title">
-Anime <span>Schedule</span>
-</h2>
-
-
-<div class="schedule">
-
-  <div class="schedule-item">
-
-    <div>
-      <b>Monday</b>
-    </div>
-
-    <div class="day">
-      Anime Updates
-    </div>
-
-  </div>
-
-
-  <div class="schedule-item">
-
-    <div>
-      <b>Wednesday</b>
-    </div>
-
-    <div class="day">
-      New Episodes
-    </div>
-
-  </div>
-
-
-  <div class="schedule-item">
-
-    <div>
-      <b>Friday</b>
-    </div>
-
-    <div class="day">
-      New Anime
-    </div>
-
-  </div>
-
-
-  <div class="schedule-item">
-
-    <div>
-      <b>Sunday</b>
-    </div>
-
-    <div class="day">
-      Weekly Updates
-    </div>
-
-  </div>
-
-</div>
-
-</section>
-
-
-</main>
-
-
-<!-- FOOTER -->
 
 <footer>
-
-  © 2026 AnimeHindiZone
-
+    © 2026 AnimeHindiZone
 </footer>
-
 
 <script>
 
-/* SEARCH */
+/* =========================
+   SUPABASE CONFIG
+========================= */
 
-function searchAnime(){
+const SUPABASE_URL =
+"https://gmacsiymybvfcxydvkla.supabase.co";
 
-  const input =
-    document.getElementById("search")
-      .value
-      .toLowerCase()
-      .trim();
-
-
-  const cards =
-    document.querySelectorAll(
-      "#animeGrid .card"
-    );
+const SUPABASE_KEY =
+"sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
 
 
-  cards.forEach(function(card){
+/* =========================
+   LOAD ANIME
+========================= */
 
-    const text =
-      card.textContent.toLowerCase();
+let allAnime = [];
 
+async function loadAnime(){
 
-    if(text.includes(input)){
+    const grid = document.getElementById("animeGrid");
 
-      card.style.display = "block";
+    try{
 
-    }else{
+        const response = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/anime?select=*&order=id.desc",
+            {
+                headers:{
+                    "apikey":SUPABASE_KEY,
+                    "Authorization":"Bearer "+SUPABASE_KEY
+                }
+            }
+        );
 
-      card.style.display = "none";
+        if(!response.ok){
+            throw new Error(
+                "Supabase error: " + response.status
+            );
+        }
 
+        const data = await response.json();
+
+        allAnime = data;
+
+        displayAnime(allAnime);
+
+    }catch(error){
+
+        console.error(error);
+
+        grid.innerHTML = `
+            <div class="empty">
+                Anime load nahi ho pa raha.
+                <br><br>
+                Please try again.
+            </div>
+        `;
     }
-
-  });
-
 }
 
-</script>
 
+/* =========================
+   DISPLAY ANIME
+========================= */
+
+function displayAnime(animeList){
+
+    const grid = document.getElementById("animeGrid");
+
+    if(!animeList || animeList.length === 0){
+
+        grid.innerHTML = `
+            <div class="empty">
+                Abhi koi anime add nahi hua.
+            </div>
+        `;
+
+        return;
+    }
+
+    grid.innerHTML = animeList.map(anime => {
+
+        const title =
+            anime.title || "Unknown Anime";
+
+        const animeId =
+            anime.anime_id || "";
+
+        const thumbnail =
+            anime.thumbnail_url ||
+            "https://via.placeholder.com/300x450?text=No+Image";
+
+        const status =
+            anime.status || "Ongoing";
+
+        return `
+            <div
+                class="card"
+                onclick="openAnime('${escapeId(animeId)}')"
+            >
+
+                <img
+                    src="${thumbnail}"
+                    alt="${escapeHtml(title)}"
+                    onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'"
+                >
+
+                <div class="card-info">
+
+                    <div class="card-title">
+                        ${escapeHtml(title)}
+                    </div>
+
+                    <div class="card-status">
+                        ${escapeHtml(status)}
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+    displayPopular(animeList);
+}
+
+
+/* =========================
+   OPEN ANIME DETAILS
+========================= */
+
+function openAnime(id){
+
+    if(!id) return;
+
+    window.location.href =
+        "anime-details.html?id=" +
+        encodeURIComponent(id);
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document
+.getElementById("searchInput")
+.addEventListener("input", function(){
+
+    const search =
+        this.value.toLowerCase().trim();
+
+    const filtered =
+        allAnime.filter(anime =>
+            (anime.title || "")
+            .toLowerCase()
+            .includes(search)
+        );
+
+    displayAnime(filtered);
+
+});
+
+
+/* =========================
+   POPULAR
+========================= */
+
+function displayPopular(animeList){
+
+    const popularGrid =
+        document.getElementById("popularGrid");
+
+    const popular =
+        animeList.slice(0,6);
+
+    popularGrid.innerHTML =
+        popular.map(anime => {
+
+            const title =
+                anime.title || "Unknown Anime";
+
+            const animeId =
+                anime.anime_id || "";
+
+            const thumbnail =
+                anime.thumbnail_url ||
+                "https://via.placeholder.com/300x450?text=No+Image";
+
+            return `
+                <div
+                    class="card"
+                    onclick="openAnime('${escapeId(animeId)}')"
+                >
+
+                    <img
+                        src="${thumbnail}"
+                        alt="${escapeHtml(title)}"
+                        onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'"
+                    >
+
+                    <div class="card-info">
+                        <div class="card-title">
+                            ${escapeHtml(title)}
+                        </div>
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+/* =========================
+   SECURITY HELPERS
+========================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function escapeId(value){
+
+    return String(value)
+        .replace(/'/g,"\\'")
+        .replace(/\\/g,"\\\\");
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadAnime();
+
+</script>
 
 </body>
 </html>
