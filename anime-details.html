@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anime Details - AnimeHindiZone</title>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   margin:0;
@@ -135,11 +138,23 @@ header{
   text-align:center;
   border-radius:9px;
   color:#ddd;
+  text-decoration:none;
+  display:block;
 }
 
 .episode:hover{
   border-color:#9b5cff;
   color:#fff;
+}
+
+.loading{
+  color:#999;
+  padding:20px 0;
+}
+
+.error{
+  color:#ff6b6b;
+  padding:20px 0;
 }
 
 footer{
@@ -210,7 +225,7 @@ footer{
       </p>
 
       <p class="description">
-        <b>Episodes:</b> 13<br>
+        <b>Episodes:</b> <span id="episodeCount">Loading...</span><br>
         <b>Language:</b> Hindi / Japanese<br>
         <b>Status:</b> Completed
       </p>
@@ -227,22 +242,8 @@ footer{
 
     <h2>Episodes</h2>
 
-    <div class="episode-list">
-
-      <a class="episode" href="watch.html?episode=1">Episode 1</a>
-<a class="episode" href="watch.html?episode=2">Episode 2</a>
-<a class="episode" href="watch.html?episode=3">Episode 3</a>
-<a class="episode" href="watch.html?episode=4">Episode 4</a>
-<a class="episode" href="watch.html?episode=5">Episode 5</a>
-<a class="episode" href="watch.html?episode=6">Episode 6</a>
-<a class="episode" href="watch.html?episode=7">Episode 7</a>
-<a class="episode" href="watch.html?episode=8">Episode 8</a>
-<a class="episode" href="watch.html?episode=9">Episode 9</a>
-<a class="episode" href="watch.html?episode=10">Episode 10</a>
-<a class="episode" href="watch.html?episode=11">Episode 11</a>
-<a class="episode" href="watch.html?episode=12">Episode 12</a>
-<a class="episode" href="watch.html?episode=13">Episode 13</a>
-
+    <div class="episode-list" id="episodeList">
+      <div class="loading">Loading episodes...</div>
     </div>
 
   </section>
@@ -252,6 +253,88 @@ footer{
 <footer>
   © 2026 AnimeHindiZone
 </footer>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gmacsiymybvfcxydvkla.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+async function loadEpisodes(){
+
+  const episodeList =
+    document.getElementById("episodeList");
+
+  const episodeCount =
+    document.getElementById("episodeCount");
+
+  // Existing episodes from Supabase
+  const { data, error } = await supabaseClient
+    .from("episodes")
+    .select("episode_number, episode_title")
+    .eq("anime_id","solo-leveling")
+    .order("episode_number",{ascending:true});
+
+  if(error){
+
+    console.error(error);
+
+    episodeList.innerHTML =
+      '<div class="error">Episodes load nahi ho paaye.</div>';
+
+    episodeCount.textContent = "Error";
+
+    return;
+  }
+
+  episodeList.innerHTML = "";
+
+  if(!data || data.length === 0){
+
+    episodeList.innerHTML =
+      '<div class="loading">No episodes available.</div>';
+
+    episodeCount.textContent = "0";
+
+    return;
+  }
+
+  episodeCount.textContent = data.length;
+
+  data.forEach(function(ep){
+
+    const link =
+      document.createElement("a");
+
+    link.className = "episode";
+
+    link.href =
+      "watch.html?episode=" +
+      encodeURIComponent(ep.episode_number);
+
+    link.textContent =
+      ep.episode_title ||
+      "Episode " + ep.episode_number;
+
+    episodeList.appendChild(link);
+
+  });
+
+}
+
+
+loadEpisodes();
+
+</script>
 
 </body>
 </html>
