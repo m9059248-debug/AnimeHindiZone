@@ -132,6 +132,15 @@ nav a:hover{
     padding:30px;
 }
 
+.error-box{
+    background:#241116;
+    border:1px solid #ff3d71;
+    border-radius:8px;
+    padding:15px;
+    color:#ffb3c5;
+    word-break:break-word;
+}
+
 footer{
     margin-top:50px;
     padding:25px;
@@ -141,6 +150,7 @@ footer{
 }
 
 @media(max-width:600px){
+
     .hero h1{
         font-size:27px;
     }
@@ -165,7 +175,10 @@ footer{
 <body>
 
 <header>
-    <div class="logo">AnimeHindiZone</div>
+
+    <div class="logo">
+        AnimeHindiZone
+    </div>
 
     <nav>
         <a href="index.html">Home</a>
@@ -173,12 +186,22 @@ footer{
         <a href="#popular">Popular</a>
         <a href="#schedule">Schedule</a>
     </nav>
+
 </header>
 
+
 <section class="hero">
-    <h1>Watch Anime in Hindi</h1>
-    <p>Latest anime, episodes and more.</p>
+
+    <h1>
+        Watch Anime in Hindi
+    </h1>
+
+    <p>
+        Latest anime, episodes and more.
+    </p>
+
 </section>
+
 
 <div class="container">
 
@@ -189,35 +212,72 @@ footer{
         placeholder="Search anime..."
     >
 
-    <h2 class="section-title" id="latest">Latest Anime</h2>
+    <h2
+        class="section-title"
+        id="latest"
+    >
+        Latest Anime
+    </h2>
 
-    <div id="animeGrid" class="grid">
-        <div class="loading">Loading anime...</div>
+    <div
+        id="animeGrid"
+        class="grid"
+    >
+
+        <div class="loading">
+            Loading anime...
+        </div>
+
     </div>
 
 </div>
 
-<div class="container" id="popular">
-    <h2 class="section-title">Popular Anime</h2>
-    <div id="popularGrid" class="grid"></div>
+
+<div
+    class="container"
+    id="popular"
+>
+
+    <h2 class="section-title">
+        Popular Anime
+    </h2>
+
+    <div
+        id="popularGrid"
+        class="grid"
+    ></div>
+
 </div>
 
-<div class="container" id="schedule">
-    <h2 class="section-title">Anime Schedule</h2>
+
+<div
+    class="container"
+    id="schedule"
+>
+
+    <h2 class="section-title">
+        Anime Schedule
+    </h2>
+
     <div class="empty">
         Schedule system coming soon...
     </div>
+
 </div>
 
+
 <footer>
+
     © 2026 AnimeHindiZone
+
 </footer>
+
 
 <script>
 
-/* =========================
+/* =====================================
    SUPABASE CONFIG
-========================= */
+===================================== */
 
 const SUPABASE_URL =
 "https://gmacsiymybvfcxydvkla.supabase.co";
@@ -226,235 +286,425 @@ const SUPABASE_KEY =
 "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
 
 
-/* =========================
-   LOAD ANIME
-========================= */
+/* =====================================
+   GLOBAL ANIME DATA
+===================================== */
 
 let allAnime = [];
 
+
+/* =====================================
+   LOAD ANIME FROM SUPABASE
+===================================== */
+
 async function loadAnime(){
 
-    const grid = document.getElementById("animeGrid");
+    const grid =
+        document.getElementById("animeGrid");
+
+    grid.innerHTML = `
+        <div class="loading">
+            Loading anime...
+        </div>
+    `;
 
     try{
 
-        const response = await fetch(
+        const url =
             SUPABASE_URL +
-            "/rest/v1/anime?select=*&order=id.desc",
-            {
-                headers:{
-                    "apikey":SUPABASE_KEY,
-                    "Authorization":"Bearer "+SUPABASE_KEY
+            "/rest/v1/anime" +
+            "?select=id,anime_id,title,thumbnail_url,banner_url,description,genre,season,language,status" +
+            "&order=id.desc";
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method:"GET",
+
+                    headers:{
+                        "apikey":SUPABASE_KEY,
+                        "Authorization":
+                            "Bearer " + SUPABASE_KEY,
+                        "Content-Type":
+                            "application/json"
+                    }
                 }
-            }
-        );
+            );
+
 
         if(!response.ok){
+
+            const errorText =
+                await response.text();
+
             throw new Error(
-                "Supabase error: " + response.status
+                "Supabase HTTP " +
+                response.status +
+                ": " +
+                errorText
             );
         }
 
-        const data = await response.json();
 
-        allAnime = data;
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Anime data:",
+            data
+        );
+
+
+        allAnime =
+            Array.isArray(data)
+            ? data
+            : [];
+
 
         displayAnime(allAnime);
 
-    }catch(error){
+    }
 
-        console.error(error);
+    catch(error){
+
+        console.error(
+            "Anime loading error:",
+            error
+        );
+
 
         grid.innerHTML = `
-            <div class="empty">
-                Anime load nahi ho pa raha.
+            <div class="error-box">
+
+                <strong>
+                    Anime load nahi ho pa raha.
+                </strong>
+
                 <br><br>
-                Please try again.
+
+                Error:
+                <br>
+
+                ${escapeHtml(error.message)}
+
             </div>
         `;
+
     }
+
 }
 
 
-/* =========================
+/* =====================================
    DISPLAY ANIME
-========================= */
+===================================== */
 
 function displayAnime(animeList){
 
-    const grid = document.getElementById("animeGrid");
+    const grid =
+        document.getElementById("animeGrid");
 
-    if(!animeList || animeList.length === 0){
+
+    if(
+        !animeList ||
+        animeList.length === 0
+    ){
 
         grid.innerHTML = `
             <div class="empty">
+
                 Abhi koi anime add nahi hua.
+
             </div>
         `;
+
+        document
+            .getElementById("popularGrid")
+            .innerHTML = "";
 
         return;
     }
 
-    grid.innerHTML = animeList.map(anime => {
 
-        const title =
-            anime.title || "Unknown Anime";
+    grid.innerHTML =
+        animeList.map(
+            anime => {
 
-        const animeId =
-            anime.anime_id || "";
+                const title =
+                    anime.title ||
+                    "Unknown Anime";
 
-        const thumbnail =
-            anime.thumbnail_url ||
-            "https://via.placeholder.com/300x450?text=No+Image";
 
-        const status =
-            anime.status || "Ongoing";
+                const animeId =
+                    anime.anime_id ||
+                    "";
 
-        return `
-            <div
-                class="card"
-                onclick="openAnime('${escapeId(animeId)}')"
-            >
 
-                <img
-                    src="${thumbnail}"
-                    alt="${escapeHtml(title)}"
-                    onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'"
-                >
+                const thumbnail =
+                    anime.thumbnail_url ||
+                    "https://via.placeholder.com/300x450?text=No+Image";
 
-                <div class="card-info">
 
-                    <div class="card-title">
-                        ${escapeHtml(title)}
+                const status =
+                    anime.status ||
+                    "Ongoing";
+
+
+                return `
+
+                    <div
+                        class="card"
+                        onclick="openAnime('${escapeId(animeId)}')"
+                    >
+
+                        <img
+                            src="${escapeHtml(thumbnail)}"
+                            alt="${escapeHtml(title)}"
+
+                            onerror="
+                                this.src='https://via.placeholder.com/300x450?text=No+Image'
+                            "
+                        >
+
+                        <div class="card-info">
+
+                            <div class="card-title">
+
+                                ${escapeHtml(title)}
+
+                            </div>
+
+
+                            <div class="card-status">
+
+                                ${escapeHtml(status)}
+
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div class="card-status">
-                        ${escapeHtml(status)}
-                    </div>
+                `;
 
-                </div>
+            }
+        ).join("");
 
-            </div>
-        `;
-
-    }).join("");
 
     displayPopular(animeList);
+
 }
 
 
-/* =========================
+/* =====================================
    OPEN ANIME DETAILS
-========================= */
+===================================== */
 
 function openAnime(id){
 
-    if(!id) return;
+    if(!id){
+
+        alert(
+            "Is anime ki ID available nahi hai."
+        );
+
+        return;
+    }
+
 
     window.location.href =
         "anime-details.html?id=" +
         encodeURIComponent(id);
+
 }
 
 
-/* =========================
+/* =====================================
    SEARCH
-========================= */
+===================================== */
 
 document
-.getElementById("searchInput")
-.addEventListener("input", function(){
+    .getElementById("searchInput")
+    .addEventListener(
+        "input",
+        function(){
 
-    const search =
-        this.value.toLowerCase().trim();
-
-    const filtered =
-        allAnime.filter(anime =>
-            (anime.title || "")
-            .toLowerCase()
-            .includes(search)
-        );
-
-    displayAnime(filtered);
-
-});
+            const search =
+                this.value
+                    .toLowerCase()
+                    .trim();
 
 
-/* =========================
-   POPULAR
-========================= */
+            const filtered =
+                allAnime.filter(
+                    anime => {
+
+                        const title =
+                            anime.title ||
+                            "";
+
+                        return title
+                            .toLowerCase()
+                            .includes(search);
+
+                    }
+                );
+
+
+            displayAnime(
+                filtered
+            );
+
+        }
+    );
+
+
+/* =====================================
+   POPULAR ANIME
+===================================== */
 
 function displayPopular(animeList){
 
     const popularGrid =
-        document.getElementById("popularGrid");
+        document.getElementById(
+            "popularGrid"
+        );
+
 
     const popular =
         animeList.slice(0,6);
 
+
+    if(
+        popular.length === 0
+    ){
+
+        popularGrid.innerHTML =
+            "";
+
+        return;
+    }
+
+
     popularGrid.innerHTML =
-        popular.map(anime => {
+        popular.map(
+            anime => {
 
-            const title =
-                anime.title || "Unknown Anime";
+                const title =
+                    anime.title ||
+                    "Unknown Anime";
 
-            const animeId =
-                anime.anime_id || "";
 
-            const thumbnail =
-                anime.thumbnail_url ||
-                "https://via.placeholder.com/300x450?text=No+Image";
+                const animeId =
+                    anime.anime_id ||
+                    "";
 
-            return `
-                <div
-                    class="card"
-                    onclick="openAnime('${escapeId(animeId)}')"
-                >
 
-                    <img
-                        src="${thumbnail}"
-                        alt="${escapeHtml(title)}"
-                        onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'"
+                const thumbnail =
+                    anime.thumbnail_url ||
+                    "https://via.placeholder.com/300x450?text=No+Image";
+
+
+                return `
+
+                    <div
+                        class="card"
+                        onclick="openAnime('${escapeId(animeId)}')"
                     >
 
-                    <div class="card-info">
-                        <div class="card-title">
-                            ${escapeHtml(title)}
+                        <img
+                            src="${escapeHtml(thumbnail)}"
+                            alt="${escapeHtml(title)}"
+
+                            onerror="
+                                this.src='https://via.placeholder.com/300x450?text=No+Image'
+                            "
+                        >
+
+
+                        <div class="card-info">
+
+                            <div class="card-title">
+
+                                ${escapeHtml(title)}
+
+                            </div>
+
                         </div>
+
                     </div>
 
-                </div>
-            `;
+                `;
 
-        }).join("");
+            }
+        ).join("");
+
 }
 
 
-/* =========================
-   SECURITY HELPERS
-========================= */
+/* =====================================
+   HTML ESCAPE
+===================================== */
 
 function escapeHtml(value){
 
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
+
+
+/* =====================================
+   ID ESCAPE
+===================================== */
 
 function escapeId(value){
 
     return String(value)
-        .replace(/'/g,"\\'")
-        .replace(/\\/g,"\\\\");
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
+        );
+
 }
 
 
-/* =========================
+/* =====================================
    START
-========================= */
+===================================== */
 
 loadAnime();
 
