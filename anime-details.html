@@ -1,1 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Details - AnimeHindiZone</title>
 
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#09090f;
+  color:white;
+}
+
+header{
+  background:#11111b;
+  border-bottom:1px solid #292936;
+  padding:18px 6%;
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:27px;
+  font-weight:800;
+  color:#9b5cff;
+}
+
+.back{
+  color:#ddd;
+  text-decoration:none;
+}
+
+.back:hover{
+  color:#9b5cff;
+}
+
+.container{
+  width:88%;
+  max-width:1100px;
+  margin:50px auto;
+}
+
+.details{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:35px;
+  background:#11111b;
+  border:1px solid #252535;
+  border-radius:18px;
+  padding:25px;
+}
+
+.poster{
+  height:390px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 30% 20%,#a45cff66,transparent 35%),
+    linear-gradient(145deg,#281044,#0d0d15);
+}
+
+.poster h2{
+  font-size:30px;
+}
+
+.info h1{
+  font-size:38px;
+  margin-bottom:15px;
+}
+
+.description{
+  color:#b9b9c5;
+  line-height:1.7;
+  font-size:17px;
+  margin:20px 0;
+}
+
+.tags{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
+
+.tag{
+  background:#7135c9;
+  padding:7px 12px;
+  border-radius:7px;
+  font-size:13px;
+}
+
+.watch{
+  display:inline-block;
+  background:#8239f3;
+  color:white;
+  text-decoration:none;
+  padding:14px 25px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.episodes{
+  margin-top:40px;
+}
+
+.episodes h2{
+  margin-bottom:20px;
+}
+
+.episode-list{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+}
+
+.episode{
+  background:#171722;
+  border:1px solid #282838;
+  padding:15px;
+  text-align:center;
+  border-radius:9px;
+  color:#ddd;
+}
+
+.episode:hover{
+  border-color:#9b5cff;
+  color:#fff;
+}
+
+footer{
+  margin-top:70px;
+  padding:30px;
+  text-align:center;
+  background:#11111b;
+  color:#888;
+}
+
+@media(max-width:700px){
+
+  .logo{
+    font-size:22px;
+  }
+
+  .details{
+    grid-template-columns:1fr;
+  }
+
+  .poster{
+    height:350px;
+  }
+
+  .info h1{
+    font-size:30px;
+  }
+
+  .episode-list{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">AnimeHindiZone</div>
+    <a class="back" href="index.html">← Home</a>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="details">
+
+    <div class="poster">
+      <h2>Solo Leveling</h2>
+    </div>
+
+    <div class="info">
+
+      <h1>Solo Leveling</h1>
+
+      <div class="tags">
+        <span class="tag">Hindi</span>
+        <span class="tag">Action</span>
+        <span class="tag">Fantasy</span>
+        <span class="tag">Season 2</span>
+      </div>
+
+      <p class="description">
+        Solo Leveling is an action fantasy anime following
+        a hunter who grows stronger through mysterious
+        powers and challenging battles.
+      </p>
+
+      <p class="description">
+        <b>Episodes:</b> 13<br>
+        <b>Language:</b> Hindi / Japanese<br>
+        <b>Status:</b> Completed
+      </p>
+
+      <a href="#episodes" class="watch">
+        View Episodes
+      </a>
+
+    </div>
+
+  </section>
+
+  <section class="episodes" id="episodes">
+
+    <h2>Episodes</h2>
+
+    <div class="episode-list">
+
+      <div class="episode">Episode 1</div>
+      <div class="episode">Episode 2</div>
+      <div class="episode">Episode 3</div>
+      <div class="episode">Episode 4</div>
+      <div class="episode">Episode 5</div>
+      <div class="episode">Episode 6</div>
+      <div class="episode">Episode 7</div>
+      <div class="episode">Episode 8</div>
+      <div class="episode">Episode 9</div>
+      <div class="episode">Episode 10</div>
+      <div class="episode">Episode 11</div>
+      <div class="episode">Episode 12</div>
+      <div class="episode">Episode 13</div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 AnimeHindiZone
+</footer>
+
+</body>
+</html>
