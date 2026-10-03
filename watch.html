@@ -70,13 +70,15 @@ header{
   border:1px solid #292936;
   border-radius:14px;
   overflow:hidden;
+  width:100%;
+  aspect-ratio:16/9;
 }
 
-video{
+.player iframe{
   width:100%;
+  height:100%;
+  border:0;
   display:block;
-  min-height:300px;
-  background:#000;
 }
 
 .notice{
@@ -145,12 +147,12 @@ footer{
     font-size:25px;
   }
 
-  video{
-    min-height:220px;
-  }
-
   .episode-list{
     grid-template-columns:repeat(3,1fr);
+  }
+
+  .player{
+    aspect-ratio:16/9;
   }
 }
 </style>
@@ -168,7 +170,6 @@ footer{
   </div>
 </header>
 
-
 <main class="container">
 
   <div class="title">
@@ -176,30 +177,20 @@ footer{
     <p>Season 2 • Hindi</p>
   </div>
 
-
   <div class="player">
 
-    <video controls poster="">
-      <!--
-      Yahan baad me apni legally licensed/self-hosted
-      video file ka URL add karna.
-      
-      Example:
-      <source src="YOUR_VIDEO_URL.mp4" type="video/mp4">
-      -->
-
-      Your browser does not support the video player.
-    </video>
+    <iframe
+      src="https://canon-filetolink-go.vercel.app/watch/17c498144bc88f18ea8e3fd7"
+      allowfullscreen>
+    </iframe>
 
   </div>
-
 
   <div class="notice">
-    <b>Video Player</b><br>
-    Yahan tum baad me apne licensed ya khud-hosted
-    video ka URL add kar sakte ho.
+    <b>Now Playing</b><br>
+    Solo Leveling Episode
+    <span id="episodeNumber">1</span>
   </div>
-
 
   <section class="episodes">
 
@@ -207,57 +198,19 @@ footer{
 
     <div class="episode-list">
 
-      <a class="episode" href="watch.html?episode=1">
-        Episode 1
-      </a>
-
-      <a class="episode" href="watch.html?episode=2">
-        Episode 2
-      </a>
-
-      <a class="episode" href="watch.html?episode=3">
-        Episode 3
-      </a>
-
-      <a class="episode" href="watch.html?episode=4">
-        Episode 4
-      </a>
-
-      <a class="episode" href="watch.html?episode=5">
-        Episode 5
-      </a>
-
-      <a class="episode" href="watch.html?episode=6">
-        Episode 6
-      </a>
-
-      <a class="episode" href="watch.html?episode=7">
-        Episode 7
-      </a>
-
-      <a class="episode" href="watch.html?episode=8">
-        Episode 8
-      </a>
-
-      <a class="episode" href="watch.html?episode=9">
-        Episode 9
-      </a>
-
-      <a class="episode" href="watch.html?episode=10">
-        Episode 10
-      </a>
-
-      <a class="episode" href="watch.html?episode=11">
-        Episode 11
-      </a>
-
-      <a class="episode" href="watch.html?episode=12">
-        Episode 12
-      </a>
-
-      <a class="episode" href="watch.html?episode=13">
-        Episode 13
-      </a>
+      <a class="episode" href="watch.html?episode=1">Episode 1</a>
+      <a class="episode" href="watch.html?episode=2">Episode 2</a>
+      <a class="episode" href="watch.html?episode=3">Episode 3</a>
+      <a class="episode" href="watch.html?episode=4">Episode 4</a>
+      <a class="episode" href="watch.html?episode=5">Episode 5</a>
+      <a class="episode" href="watch.html?episode=6">Episode 6</a>
+      <a class="episode" href="watch.html?episode=7">Episode 7</a>
+      <a class="episode" href="watch.html?episode=8">Episode 8</a>
+      <a class="episode" href="watch.html?episode=9">Episode 9</a>
+      <a class="episode" href="watch.html?episode=10">Episode 10</a>
+      <a class="episode" href="watch.html?episode=11">Episode 11</a>
+      <a class="episode" href="watch.html?episode=12">Episode 12</a>
+      <a class="episode" href="watch.html?episode=13">Episode 13</a>
 
     </div>
 
@@ -265,11 +218,9 @@ footer{
 
 </main>
 
-
 <footer>
   © 2026 AnimeHindiZone
 </footer>
-
 
 <script>
 
@@ -279,6 +230,9 @@ const episode = params.get("episode") || "1";
 
 document.getElementById("episodeTitle").textContent =
   "Solo Leveling - Episode " + episode;
+
+document.getElementById("episodeNumber").textContent =
+  episode;
 
 document.querySelectorAll(".episode").forEach(function(button){
 
