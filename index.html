@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AnimeHindiZone</title>
 
 <style>
@@ -15,9 +16,10 @@
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:#09090f;
-  color:#fff;
+  color:white;
 }
 
+/* HEADER */
 header{
   background:#11111b;
   border-bottom:1px solid #292936;
@@ -34,30 +36,31 @@ header{
 }
 
 .logo{
-  font-size:27px;
-  font-weight:800;
   color:#9b5cff;
+  font-size:26px;
+  font-weight:800;
 }
 
 nav a{
   color:#ddd;
   text-decoration:none;
-  margin-left:22px;
-  font-size:15px;
+  margin-left:20px;
 }
 
 nav a:hover{
   color:#9b5cff;
 }
 
+/* HERO */
 .hero{
-  min-height:500px;
+  padding:80px 6%;
+  min-height:480px;
   display:flex;
   align-items:center;
-  padding:70px 6%;
+
   background:
-    radial-gradient(circle at 80% 40%,#35166b55,transparent 35%),
-    linear-gradient(135deg,#0b0b12,#12101d);
+  radial-gradient(circle at 80% 40%,#7432d955,transparent 35%),
+  linear-gradient(135deg,#0b0b12,#171020);
 }
 
 .hero-content{
@@ -65,9 +68,8 @@ nav a:hover{
 }
 
 .hero h1{
-  font-size:58px;
-  line-height:1.1;
-  margin-bottom:25px;
+  font-size:56px;
+  margin-bottom:20px;
 }
 
 .hero h1 span{
@@ -75,10 +77,10 @@ nav a:hover{
 }
 
 .hero p{
-  color:#b8b8c2;
-  font-size:20px;
+  color:#b9b9c5;
+  font-size:18px;
   line-height:1.7;
-  margin-bottom:30px;
+  margin-bottom:28px;
 }
 
 .btn{
@@ -86,12 +88,12 @@ nav a:hover{
   background:#8239f3;
   color:white;
   text-decoration:none;
-  padding:15px 28px;
+  padding:14px 25px;
   border-radius:10px;
   font-weight:bold;
-  font-size:17px;
 }
 
+/* MAIN */
 .container{
   width:88%;
   max-width:1200px;
@@ -99,20 +101,21 @@ nav a:hover{
 }
 
 .search-box{
-  margin:45px 0;
+  margin:40px 0;
 }
 
 .search-box input{
   width:100%;
-  padding:20px 25px;
-  border:none;
-  outline:none;
-  border-radius:13px;
+  padding:18px 22px;
   background:#171722;
+  border:1px solid #292936;
+  border-radius:12px;
   color:white;
-  font-size:18px;
+  font-size:17px;
+  outline:none;
 }
 
+/* SECTION */
 .section{
   margin:55px 0;
 }
@@ -126,48 +129,58 @@ nav a:hover{
   color:#9b5cff;
 }
 
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:20px;
 }
 
+/* CARD */
 .card{
+  display:block;
+  color:white;
+  text-decoration:none;
   background:#151520;
+  border:1px solid #292936;
   border-radius:14px;
   overflow:hidden;
-  border:1px solid #242432;
-  transition:.25s;
+  transition:0.25s;
 }
 
 .card:hover{
   transform:translateY(-6px);
-  border-color:#8c4dff;
+  border-color:#9b5cff;
 }
 
+/* POSTER */
 .poster{
   height:280px;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   text-align:center;
   padding:20px;
+
   background:
-    radial-gradient(circle at 30% 20%,#a45cff55,transparent 35%),
-    linear-gradient(145deg,#201035,#0d0d15);
+  radial-gradient(circle at 30% 20%,#a45cff55,transparent 35%),
+  linear-gradient(145deg,#281044,#0d0d15);
 }
 
 .poster h3{
-  font-size:25px;
+  font-size:24px;
 }
 
+/* CARD INFO */
 .card-info{
   padding:16px;
 }
 
 .card-info h3{
+  margin-bottom:8px;
   font-size:18px;
-  margin-bottom:9px;
 }
 
 .meta{
@@ -178,12 +191,13 @@ nav a:hover{
 .badge{
   display:inline-block;
   margin-top:12px;
+  background:#7135c9;
   padding:5px 9px;
   border-radius:6px;
-  background:#7432d9;
   font-size:12px;
 }
 
+/* SCHEDULE */
 .schedule{
   display:grid;
   gap:12px;
@@ -191,12 +205,12 @@ nav a:hover{
 
 .schedule-item{
   background:#151520;
-  border:1px solid #242432;
-  padding:18px;
+  border:1px solid #292936;
   border-radius:10px;
+  padding:18px;
+
   display:flex;
   justify-content:space-between;
-  align-items:center;
 }
 
 .day{
@@ -204,15 +218,18 @@ nav a:hover{
   font-weight:bold;
 }
 
+/* FOOTER */
 footer{
-  margin-top:80px;
-  padding:30px 6%;
+  margin-top:70px;
+  padding:30px;
   text-align:center;
   background:#11111b;
   color:#888;
 }
 
+/* MOBILE */
 @media(max-width:900px){
+
   .grid{
     grid-template-columns:repeat(3,1fr);
   }
@@ -221,29 +238,28 @@ footer{
 @media(max-width:650px){
 
   header{
-    padding:17px 5%;
+    padding:16px 5%;
   }
 
   .logo{
-    font-size:22px;
+    font-size:21px;
   }
 
   nav a{
-    margin-left:10px;
-    font-size:13px;
+    margin-left:8px;
+    font-size:12px;
   }
 
   .hero{
-    min-height:470px;
-    padding:55px 5%;
+    padding:60px 5%;
   }
 
   .hero h1{
-    font-size:42px;
+    font-size:40px;
   }
 
   .hero p{
-    font-size:17px;
+    font-size:16px;
   }
 
   .container{
@@ -276,13 +292,20 @@ footer{
   }
 }
 </style>
+
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
+
   <div class="nav">
-    <div class="logo">AnimeHindiZone</div>
+
+    <div class="logo">
+      AnimeHindiZone
+    </div>
 
     <nav>
       <a href="#home">Home</a>
@@ -290,291 +313,470 @@ footer{
       <a href="#popular">Popular</a>
       <a href="#schedule">Schedule</a>
     </nav>
+
   </div>
+
 </header>
 
+
+<!-- HERO -->
+
 <section class="hero" id="home">
+
   <div class="hero-content">
-    <h1>Watch <span>Anime</span> Online</h1>
+
+    <h1>
+      Watch <span>Anime</span> Online
+    </h1>
 
     <p>
-      Discover latest anime, Hindi dubbed anime,
-      popular series and upcoming episodes in one place.
+      Discover latest anime, popular series,
+      Hindi dubbed anime and upcoming episodes.
     </p>
 
-    <a href="#latest" class="btn">Explore Anime</a>
+    <a href="#latest" class="btn">
+      Explore Anime
+    </a>
+
   </div>
+
 </section>
+
 
 <main class="container">
 
-  <div class="search-box">
-    <input
-      type="text"
-      id="search"
-      placeholder="Search anime..."
-      onkeyup="searchAnime()"
-    >
+
+<!-- SEARCH -->
+
+<div class="search-box">
+
+  <input
+    type="text"
+    id="search"
+    placeholder="Search anime..."
+    onkeyup="searchAnime()"
+  >
+
+</div>
+
+
+<!-- LATEST -->
+
+<section class="section" id="latest">
+
+<h2 class="section-title">
+Latest <span>Anime</span>
+</h2>
+
+
+<div class="grid" id="animeGrid">
+
+
+<!-- SOLO LEVELING CLICKABLE -->
+
+<a href="anime-details.html" class="card">
+
+  <div class="poster">
+    <h3>Solo Leveling</h3>
   </div>
 
-  <!-- LATEST -->
-  <section class="section" id="latest">
+  <div class="card-info">
 
-    <h2 class="section-title">
-      Latest <span>Anime</span>
-    </h2>
+    <h3>Solo Leveling</h3>
 
-    <div class="grid" id="animeGrid">
-
-      <div class="card">
-        <div class="poster">
-          <h3>Solo Leveling</h3>
-        </div>
-        <div class="card-info">
-          <h3>Solo Leveling</h3>
-          <div class="meta">Season 2 • Episode 13</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>One Piece</h3>
-        </div>
-        <div class="card-info">
-          <h3>One Piece</h3>
-          <div class="meta">Episode 1150+</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Demon Slayer</h3>
-        </div>
-        <div class="card-info">
-          <h3>Demon Slayer</h3>
-          <div class="meta">Latest Season</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Jujutsu Kaisen</h3>
-        </div>
-        <div class="card-info">
-          <h3>Jujutsu Kaisen</h3>
-          <div class="meta">Season 2</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Attack on Titan</h3>
-        </div>
-        <div class="card-info">
-          <h3>Attack on Titan</h3>
-          <div class="meta">Complete Series</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Naruto</h3>
-        </div>
-        <div class="card-info">
-          <h3>Naruto</h3>
-          <div class="meta">Complete Series</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Bleach</h3>
-        </div>
-        <div class="card-info">
-          <h3>Bleach</h3>
-          <div class="meta">Thousand-Year Blood War</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Dragon Ball</h3>
-        </div>
-        <div class="card-info">
-          <h3>Dragon Ball</h3>
-          <div class="meta">Popular Series</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- POPULAR -->
-  <section class="section" id="popular">
-
-    <h2 class="section-title">
-      Popular <span>Anime</span>
-    </h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="poster">
-          <h3>Death Note</h3>
-        </div>
-        <div class="card-info">
-          <h3>Death Note</h3>
-          <div class="meta">37 Episodes</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>My Hero Academia</h3>
-        </div>
-        <div class="card-info">
-          <h3>My Hero Academia</h3>
-          <div class="meta">Popular Series</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Hunter x Hunter</h3>
-        </div>
-        <div class="card-info">
-          <h3>Hunter x Hunter</h3>
-          <div class="meta">148 Episodes</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="poster">
-          <h3>Black Clover</h3>
-        </div>
-        <div class="card-info">
-          <h3>Black Clover</h3>
-          <div class="meta">170 Episodes</div>
-          <span class="badge">Hindi</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SCHEDULE -->
-  <section class="section" id="schedule">
-
-    <h2 class="section-title">
-      Anime <span>Schedule</span>
-    </h2>
-
-    <div class="schedule">
-
-      <div class="schedule-item">
-        <div>
-          <strong>Monday</strong><br>
-          <span class="meta">New Episodes</span>
-        </div>
-        <span class="day">MON</span>
-      </div>
-
-      <div class="schedule-item">
-        <div>
-          <strong>Tuesday</strong><br>
-          <span class="meta">New Episodes</span>
-        </div>
-        <span class="day">TUE</span>
-      </div>
-
-      <div class="schedule-item">
-        <div>
-          <strong>Wednesday</strong><br>
-          <span class="meta">New Episodes</span>
-        </div>
-        <span class="day">WED</span>
-      </div>
-
-      <div class="schedule-item">
-        <div>
-          <strong>Thursday</strong><br>
-          <span class="meta">New Episodes</span>
-        </div>
-        <span class="day">THU</span>
-      </div>
-
-      <div class="schedule-item">
-        <div>
-          <strong>Friday</strong><br>
-          <span class="meta">New Episodes</span>
-        </div>
-        <span class="day">FRI</span>
-      </div>
-
+    <div class="meta">
+      Season 2 • Episode 13
     </div>
 
-  </section>
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</a>
+
+
+<!-- ONE PIECE -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>One Piece</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>One Piece</h3>
+
+    <div class="meta">
+      Episode 1150+
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- DEMON SLAYER -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>Demon Slayer</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>Demon Slayer</h3>
+
+    <div class="meta">
+      Latest Season
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- JUJUTSU KAISEN -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>Jujutsu Kaisen</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>Jujutsu Kaisen</h3>
+
+    <div class="meta">
+      Season 2
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- ATTACK ON TITAN -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>Attack on Titan</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>Attack on Titan</h3>
+
+    <div class="meta">
+      Complete Series
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- NARUTO -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>Naruto</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>Naruto</h3>
+
+    <div class="meta">
+      Complete Series
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- BLEACH -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>Bleach</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>Bleach</h3>
+
+    <div class="meta">
+      Thousand-Year Blood War
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- DRAGON BALL -->
+
+<div class="card">
+
+  <div class="poster">
+    <h3>Dragon Ball</h3>
+  </div>
+
+  <div class="card-info">
+
+    <h3>Dragon Ball</h3>
+
+    <div class="meta">
+      Popular Series
+    </div>
+
+    <span class="badge">
+      Hindi
+    </span>
+
+  </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- POPULAR -->
+
+<section class="section" id="popular">
+
+<h2 class="section-title">
+Popular <span>Anime</span>
+</h2>
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="poster">
+<h3>Death Note</h3>
+</div>
+
+<div class="card-info">
+
+<h3>Death Note</h3>
+
+<div class="meta">
+37 Episodes
+</div>
+
+<span class="badge">
+Hindi
+</span>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="poster">
+<h3>My Hero Academia</h3>
+</div>
+
+<div class="card-info">
+
+<h3>My Hero Academia</h3>
+
+<div class="meta">
+Popular Series
+</div>
+
+<span class="badge">
+Hindi
+</span>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="poster">
+<h3>Hunter x Hunter</h3>
+</div>
+
+<div class="card-info">
+
+<h3>Hunter x Hunter</h3>
+
+<div class="meta">
+148 Episodes
+</div>
+
+<span class="badge">
+Hindi
+</span>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="poster">
+<h3>Black Clover</h3>
+</div>
+
+<div class="card-info">
+
+<h3>Black Clover</h3>
+
+<div class="meta">
+170 Episodes
+</div>
+
+<span class="badge">
+Hindi
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- SCHEDULE -->
+
+<section class="section" id="schedule">
+
+<h2 class="section-title">
+Anime <span>Schedule</span>
+</h2>
+
+
+<div class="schedule">
+
+
+<div class="schedule-item">
+<strong>Monday</strong>
+<span class="day">MON</span>
+</div>
+
+
+<div class="schedule-item">
+<strong>Tuesday</strong>
+<span class="day">TUE</span>
+</div>
+
+
+<div class="schedule-item">
+<strong>Wednesday</strong>
+<span class="day">WED</span>
+</div>
+
+
+<div class="schedule-item">
+<strong>Thursday</strong>
+<span class="day">THU</span>
+</div>
+
+
+<div class="schedule-item">
+<strong>Friday</strong>
+<span class="day">FRI</span>
+</div>
+
+
+</div>
+
+</section>
+
 
 </main>
 
+
 <footer>
-  © 2026 AnimeHindiZone • Anime Discovery Website
+
+© 2026 AnimeHindiZone
+
 </footer>
+
 
 <script>
 
 function searchAnime(){
 
   let input =
-    document.getElementById("search")
-    .value
-    .toLowerCase();
+  document
+  .getElementById("search")
+  .value
+  .toLowerCase();
 
   let cards =
-    document.querySelectorAll("#animeGrid .card");
+  document
+  .querySelectorAll("#animeGrid .card");
 
   cards.forEach(function(card){
 
     let name =
-      card.innerText.toLowerCase();
+    card.innerText.toLowerCase();
 
     if(name.includes(input)){
-      card.style.display = "";
+
+      card.style.display="block";
+
     }else{
-      card.style.display = "none";
+
+      card.style.display="none";
+
     }
 
   });
+
 }
 
 </script>
 
+
 </body>
 </html>
-<a href="anime-details.html" class="card">
-  <div class="poster">
-    <h3>Solo Leveling</h3>
-  </div>
-
-  <div class="card-info">
-    <h3>Solo Leveling</h3>
-    <div class="meta">Season 2 • Episode 13</div>
-    <span class="badge">Hindi</span>
-  </div>
-</a>
-.card{
-  display:block;
-  color:white;
-  text-decoration:none;
-}
