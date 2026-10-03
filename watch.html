@@ -6,6 +6,9 @@
 
 <title>Watch Episode - AnimeHindiZone</title>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   margin:0;
@@ -79,6 +82,20 @@ header{
   height:100%;
   border:0;
   display:block;
+}
+
+.loading{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  color:#aaa;
+}
+
+.error{
+  padding:30px;
+  text-align:center;
+  color:#ff6b6b;
 }
 
 .notice{
@@ -162,55 +179,65 @@ footer{
 
 <header>
   <div class="nav">
-    <div class="logo">AnimeHindiZone</div>
+
+    <div class="logo">
+      AnimeHindiZone
+    </div>
 
     <a href="anime-details.html" class="back">
       ← Back
     </a>
+
   </div>
 </header>
+
 
 <main class="container">
 
   <div class="title">
-    <h1 id="episodeTitle">Solo Leveling - Episode 1</h1>
-    <p>Season 2 • Hindi</p>
-  </div>
 
-  <div class="player">
+    <h1 id="episodeTitle">
+      Loading episode...
+    </h1>
 
-    <iframe
-      src="https://canon-filetolink-go.vercel.app/watch/17c498144bc88f18ea8e3fd7"
-      allowfullscreen>
-    </iframe>
+    <p>
+      Season 2 • Hindi
+    </p>
 
   </div>
+
+
+  <div class="player" id="player">
+
+    <div class="loading">
+      Video load ho raha hai...
+    </div>
+
+  </div>
+
 
   <div class="notice">
+
     <b>Now Playing</b><br>
+
     Solo Leveling Episode
-    <span id="episodeNumber">1</span>
+    <span id="episodeNumber">-</span>
+
   </div>
+
 
   <section class="episodes">
 
     <h2>Episodes</h2>
 
-    <div class="episode-list">
+    <div
+      class="episode-list"
+      id="episodeList"
+    >
 
-      <a class="episode" href="watch.html?episode=1">Episode 1</a>
-      <a class="episode" href="watch.html?episode=2">Episode 2</a>
-      <a class="episode" href="watch.html?episode=3">Episode 3</a>
-      <a class="episode" href="watch.html?episode=4">Episode 4</a>
-      <a class="episode" href="watch.html?episode=5">Episode 5</a>
-      <a class="episode" href="watch.html?episode=6">Episode 6</a>
-      <a class="episode" href="watch.html?episode=7">Episode 7</a>
-      <a class="episode" href="watch.html?episode=8">Episode 8</a>
-      <a class="episode" href="watch.html?episode=9">Episode 9</a>
-      <a class="episode" href="watch.html?episode=10">Episode 10</a>
-      <a class="episode" href="watch.html?episode=11">Episode 11</a>
-      <a class="episode" href="watch.html?episode=12">Episode 12</a>
-      <a class="episode" href="watch.html?episode=13">Episode 13</a>
+      <div class="loading">
+        Episodes load ho rahe hain...
+      </div>
 
     </div>
 
@@ -218,29 +245,260 @@ footer{
 
 </main>
 
+
 <footer>
   © 2026 AnimeHindiZone
 </footer>
 
+
 <script>
 
-const params = new URLSearchParams(window.location.search);
+/* =========================
+   SUPABASE
+========================= */
 
-const episode = params.get("episode") || "1";
+const SUPABASE_URL =
+  "https://gmacsiymybvfcxydvkla.supabase.co";
 
-document.getElementById("episodeTitle").textContent =
-  "Solo Leveling - Episode " + episode;
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
 
-document.getElementById("episodeNumber").textContent =
-  episode;
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-document.querySelectorAll(".episode").forEach(function(button){
 
-  if(button.textContent.trim() === "Episode " + episode){
-    button.classList.add("active");
+/* =========================
+   CURRENT EPISODE
+========================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const episode =
+  Number(
+    params.get("episode") || "1"
+  );
+
+
+/* =========================
+   LOAD EPISODE
+========================= */
+
+async function loadEpisode(){
+
+  const title =
+    document.getElementById("episodeTitle");
+
+  const number =
+    document.getElementById("episodeNumber");
+
+  const player =
+    document.getElementById("player");
+
+
+  number.textContent =
+    episode;
+
+
+  title.textContent =
+    "Solo Leveling - Episode " +
+    episode;
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+  .from("episodes")
+  .select(
+    "episode_number, episode_title, video_url"
+  )
+  .eq("anime_id","solo-leveling")
+  .eq("episode_number",episode)
+  .limit(1);
+
+
+  if(error){
+
+    console.error(error);
+
+    player.innerHTML =
+      '<div class="error">' +
+      'Video load nahi ho paya.' +
+      '</div>';
+
+    return;
   }
 
-});
+
+  if(!data || data.length === 0){
+
+    player.innerHTML =
+      '<div class="error">' +
+      'Is episode ka video abhi available nahi hai.' +
+      '</div>';
+
+    return;
+  }
+
+
+  const episodeData =
+    data[0];
+
+
+  title.textContent =
+    "Solo Leveling - " +
+    (
+      episodeData.episode_title ||
+      "Episode " + episode
+    );
+
+
+  if(!episodeData.video_url){
+
+    player.innerHTML =
+      '<div class="error">' +
+      'Is episode ka video URL available nahi hai.' +
+      '</div>';
+
+    return;
+  }
+
+
+  /*
+    URL ko iframe me load kar rahe hain.
+    Sirf wahi video URL use karein jise
+    aapko embed/stream karne ki permission ho.
+  */
+
+  const iframe =
+    document.createElement("iframe");
+
+
+  iframe.src =
+    episodeData.video_url;
+
+  iframe.allowFullscreen = true;
+
+  iframe.setAttribute(
+    "allow",
+    "autoplay; fullscreen"
+  );
+
+
+  player.innerHTML = "";
+
+  player.appendChild(iframe);
+
+}
+
+
+/* =========================
+   LOAD EPISODE LIST
+========================= */
+
+async function loadEpisodeList(){
+
+  const list =
+    document.getElementById("episodeList");
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+  .from("episodes")
+  .select(
+    "episode_number, episode_title"
+  )
+  .eq("anime_id","solo-leveling")
+  .order(
+    "episode_number",
+    {ascending:true}
+  );
+
+
+  if(error){
+
+    console.error(error);
+
+    list.innerHTML =
+      '<div class="error">' +
+      'Episodes load nahi ho paaye.' +
+      '</div>';
+
+    return;
+  }
+
+
+  if(!data || data.length === 0){
+
+    list.innerHTML =
+      '<div class="loading">' +
+      'Abhi koi episode available nahi hai.' +
+      '</div>';
+
+    return;
+  }
+
+
+  list.innerHTML = "";
+
+
+  data.forEach(function(ep){
+
+    const link =
+      document.createElement("a");
+
+
+    link.className =
+      "episode";
+
+
+    link.href =
+      "watch.html?episode=" +
+      encodeURIComponent(
+        ep.episode_number
+      );
+
+
+    link.textContent =
+      ep.episode_title ||
+      "Episode " +
+      ep.episode_number;
+
+
+    if(
+      Number(ep.episode_number) ===
+      episode
+    ){
+
+      link.classList.add("active");
+
+    }
+
+
+    list.appendChild(link);
+
+  });
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadEpisode();
+
+loadEpisodeList();
 
 </script>
 
