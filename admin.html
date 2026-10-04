@@ -208,7 +208,19 @@ button{
   background:#33333f;
   color:white;
 }
+.home-btn{
+  float:left;
+  background:#ff1744;
+  color:white;
+  text-decoration:none;
+  padding:11px 16px;
+  border-radius:8px;
+  font-weight:bold;
+}
 
+.home-btn:hover{
+  background:#e9143d;
+}
 .episode-item{
   background:#0e0e15;
   border:1px solid #292936;
@@ -323,7 +335,12 @@ button{
 <div id="adminPanel" class="hidden">
 
 <header>
-
+<a
+  href="index.html"
+  class="home-btn"
+>
+  🏠 Home
+</a>
   <button
     class="logout"
     onclick="logoutAdmin()"
