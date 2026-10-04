@@ -1,1 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - AnimeHindiZone</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:#0b0b0f;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.container{
+  width:100%;
+  max-width:420px;
+}
+
+.logo{
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  color:#ff1744;
+  margin-bottom:25px;
+}
+
+.card{
+  background:#15151c;
+  border:1px solid #292933;
+  border-radius:16px;
+  padding:25px;
+  box-shadow:0 10px 35px rgba(0,0,0,.4);
+}
+
+h2{
+  text-align:center;
+  margin-top:0;
+}
+
+.subtitle{
+  text-align:center;
+  color:#aaa;
+  font-size:14px;
+  margin-bottom:22px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  background:#0f0f14;
+  border:1px solid #33333d;
+  border-radius:8px;
+  color:white;
+  font-size:15px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#ff1744;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:8px;
+  background:#ff1744;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#e9143d;
+}
+
+.switch{
+  text-align:center;
+  margin-top:18px;
+  color:#aaa;
+  font-size:14px;
+}
+
+.switch span{
+  color:#ff1744;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.message{
+  text-align:center;
+  margin-top:15px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.success{
+  color:#35d07f;
+}
+
+.error{
+  color:#ff5c72;
+}
+
+.home{
+  display:block;
+  text-align:center;
+  margin-top:18px;
+  color:#aaa;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.home:hover{
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">🔥 AnimeHindiZone</div>
+
+  <div class="card">
+
+    <!-- LOGIN -->
+    <div id="loginBox">
+
+      <h2>Welcome Back</h2>
+
+      <div class="subtitle">
+        Login to watch anime
+      </div>
+
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email address"
+        autocomplete="email"
+      >
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
+
+      <button onclick="loginUser()">
+        Login
+      </button>
+
+      <div class="switch">
+        Don't have an account?
+        <span onclick="showSignup()">Sign Up</span>
+      </div>
+
+    </div>
+
+
+    <!-- SIGNUP -->
+    <div id="signupBox" style="display:none;">
+
+      <h2>Create Account</h2>
+
+      <div class="subtitle">
+        Create your AnimeHindiZone account
+      </div>
+
+      <input
+        type="email"
+        id="signupEmail"
+        placeholder="Email address"
+        autocomplete="email"
+      >
+
+      <input
+        type="password"
+        id="signupPassword"
+        placeholder="Password"
+        autocomplete="new-password"
+      >
+
+      <input
+        type="password"
+        id="signupConfirm"
+        placeholder="Confirm password"
+        autocomplete="new-password"
+      >
+
+      <button onclick="signupUser()">
+        Create Account
+      </button>
+
+      <div class="switch">
+        Already have an account?
+        <span onclick="showLogin()">Login</span>
+      </div>
+
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <a href="index.html" class="home">
+      ← Back to Home
+    </a>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://gmacsiymybvfcxydvkla.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+// SHOW LOGIN
+function showLogin(){
+
+  document.getElementById("loginBox").style.display = "block";
+  document.getElementById("signupBox").style.display = "none";
+
+  clearMessage();
+}
+
+
+// SHOW SIGNUP
+function showSignup(){
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("signupBox").style.display = "block";
+
+  clearMessage();
+}
+
+
+// MESSAGE
+function showMessage(text,type){
+
+  const message =
+    document.getElementById("message");
+
+  message.textContent = text;
+  message.className = "message " + type;
+}
+
+
+function clearMessage(){
+
+  const message =
+    document.getElementById("message");
+
+  message.textContent = "";
+  message.className = "message";
+}
+
+
+// SIGNUP
+async function signupUser(){
+
+  const email =
+    document.getElementById("signupEmail").value.trim();
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  const confirmPassword =
+    document.getElementById("signupConfirm").value;
+
+
+  if(!email || !password || !confirmPassword){
+
+    showMessage(
+      "Please fill all fields.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(password.length < 6){
+
+    showMessage(
+      "Password must be at least 6 characters.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(password !== confirmPassword){
+
+    showMessage(
+      "Passwords do not match.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Creating your account...",
+    ""
+  );
+
+
+  const { data, error } =
+    await supabaseClient.auth.signUp({
+
+      email: email,
+      password: password,
+
+      options:{
+        emailRedirectTo:
+        window.location.origin +
+        "/AnimeHindiZone/login.html"
+      }
+
+    });
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(data.session){
+
+    showMessage(
+      "Account created successfully! Redirecting...",
+      "success"
+    );
+
+    setTimeout(function(){
+
+      window.location.href =
+        "index.html";
+
+    },1000);
+
+  }else{
+
+    showMessage(
+      "Account created! Please check your email and verify your account before logging in.",
+      "success"
+    );
+
+  }
+
+}
+
+
+// LOGIN
+async function loginUser(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+
+  if(!email || !password){
+
+    showMessage(
+      "Please enter email and password.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Logging in...",
+    ""
+  );
+
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+
+      email: email,
+      password: password
+
+    });
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Login successful! Redirecting...",
+    "success"
+  );
+
+
+  setTimeout(function(){
+
+    window.location.href =
+      "index.html";
+
+  },800);
+
+}
+
+
+// CHECK EXISTING SESSION
+async function checkSession(){
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+
+  if(data.session){
+
+    // Already logged in
+    // Don't force redirect here.
+  }
+
+}
+
+
+checkSession();
+
+</script>
+
+</body>
+</html>
