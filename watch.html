@@ -1,438 +1,612 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Watch Episode - AnimeHindiZone</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-<!-- Supabase -->
+<title>Watch Anime - AnimeHindiZone</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
+  box-sizing:border-box;
   margin:0;
   padding:0;
-  box-sizing:border-box;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#09090f;
-  color:white;
+  font-family:Arial,sans-serif;
+  background:#0b0b0f;
+  color:#fff;
 }
 
 header{
-  background:#11111b;
+  background:#111118;
   border-bottom:1px solid #292936;
-  padding:18px 6%;
+  padding:16px 20px;
 }
 
 .nav{
+  max-width:1100px;
+  margin:auto;
   display:flex;
   align-items:center;
   justify-content:space-between;
 }
 
 .logo{
-  font-size:27px;
-  font-weight:800;
-  color:#9b5cff;
-}
-
-.back{
-  color:#ddd;
+  color:#ff1744;
   text-decoration:none;
+  font-size:22px;
+  font-weight:bold;
 }
 
-.back:hover{
-  color:#9b5cff;
+.nav a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:15px;
+}
+
+.nav a:hover{
+  color:#ff1744;
 }
 
 .container{
-  width:90%;
   max-width:1100px;
-  margin:40px auto;
+  margin:auto;
+  padding:20px;
 }
 
-.title{
+.back{
+  display:inline-block;
+  color:#ff1744;
+  text-decoration:none;
+  margin-bottom:15px;
+}
+
+.video-box{
+  background:#14141c;
+  border:1px solid #292936;
+  border-radius:12px;
+  overflow:hidden;
   margin-bottom:20px;
 }
 
-.title h1{
-  font-size:30px;
-  margin-bottom:8px;
-}
-
-.title p{
-  color:#999;
-}
-
-.player{
+.video-wrapper{
+  width:100%;
   background:#000;
-  border:1px solid #292936;
-  border-radius:14px;
-  overflow:hidden;
-  width:100%;
   aspect-ratio:16/9;
-}
-
-.player iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  display:block;
-}
-
-.loading{
   display:flex;
   align-items:center;
   justify-content:center;
+}
+
+video{
+  width:100%;
   height:100%;
+  display:block;
+  background:#000;
+}
+
+iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+.info{
+  padding:18px;
+}
+
+.info h1{
+  color:#fff;
+  font-size:24px;
+  margin-bottom:8px;
+}
+
+.meta{
+  color:#aaa;
+  font-size:14px;
+}
+
+.message{
+  text-align:center;
+  padding:40px 15px;
   color:#aaa;
 }
 
 .error{
-  padding:30px;
-  text-align:center;
-  color:#ff6b6b;
+  color:#ff6b81;
 }
 
-.notice{
-  margin-top:20px;
-  padding:18px;
-  background:#11111b;
+.episode-nav{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.episode-nav a{
+  display:inline-block;
+  background:#22222c;
+  color:#fff;
+  text-decoration:none;
+  padding:9px 13px;
+  border-radius:7px;
+  font-size:13px;
+}
+
+.episode-nav a.active{
+  background:#ff1744;
+}
+
+.episode-nav a:hover{
+  background:#ff1744;
+}
+
+.section{
+  background:#14141c;
   border:1px solid #292936;
   border-radius:12px;
-  color:#aaa;
-  line-height:1.6;
+  padding:20px;
 }
 
-.episodes{
-  margin-top:35px;
+.section h2{
+  color:#ff1744;
+  margin-bottom:15px;
 }
 
-.episodes h2{
-  margin-bottom:18px;
-}
+@media(max-width:600px){
 
-.episode-list{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:10px;
-}
-
-.episode{
-  background:#171722;
-  border:1px solid #292936;
-  color:#ddd;
-  padding:14px;
-  text-align:center;
-  border-radius:9px;
-  text-decoration:none;
-}
-
-.episode:hover{
-  border-color:#9b5cff;
-  color:white;
-}
-
-.active{
-  background:#7135c9;
-  border-color:#9b5cff;
-}
-
-footer{
-  margin-top:70px;
-  padding:30px;
-  text-align:center;
-  background:#11111b;
-  color:#888;
-}
-
-@media(max-width:700px){
-
-  .logo{
-    font-size:22px;
+  .info h1{
+    font-size:20px;
   }
 
-  .container{
-    width:94%;
-  }
-
-  .title h1{
-    font-size:25px;
-  }
-
-  .episode-list{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .player{
-    aspect-ratio:16/9;
-  }
 }
+
 </style>
+
 </head>
 
 <body>
 
+
 <header>
+
   <div class="nav">
 
-    <div class="logo">
-      AnimeHindiZone
-    </div>
-
-    <a href="anime-details.html" class="back">
-      ← Back
+    <a
+      href="index.html"
+      class="logo"
+    >
+      🔥 AnimeHindiZone
     </a>
 
+    <div>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="admin.html">
+        Admin
+      </a>
+
+    </div>
+
   </div>
+
 </header>
 
 
-<main class="container">
-
-  <div class="title">
-
-    <h1 id="episodeTitle">
-      Loading episode...
-    </h1>
-
-    <p>
-      Season 2 • Hindi
-    </p>
-
-  </div>
+<div class="container">
 
 
-  <div class="player" id="player">
+<a
+  href="index.html"
+  class="back"
+>
+  ← Home
+</a>
 
-    <div class="loading">
+
+<!-- VIDEO -->
+
+<div class="video-box">
+
+  <div
+    id="videoContainer"
+    class="video-wrapper"
+  >
+
+    <div class="message">
       Video load ho raha hai...
     </div>
 
   </div>
 
 
-  <div class="notice">
+  <div class="info">
 
-    <b>Now Playing</b><br>
+    <h1 id="episodeTitle">
+      Loading...
+    </h1>
 
-    Solo Leveling Episode
-    <span id="episodeNumber">-</span>
+    <div
+      id="episodeMeta"
+      class="meta"
+    ></div>
 
   </div>
 
+</div>
 
-  <section class="episodes">
 
-    <h2>Episodes</h2>
+<!-- EPISODE NAVIGATION -->
 
-    <div
-      class="episode-list"
-      id="episodeList"
-    >
+<div class="section">
 
-      <div class="loading">
-        Episodes load ho rahe hain...
-      </div>
+  <h2>
+    📺 Episodes
+  </h2>
 
+  <div
+    id="episodeNav"
+    class="episode-nav"
+  >
+
+    <div class="message">
+      Episodes load ho rahe hain...
     </div>
 
-  </section>
+  </div>
 
-</main>
+</div>
 
 
-<footer>
-  © 2026 AnimeHindiZone
-</footer>
+</div>
 
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
+
+// =================================
+// SUPABASE
+// =================================
 
 const SUPABASE_URL =
-  "https://gmacsiymybvfcxydvkla.supabase.co";
+"https://gmacsiymybvfcxydvkla.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
+"sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 
 
-/* =========================
-   CURRENT EPISODE
-========================= */
+// =================================
+// URL PARAMETERS
+// =================================
 
 const params =
-  new URLSearchParams(
-    window.location.search
-  );
+new URLSearchParams(
+  window.location.search
+);
 
-const episode =
-  Number(
-    params.get("episode") || "1"
-  );
+const animeId =
+params.get("id");
+
+const episodeNumber =
+params.get("episode");
 
 
-/* =========================
-   LOAD EPISODE
-========================= */
+// =================================
+// ELEMENTS
+// =================================
+
+const videoContainer =
+document.getElementById(
+  "videoContainer"
+);
+
+const episodeTitle =
+document.getElementById(
+  "episodeTitle"
+);
+
+const episodeMeta =
+document.getElementById(
+  "episodeMeta"
+);
+
+const episodeNav =
+document.getElementById(
+  "episodeNav"
+);
+
+
+// =================================
+// ESCAPE HTML
+// =================================
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+// =================================
+// LOAD CURRENT EPISODE
+// =================================
 
 async function loadEpisode(){
 
-  const title =
-    document.getElementById("episodeTitle");
+  if(!animeId || !episodeNumber){
 
-  const number =
-    document.getElementById("episodeNumber");
+    videoContainer.innerHTML =
+      `
+      <div class="message error">
+        ❌ Anime ID ya Episode number missing hai.
+      </div>
+      `;
 
-  const player =
-    document.getElementById("player");
+    episodeTitle.textContent =
+      "Episode unavailable";
 
-
-  number.textContent =
-    episode;
-
-
-  title.textContent =
-    "Solo Leveling - Episode " +
-    episode;
+    return;
+  }
 
 
   const {
     data,
     error
-  } =
-  await supabaseClient
-  .from("episodes")
-  .select(
-    "episode_number, episode_title, video_url"
-  )
-  .eq("anime_id","solo-leveling")
-  .eq("episode_number",episode)
-  .limit(1);
+  } = await supabaseClient
+    .from("episodes")
+    .select("*")
+    .eq(
+      "anime_id",
+      animeId
+    )
+    .eq(
+      "episode_number",
+      Number(episodeNumber)
+    )
+    .maybeSingle();
 
 
   if(error){
 
-    console.error(error);
-
-    player.innerHTML =
-      '<div class="error">' +
-      'Video load nahi ho paya.' +
-      '</div>';
-
-    return;
-  }
-
-
-  if(!data || data.length === 0){
-
-    player.innerHTML =
-      '<div class="error">' +
-      'Is episode ka video abhi available nahi hai.' +
-      '</div>';
+    videoContainer.innerHTML =
+      `
+      <div class="message error">
+        ❌ Video load failed:
+        ${escapeHtml(error.message)}
+      </div>
+      `;
 
     return;
   }
 
 
-  const episodeData =
-    data[0];
+  if(!data){
+
+    videoContainer.innerHTML =
+      `
+      <div class="message error">
+        ❌ Ye episode nahi mila.
+      </div>
+      `;
+
+    return;
+  }
 
 
-  title.textContent =
-    "Solo Leveling - " +
-    (
-      episodeData.episode_title ||
-      "Episode " + episode
-    );
+  episodeTitle.textContent =
+    data.episode_title ||
+    "Episode " +
+    data.episode_number;
 
 
-  if(!episodeData.video_url){
+  episodeMeta.textContent =
+    (data.anime_title || animeId) +
+    " • Episode " +
+    data.episode_number;
 
-    player.innerHTML =
-      '<div class="error">' +
-      'Is episode ka video URL available nahi hai.' +
-      '</div>';
+
+  document.title =
+    (data.anime_title || "Anime") +
+    " - Episode " +
+    data.episode_number;
+
+
+  loadVideo(
+    data.video_url
+  );
+
+}
+
+
+// =================================
+// LOAD VIDEO
+// =================================
+
+function loadVideo(url){
+
+  if(!url){
+
+    videoContainer.innerHTML =
+      `
+      <div class="message error">
+        ❌ Is episode ka video URL available nahi hai.
+      </div>
+      `;
 
     return;
   }
 
 
   /*
-    URL ko iframe me load kar rahe hain.
-    Sirf wahi video URL use karein jise
-    aapko embed/stream karne ki permission ho.
+    Direct video files ke liye <video>
+    use karenge.
+
+    Agar URL iframe/embed page hai,
+    neeche fallback iframe diya gaya hai.
+  */
+
+
+  const lowerUrl =
+    url.toLowerCase();
+
+
+  const isVideoFile =
+    lowerUrl.includes(".mp4") ||
+    lowerUrl.includes(".webm") ||
+    lowerUrl.includes(".ogg") ||
+    lowerUrl.includes(".m3u8");
+
+
+  if(isVideoFile){
+
+    const video =
+      document.createElement(
+        "video"
+      );
+
+    video.controls = true;
+
+    video.playsInline = true;
+
+    video.preload = "metadata";
+
+    video.src = url;
+
+
+    video.addEventListener(
+      "error",
+      function(){
+
+        videoContainer.innerHTML =
+          `
+          <div class="message error">
+            ❌ Video play nahi ho saka.
+          </div>
+          `;
+
+      }
+    );
+
+
+    videoContainer.innerHTML = "";
+
+    videoContainer.appendChild(
+      video
+    );
+
+    return;
+  }
+
+
+  /*
+    Agar URL normal watch/embed page hai,
+    iframe try kiya jayega.
   */
 
   const iframe =
-    document.createElement("iframe");
+    document.createElement(
+      "iframe"
+    );
 
-
-  iframe.src =
-    episodeData.video_url;
+  iframe.src = url;
 
   iframe.allowFullscreen = true;
 
   iframe.setAttribute(
     "allow",
-    "autoplay; fullscreen"
+    "autoplay; fullscreen; picture-in-picture"
   );
 
 
-  player.innerHTML = "";
+  videoContainer.innerHTML = "";
 
-  player.appendChild(iframe);
+  videoContainer.appendChild(
+    iframe
+  );
 
 }
 
 
-/* =========================
-   LOAD EPISODE LIST
-========================= */
+// =================================
+// LOAD EPISODE LIST
+// =================================
 
 async function loadEpisodeList(){
 
-  const list =
-    document.getElementById("episodeList");
+  if(!animeId){
+
+    return;
+
+  }
 
 
   const {
     data,
     error
-  } =
-  await supabaseClient
-  .from("episodes")
-  .select(
-    "episode_number, episode_title"
-  )
-  .eq("anime_id","solo-leveling")
-  .order(
-    "episode_number",
-    {ascending:true}
-  );
+  } = await supabaseClient
+    .from("episodes")
+    .select(
+      "episode_number,episode_title"
+    )
+    .eq(
+      "anime_id",
+      animeId
+    )
+    .order(
+      "episode_number",
+      {
+        ascending:true
+      }
+    );
 
 
   if(error){
 
-    console.error(error);
-
-    list.innerHTML =
-      '<div class="error">' +
-      'Episodes load nahi ho paaye.' +
-      '</div>';
+    episodeNav.innerHTML =
+      `
+      <div class="message error">
+        ❌ Episodes load failed.
+      </div>
+      `;
 
     return;
   }
@@ -440,61 +614,74 @@ async function loadEpisodeList(){
 
   if(!data || data.length === 0){
 
-    list.innerHTML =
-      '<div class="loading">' +
-      'Abhi koi episode available nahi hai.' +
-      '</div>';
+    episodeNav.innerHTML =
+      `
+      <div class="message">
+        Abhi koi episode available nahi hai.
+      </div>
+      `;
 
     return;
   }
 
 
-  list.innerHTML = "";
+  episodeNav.innerHTML = "";
 
 
-  data.forEach(function(ep){
+  data.forEach(
+    episode => {
 
-    const link =
-      document.createElement("a");
+      const link =
+        document.createElement(
+          "a"
+        );
 
 
-    link.className =
-      "episode";
+      link.href =
+        "watch.html?id=" +
+        encodeURIComponent(
+          animeId
+        ) +
+        "&episode=" +
+        encodeURIComponent(
+          episode.episode_number
+        );
 
 
-    link.href =
-      "watch.html?episode=" +
-      encodeURIComponent(
-        ep.episode_number
+      link.textContent =
+        "Episode " +
+        episode.episode_number;
+
+
+      if(
+        Number(
+          episode.episode_number
+        ) ===
+        Number(
+          episodeNumber
+        )
+      ){
+
+        link.classList.add(
+          "active"
+        );
+
+      }
+
+
+      episodeNav.appendChild(
+        link
       );
 
-
-    link.textContent =
-      ep.episode_title ||
-      "Episode " +
-      ep.episode_number;
-
-
-    if(
-      Number(ep.episode_number) ===
-      episode
-    ){
-
-      link.classList.add("active");
-
     }
-
-
-    list.appendChild(link);
-
-  });
+  );
 
 }
 
 
-/* =========================
-   START
-========================= */
+// =================================
+// START
+// =================================
 
 loadEpisode();
 
