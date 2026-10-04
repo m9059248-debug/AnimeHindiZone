@@ -160,6 +160,86 @@ nav a:hover{
     font-size:12px;
 }
 
+/* =========================
+   SCHEDULE
+========================= */
+
+.schedule-list{
+    display:grid;
+    gap:12px;
+}
+
+.schedule-card{
+    background:#15151d;
+    border:1px solid #24242f;
+    border-radius:10px;
+    padding:16px;
+    transition:.25s;
+    cursor:pointer;
+}
+
+.schedule-card:hover{
+    border-color:#ff3d71;
+    transform:translateY(-2px);
+}
+
+.schedule-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+}
+
+.schedule-anime{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.schedule-episode{
+    color:#bbb;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.schedule-time{
+    color:#aaa;
+    font-size:13px;
+}
+
+.schedule-status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:5px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.status-upcoming{
+    color:#7dd3fc;
+    background:#102a38;
+}
+
+.status-released{
+    color:#86efac;
+    background:#102c1b;
+}
+
+.schedule-loading{
+    text-align:center;
+    color:#aaa;
+    padding:30px;
+}
+
+.schedule-empty{
+    text-align:center;
+    color:#aaa;
+    padding:30px;
+    background:#15151d;
+    border-radius:10px;
+    border:1px solid #24242f;
+}
+
 /* LOADING */
 
 .loading{
@@ -236,15 +316,21 @@ footer{
         height:220px;
     }
 
+    .schedule-top{
+        align-items:flex-start;
+    }
+
+    .schedule-anime{
+        font-size:16px;
+    }
+
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <!-- =========================
      HEADER
@@ -320,7 +406,6 @@ footer{
         Latest Anime
     </h2>
 
-
     <div
         id="animeGrid"
         class="grid"
@@ -348,7 +433,6 @@ footer{
         Popular Anime
     </h2>
 
-
     <div
         id="popularGrid"
         class="grid"
@@ -369,13 +453,17 @@ footer{
 >
 
     <h2 class="section-title">
-        Anime Schedule
+        📅 Anime Schedule
     </h2>
 
+    <div
+        id="scheduleContainer"
+        class="schedule-list"
+    >
 
-    <div class="empty">
-
-        Schedule system coming soon...
+        <div class="schedule-loading">
+            Loading schedule...
+        </div>
 
     </div>
 
@@ -393,9 +481,7 @@ footer{
 </footer>
 
 
-
 <script>
-
 
 /* =====================================
    SUPABASE CONFIG
@@ -403,7 +489,6 @@ footer{
 
 const SUPABASE_URL =
 "https://gmacsiymybvfcxydvkla.supabase.co";
-
 
 const SUPABASE_KEY =
 "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
@@ -427,7 +512,6 @@ async function loadAnime(){
             "animeGrid"
         );
 
-
     grid.innerHTML = `
 
         <div class="loading">
@@ -436,7 +520,6 @@ async function loadAnime(){
 
     `;
 
-
     try{
 
         const url =
@@ -444,7 +527,6 @@ async function loadAnime(){
             "/rest/v1/anime" +
             "?select=id,anime_id,title,thumbnail_url,banner_url,description,genre,season,language,status" +
             "&order=id.desc";
-
 
         const response =
             await fetch(
@@ -468,12 +550,10 @@ async function loadAnime(){
                 }
             );
 
-
         if(!response.ok){
 
             const errorText =
                 await response.text();
-
 
             throw new Error(
                 "Supabase HTTP " +
@@ -484,22 +564,18 @@ async function loadAnime(){
 
         }
 
-
         const data =
             await response.json();
-
 
         console.log(
             "Anime data:",
             data
         );
 
-
         allAnime =
             Array.isArray(data)
             ? data
             : [];
-
 
         displayAnime(
             allAnime
@@ -507,14 +583,12 @@ async function loadAnime(){
 
     }
 
-
     catch(error){
 
         console.error(
             "Anime loading error:",
             error
         );
-
 
         grid.innerHTML = `
 
@@ -555,7 +629,6 @@ function displayAnime(
             "animeGrid"
         );
 
-
     if(
         !animeList ||
         animeList.length === 0
@@ -571,18 +644,15 @@ function displayAnime(
 
         `;
 
-
         document
             .getElementById(
                 "popularGrid"
             )
             .innerHTML = "";
 
-
         return;
 
     }
-
 
     grid.innerHTML =
         animeList.map(
@@ -592,21 +662,17 @@ function displayAnime(
                     anime.title ||
                     "Unknown Anime";
 
-
                 const animeId =
                     anime.anime_id ||
                     "";
-
 
                 const thumbnail =
                     anime.thumbnail_url ||
                     "https://via.placeholder.com/300x450?text=No+Image";
 
-
                 const status =
                     anime.status ||
                     "Ongoing";
-
 
                 return `
 
@@ -629,7 +695,6 @@ function displayAnime(
                             "
                         >
 
-
                         <div class="card-info">
 
                             <div class="card-title">
@@ -637,7 +702,6 @@ function displayAnime(
                                 ${escapeHtml(title)}
 
                             </div>
-
 
                             <div class="card-status">
 
@@ -654,7 +718,6 @@ function displayAnime(
             }
 
         ).join("");
-
 
     displayPopular(
         animeList
@@ -681,7 +744,6 @@ function openAnime(
 
     }
 
-
     window.location.href =
         "anime-details.html?id=" +
         encodeURIComponent(id);
@@ -706,7 +768,6 @@ document
                     .toLowerCase()
                     .trim();
 
-
             const filtered =
                 allAnime.filter(
                     anime => {
@@ -714,7 +775,6 @@ document
                         const title =
                             anime.title ||
                             "";
-
 
                         return title
                             .toLowerCase()
@@ -724,7 +784,6 @@ document
 
                     }
                 );
-
 
             displayAnime(
                 filtered
@@ -747,13 +806,11 @@ function displayPopular(
             "popularGrid"
         );
 
-
     const popular =
         animeList.slice(
             0,
             6
         );
-
 
     if(
         popular.length === 0
@@ -766,7 +823,6 @@ function displayPopular(
 
     }
 
-
     popularGrid.innerHTML =
         popular.map(
             anime => {
@@ -775,16 +831,13 @@ function displayPopular(
                     anime.title ||
                     "Unknown Anime";
 
-
                 const animeId =
                     anime.anime_id ||
                     "";
 
-
                 const thumbnail =
                     anime.thumbnail_url ||
                     "https://via.placeholder.com/300x450?text=No+Image";
-
 
                 return `
 
@@ -807,7 +860,6 @@ function displayPopular(
                             "
                         >
 
-
                         <div class="card-info">
 
                             <div class="card-title">
@@ -825,6 +877,295 @@ function displayPopular(
             }
 
         ).join("");
+
+}
+
+
+/* =====================================
+   LOAD SCHEDULE
+===================================== */
+
+async function loadSchedule(){
+
+    const container =
+        document.getElementById(
+            "scheduleContainer"
+        );
+
+    container.innerHTML = `
+
+        <div class="schedule-loading">
+            Loading schedule...
+        </div>
+
+    `;
+
+    try{
+
+        const url =
+            SUPABASE_URL +
+            "/rest/v1/schedule" +
+            "?select=id,anime_id,anime_title,episode_number,episode_title,release_at" +
+            "&order=release_at.asc" +
+            "&limit=20";
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method:"GET",
+
+                    headers:{
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json"
+
+                    }
+                }
+            );
+
+        if(!response.ok){
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                "Supabase HTTP " +
+                response.status +
+                ": " +
+                errorText
+            );
+
+        }
+
+        const schedules =
+            await response.json();
+
+        console.log(
+            "Schedule data:",
+            schedules
+        );
+
+        displaySchedule(
+            Array.isArray(schedules)
+            ? schedules
+            : []
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Schedule loading error:",
+            error
+        );
+
+        container.innerHTML = `
+
+            <div class="error-box">
+
+                <strong>
+                    Schedule load nahi ho pa raha.
+                </strong>
+
+                <br><br>
+
+                Error:
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================
+   DISPLAY SCHEDULE
+===================================== */
+
+function displaySchedule(
+    schedules
+){
+
+    const container =
+        document.getElementById(
+            "scheduleContainer"
+        );
+
+    if(
+        !schedules ||
+        schedules.length === 0
+    ){
+
+        container.innerHTML = `
+
+            <div class="schedule-empty">
+
+                📅 Abhi koi anime schedule available nahi hai.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    const now =
+        new Date();
+
+    container.innerHTML =
+        schedules.map(
+            schedule => {
+
+                const releaseDate =
+                    new Date(
+                        schedule.release_at
+                    );
+
+                const isReleased =
+                    releaseDate <= now;
+
+                const statusText =
+                    isReleased
+                    ? "Released"
+                    : "Upcoming";
+
+                const statusClass =
+                    isReleased
+                    ? "status-released"
+                    : "status-upcoming";
+
+                const animeTitle =
+                    schedule.anime_title ||
+                    "Unknown Anime";
+
+                const episodeNumber =
+                    schedule.episode_number;
+
+                const episodeTitle =
+                    schedule.episode_title ||
+                    "Episode " +
+                    episodeNumber;
+
+                const animeId =
+                    schedule.anime_id ||
+                    "";
+
+                return `
+
+                    <div
+                        class="schedule-card"
+                        onclick="
+                            openAnime(
+                                '${escapeId(animeId)}'
+                            )
+                        "
+                    >
+
+                        <div class="schedule-top">
+
+                            <div class="schedule-anime">
+
+                                ${escapeHtml(
+                                    animeTitle
+                                )}
+
+                            </div>
+
+                            <span
+                                class="
+                                    schedule-status
+                                    ${statusClass}
+                                "
+                            >
+
+                                ${statusText}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="schedule-episode">
+
+                            Episode
+                            ${escapeHtml(
+                                episodeNumber
+                            )}
+
+                            -
+                            ${escapeHtml(
+                                episodeTitle
+                            )}
+
+                        </div>
+
+
+                        <div class="schedule-time">
+
+                            🕒
+                            ${formatDateTime(
+                                schedule.release_at
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        ).join("");
+
+}
+
+
+/* =====================================
+   FORMAT INDIA DATE/TIME
+===================================== */
+
+function formatDateTime(
+    value
+){
+
+    const date =
+        new Date(value);
+
+    if(
+        isNaN(
+            date.getTime()
+        )
+    ){
+
+        return "Invalid date";
+
+    }
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            dateStyle:"medium",
+            timeStyle:"short",
+            timeZone:"Asia/Kolkata"
+        }
+    );
 
 }
 
@@ -896,8 +1237,9 @@ function escapeId(
 
 loadAnime();
 
-</script>
+loadSchedule();
 
+</script>
 
 </body>
 </html>
