@@ -643,7 +643,7 @@ async function logoutAdmin(){
 
 
 // =====================================
-// SEARCH ANIME FROM JIKAN
+// SEARCH ANIME FROM ANILIST
 // =====================================
 
 async function searchAnime(){
@@ -695,20 +695,106 @@ async function searchAnime(){
     "";
 
 
+  /*
+    AniList GraphQL API
+    Browser se POST request
+  */
+
+  const queryBody = `
+
+    query ($search: String) {
+
+      Page(
+        page: 1,
+        perPage: 10
+      ) {
+
+        media(
+          search: $search,
+          type: ANIME
+        ) {
+
+          id
+
+          title {
+            romaji
+            english
+            native
+          }
+
+          coverImage {
+            large
+            extraLarge
+          }
+
+          bannerImage
+
+          description(
+            asHtml: false
+          )
+
+          genres
+
+          season
+
+          seasonYear
+
+          status
+
+          format
+
+          episodes
+
+          startDate {
+            year
+          }
+
+        }
+
+      }
+
+    }
+
+  `;
+
+
   try{
 
     const response =
       await fetch(
-        "https://api.jikan.moe/v4/anime?q=" +
-        encodeURIComponent(query) +
-        "&limit=10"
+        "https://graphql.anilist.co",
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            query:
+              queryBody,
+
+            variables:{
+              search:
+                query
+            }
+
+          })
+
+        }
       );
 
 
     if(!response.ok){
 
       throw new Error(
-        "Search API error: " +
+        "AniList API error: " +
         response.status
       );
 
@@ -720,8 +806,25 @@ async function searchAnime(){
 
 
     if(
-      !json.data ||
-      json.data.length === 0
+      json.errors &&
+      json.errors.length
+    ){
+
+      throw new Error(
+        json.errors[0].message ||
+        "AniList search error"
+      );
+
+    }
+
+
+    const animeList =
+      json.data?.Page?.media ||
+      [];
+
+
+    if(
+      animeList.length === 0
     ){
 
       message.className =
@@ -739,11 +842,11 @@ async function searchAnime(){
 
     message.textContent =
       "✅ " +
-      json.data.length +
+      animeList.length +
       " anime result mile.";
 
 
-    json.data.forEach(
+    animeList.forEach(
       anime => {
 
         createSearchResult(
@@ -756,6 +859,12 @@ async function searchAnime(){
 
 
   }catch(error){
+
+    console.error(
+      "AniList Search Error:",
+      error
+    );
+
 
     message.className =
       "message error";
@@ -793,14 +902,27 @@ function createSearchResult(
     );
 
 
-  image.src =
-    anime.images?.jpg?.large_image_url ||
-    anime.images?.jpg?.image_url ||
+  const thumbnail =
+    anime.coverImage?.extraLarge ||
+    anime.coverImage?.large ||
     "";
 
 
+  image.src =
+    thumbnail;
+
+
   image.alt =
-    anime.title || "Anime";
+    getAnimeTitle(anime);
+
+
+  image.onerror =
+    function(){
+
+      this.style.display =
+        "none";
+
+    };
 
 
   const info =
@@ -818,8 +940,7 @@ function createSearchResult(
     );
 
   title.textContent =
-    anime.title ||
-    "Unknown";
+    getAnimeTitle(anime);
 
 
   const details =
@@ -828,37 +949,29 @@ function createSearchResult(
     );
 
 
-  const type =
-    anime.type ||
+  const format =
+    anime.format ||
     "Unknown";
 
 
   const year =
-    anime.year ||
+    anime.seasonYear ||
+    anime.startDate?.year ||
     "N/A";
 
 
   const status =
-    anime.status ||
-    "Unknown";
+    formatAnimeStatus(
+      anime.status
+    );
 
 
   details.textContent =
-    type +
+    format +
     " • " +
     year +
     " • " +
     status;
-
-
-  const genres =
-    anime.genres
-      ?
-      anime.genres
-        .map(g => g.name)
-        .join(", ")
-      :
-      "";
 
 
   const genreText =
@@ -872,11 +985,32 @@ function createSearchResult(
 
 
   genreText.textContent =
-    genres
+    anime.genres &&
+    anime.genres.length
       ?
-      "Genre: " + genres
+      "Genre: " +
+      anime.genres.join(", ")
       :
-      "";
+      "Genre: N/A";
+
+
+  const episodeText =
+    document.createElement(
+      "p"
+    );
+
+
+  episodeText.style.marginTop =
+    "5px";
+
+
+  episodeText.textContent =
+    anime.episodes
+      ?
+      "Episodes: " +
+      anime.episodes
+      :
+      "Episodes: N/A";
 
 
   info.appendChild(
@@ -889,6 +1023,10 @@ function createSearchResult(
 
   info.appendChild(
     genreText
+  );
+
+  info.appendChild(
+    episodeText
   );
 
 
@@ -937,7 +1075,65 @@ function createSearchResult(
 
 
 // =====================================
-// FILL FORM FROM SEARCH
+// GET ANIME TITLE
+// =====================================
+
+function getAnimeTitle(
+  anime
+){
+
+  return (
+    anime.title?.english ||
+    anime.title?.romaji ||
+    anime.title?.native ||
+    "Unknown Anime"
+  );
+
+}
+
+
+// =====================================
+// FORMAT STATUS
+// =====================================
+
+function formatAnimeStatus(
+  status
+){
+
+  if(
+    status === "FINISHED"
+  ){
+
+    return "Completed";
+
+  }
+
+
+  if(
+    status === "CANCELLED"
+  ){
+
+    return "Cancelled";
+
+  }
+
+
+  if(
+    status === "HIATUS"
+  ){
+
+    return "Hiatus";
+
+  }
+
+
+  return "Ongoing";
+
+}
+
+
+// =====================================
+// FILL FORM FROM ANILIST
 // =====================================
 
 function fillAnimeForm(
@@ -945,8 +1141,9 @@ function fillAnimeForm(
 ){
 
   const title =
-    anime.title ||
-    "Unknown Anime";
+    getAnimeTitle(
+      anime
+    );
 
 
   const animeId =
@@ -956,33 +1153,36 @@ function fillAnimeForm(
 
 
   const thumbnail =
-    anime.images?.jpg?.large_image_url ||
-    anime.images?.jpg?.image_url ||
+    anime.coverImage?.extraLarge ||
+    anime.coverImage?.large ||
     "";
 
 
   /*
-    Jikan provides anime images/posters.
-    Banner is initially set to the same
-    large image so the details page
-    already has a visual banner.
+    AniList provides a real landscape
+    bannerImage for many anime.
+
+    If bannerImage is unavailable,
+    poster is used as fallback.
   */
 
   const banner =
+    anime.bannerImage ||
     thumbnail;
 
 
   const description =
-    anime.synopsis ||
-    "";
+    cleanDescription(
+      anime.description ||
+      ""
+    );
 
 
   const genre =
-    anime.genres
+    anime.genres &&
+    anime.genres.length
       ?
-      anime.genres
-        .map(g => g.name)
-        .join(", ")
+      anime.genres.join(", ")
       :
       "";
 
@@ -990,44 +1190,41 @@ function fillAnimeForm(
   let season = "";
 
 
-  if(anime.season){
+  if(
+    anime.season
+  ){
 
     season =
-      anime.season;
+      formatSeason(
+        anime.season
+      );
 
-    if(anime.year){
+    if(
+      anime.seasonYear
+    ){
 
       season +=
         " " +
-        anime.year;
+        anime.seasonYear;
 
     }
 
-  }else if(anime.year){
+  }else if(
+    anime.seasonYear
+  ){
 
     season =
       String(
-        anime.year
+        anime.seasonYear
       );
 
   }
 
 
-  let status =
-    "Ongoing";
-
-
-  if(
-    anime.status &&
-    anime.status
-      .toLowerCase()
-      .includes("finished")
-  ){
-
-    status =
-      "Completed";
-
-  }
+  const status =
+    formatAnimeStatus(
+      anime.status
+    );
 
 
   document
@@ -1086,6 +1283,12 @@ function fillAnimeForm(
       season;
 
 
+  /*
+    AniList does not provide your website's
+    streaming/audio language field.
+    Keeping Hindi as the default.
+  */
+
   document
     .getElementById(
       "language"
@@ -1099,7 +1302,11 @@ function fillAnimeForm(
       "status"
     )
     .value =
-      status;
+      status === "Completed"
+        ?
+        "Completed"
+        :
+        "Ongoing";
 
 
   document
@@ -1122,7 +1329,71 @@ function fillAnimeForm(
     "message success";
 
   message.textContent =
-    "✅ Anime details automatically fill ho gaye. Ab Add Anime dabao.";
+    "✅ Poster, banner aur anime details automatically fill ho gayi. Ab Add Anime dabao.";
+
+}
+
+
+// =====================================
+// FORMAT SEASON
+// =====================================
+
+function formatSeason(
+  season
+){
+
+  if(!season){
+
+    return "";
+
+  }
+
+
+  const map = {
+
+    WINTER:
+      "Winter",
+
+    SPRING:
+      "Spring",
+
+    SUMMER:
+      "Summer",
+
+    FALL:
+      "Fall"
+
+  };
+
+
+  return (
+    map[season] ||
+    season
+  );
+
+}
+
+
+// =====================================
+// CLEAN DESCRIPTION
+// =====================================
+
+function cleanDescription(
+  description
+){
+
+  return String(
+    description || ""
+  )
+  .replace(
+    /<br\s*\/?>/gi,
+    "\n"
+  )
+  .replace(
+    /<[^>]*>/g,
+    ""
+  )
+  .trim();
 
 }
 
