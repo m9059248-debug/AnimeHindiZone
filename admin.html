@@ -222,6 +222,30 @@ button{
   word-break:break-all;
 }
 
+.schedule-item{
+  background:#0e0e15;
+  border:1px solid #292936;
+  padding:14px;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+
+.schedule-date{
+  color:#6dff91;
+  margin-top:6px;
+  font-size:14px;
+}
+
+.schedule-status{
+  display:inline-block;
+  margin-top:8px;
+  padding:5px 9px;
+  border-radius:5px;
+  background:#252530;
+  color:#fff;
+  font-size:12px;
+}
+
 .empty{
   color:#888;
   padding:15px;
@@ -504,13 +528,76 @@ Anime load ho rahe hain...
 </div>
 
 
+<!-- ADD SCHEDULE -->
+
+<div
+  id="scheduleForm"
+  class="box"
+  style="display:none;"
+>
+
+<h2>📅 Add Anime Schedule</h2>
+
+<p class="small">
+Selected anime ke liye episode release date aur time set karo.
+</p>
+
+<input
+  id="scheduleEpisodeNumber"
+  type="number"
+  placeholder="Episode Number"
+>
+
+<input
+  id="scheduleEpisodeTitle"
+  placeholder="Episode Title e.g. New Battle"
+>
+
+<label
+  class="small"
+  style="display:block;margin-top:8px;"
+>
+Release Date & Time
+</label>
+
+<input
+  id="scheduleReleaseAt"
+  type="datetime-local"
+>
+
+<button
+  class="primary"
+  onclick="addSchedule()"
+>
+  📅 Add Schedule
+</button>
+
+<div id="scheduleMessage"></div>
+
+</div>
+
+
+<!-- SCHEDULE LIST -->
+
+<div
+  id="scheduleList"
+  class="box"
+  style="display:none;"
+>
+
+<h2>📅 Anime Schedule</h2>
+
+<div id="scheduleContainer"></div>
+
+</div>
+
+
 </div>
 
 </div>
 
 
 <script>
-
 
 // =====================================
 // SUPABASE
@@ -694,11 +781,6 @@ async function searchAnime(){
   results.innerHTML =
     "";
 
-
-  /*
-    AniList GraphQL API
-    Browser se POST request
-  */
 
   const queryBody = `
 
@@ -1158,14 +1240,6 @@ function fillAnimeForm(
     "";
 
 
-  /*
-    AniList provides a real landscape
-    bannerImage for many anime.
-
-    If bannerImage is unavailable,
-    poster is used as fallback.
-  */
-
   const banner =
     anime.bannerImage ||
     thumbnail;
@@ -1282,12 +1356,6 @@ function fillAnimeForm(
     .value =
       season;
 
-
-  /*
-    AniList does not provide your website's
-    streaming/audio language field.
-    Keeping Hindi as the default.
-  */
 
   document
     .getElementById(
@@ -1503,8 +1571,7 @@ async function addAnime(){
     document
       .getElementById(
         "status"
-      )
-      .value;
+      ).value;
 
 
   const message =
@@ -1987,7 +2054,30 @@ async function deleteAnime(
 
     document
       .getElementById(
+        "scheduleForm"
+      )
+      .style.display =
+        "none";
+
+
+    document
+      .getElementById(
+        "scheduleList"
+      )
+      .style.display =
+        "none";
+
+
+    document
+      .getElementById(
         "episodesContainer"
+      )
+      .innerHTML =
+        "";
+
+    document
+      .getElementById(
+        "scheduleContainer"
       )
       .innerHTML =
         "";
@@ -2101,6 +2191,22 @@ function showSelectedAnime(){
       "block";
 
 
+  document
+    .getElementById(
+      "scheduleForm"
+    )
+    .style.display =
+      "block";
+
+
+  document
+    .getElementById(
+      "scheduleList"
+    )
+    .style.display =
+      "block";
+
+
   const info =
     document.getElementById(
       "selectedAnimeInfo"
@@ -2158,6 +2264,8 @@ function showSelectedAnime(){
 
 
   displayEpisodes();
+
+  displaySchedules();
 
 }
 
@@ -2466,6 +2574,442 @@ async function deleteEpisode(
 
 
   displayEpisodes();
+
+}
+
+
+// =====================================
+// ADD SCHEDULE
+// =====================================
+
+async function addSchedule(){
+
+  if(!selectedAnime){
+
+    alert(
+      "Pehle anime select karo."
+    );
+
+    return;
+  }
+
+
+  const episodeNumber =
+    document
+      .getElementById(
+        "scheduleEpisodeNumber"
+      )
+      .value;
+
+
+  const episodeTitle =
+    document
+      .getElementById(
+        "scheduleEpisodeTitle"
+      )
+      .value
+      .trim();
+
+
+  const releaseAt =
+    document
+      .getElementById(
+        "scheduleReleaseAt"
+      )
+      .value;
+
+
+  const message =
+    document.getElementById(
+      "scheduleMessage"
+    );
+
+
+  if(
+    !episodeNumber ||
+    !releaseAt
+  ){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Episode number aur release date/time required hai.";
+
+    return;
+  }
+
+
+  message.className =
+    "message";
+
+  message.textContent =
+    "Schedule save ho raha hai...";
+
+
+  /*
+    datetime-local browser se local time deta hai.
+    new Date() usko user's local timezone ke according
+    UTC ISO format me convert karta hai.
+  */
+
+  const releaseDate =
+    new Date(
+      releaseAt
+    );
+
+
+  if(
+    isNaN(
+      releaseDate.getTime()
+    )
+  ){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Release date/time invalid hai.";
+
+    return;
+  }
+
+
+  const releaseISO =
+    releaseDate.toISOString();
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedule")
+      .insert([{
+
+        anime_id:
+          selectedAnime.id,
+
+        anime_title:
+          selectedAnime.title,
+
+        episode_number:
+          Number(
+            episodeNumber
+          ),
+
+        episode_title:
+          episodeTitle ||
+          "Episode " +
+          episodeNumber,
+
+        release_at:
+          releaseISO
+
+      }]);
+
+
+  if(error){
+
+    console.error(
+      "Schedule Error:",
+      error
+    );
+
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Schedule add failed: " +
+      error.message;
+
+    return;
+  }
+
+
+  message.className =
+    "message success";
+
+  message.textContent =
+    "✅ Episode " +
+    episodeNumber +
+    " ka schedule successfully add ho gaya!";
+
+
+  document
+    .getElementById(
+      "scheduleEpisodeNumber"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "scheduleEpisodeTitle"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "scheduleReleaseAt"
+    )
+    .value =
+      "";
+
+
+  displaySchedules();
+
+}
+
+
+// =====================================
+// DISPLAY SCHEDULES
+// =====================================
+
+async function displaySchedules(){
+
+  if(!selectedAnime){
+
+    return;
+  }
+
+
+  const container =
+    document.getElementById(
+      "scheduleContainer"
+    );
+
+
+  container.innerHTML =
+    '<div class="empty">Loading schedules...</div>';
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("schedule")
+      .select("*")
+      .eq(
+        "anime_id",
+        selectedAnime.id
+      )
+      .order(
+        "release_at",
+        {
+          ascending:true
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      '<div class="empty">❌ ' +
+      escapeHtml(
+        error.message
+      ) +
+      '</div>';
+
+    return;
+  }
+
+
+  if(
+    !data ||
+    data.length === 0
+  ){
+
+    container.innerHTML =
+      '<div class="empty">Abhi koi schedule add nahi hua.</div>';
+
+    return;
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  data.forEach(
+    schedule => {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+
+      div.className =
+        "schedule-item";
+
+
+      const releaseDate =
+        new Date(
+          schedule.release_at
+        );
+
+
+      const isReleased =
+        releaseDate.getTime() <=
+        Date.now();
+
+
+      const status =
+        isReleased
+          ?
+          "Released"
+          :
+          "Upcoming";
+
+
+      div.innerHTML =
+
+        "<b>Episode " +
+        escapeHtml(
+          String(
+            schedule.episode_number
+          )
+        ) +
+        "</b>" +
+
+        "<p style='margin-top:5px'>" +
+        escapeHtml(
+          schedule.episode_title ||
+          ""
+        ) +
+        "</p>" +
+
+        "<p class='schedule-date'>" +
+        "📅 " +
+        formatDateTime(
+          schedule.release_at
+        ) +
+        "</p>" +
+
+        "<span class='schedule-status'>" +
+        (status === "Released"
+          ? "🟢 Released"
+          : "🟡 Upcoming") +
+        "</span>" +
+
+        "<br>" +
+
+        "<button " +
+        "class='delete-btn' " +
+        "onclick='deleteSchedule(" +
+        schedule.id +
+        ")'>" +
+
+        "🗑️ Delete Schedule" +
+
+        "</button>";
+
+
+      container.appendChild(
+        div
+      );
+
+    }
+  );
+
+}
+
+
+// =====================================
+// FORMAT DATE/TIME
+// =====================================
+
+function formatDateTime(
+  value
+){
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if(
+    isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "Invalid date";
+
+  }
+
+
+  return date.toLocaleString(
+    "en-IN",
+    {
+      dateStyle:
+        "medium",
+
+      timeStyle:
+        "short",
+
+      timeZone:
+        "Asia/Kolkata"
+    }
+  );
+
+}
+
+
+// =====================================
+// DELETE SCHEDULE
+// =====================================
+
+async function deleteSchedule(
+  id
+){
+
+  const confirmDelete =
+    confirm(
+      "Kya tum ye schedule delete karna chahte ho?"
+    );
+
+
+  if(!confirmDelete){
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("schedule")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
+
+  if(error){
+
+    alert(
+      "❌ Schedule delete failed: " +
+      error.message
+    );
+
+    return;
+  }
+
+
+  alert(
+    "✅ Schedule deleted!"
+  );
+
+
+  displaySchedules();
 
 }
 
