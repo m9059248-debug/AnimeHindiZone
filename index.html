@@ -6,6 +6,9 @@
 
 <title>AnimeHindiZone</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 *{
@@ -160,9 +163,7 @@ nav a:hover{
     font-size:12px;
 }
 
-/* =========================
-   SCHEDULE
-========================= */
+/* SCHEDULE */
 
 .schedule-list{
     display:grid;
@@ -277,10 +278,7 @@ footer{
     color:#888;
 }
 
-
-/* =========================
-   TELEGRAM POPUP
-========================= */
+/* TELEGRAM POPUP */
 
 .telegram-overlay{
     position:fixed;
@@ -426,7 +424,6 @@ footer{
 
 }
 
-
 /* MOBILE */
 
 @media(max-width:600px){
@@ -491,10 +488,6 @@ footer{
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
     <div class="logo">
@@ -528,10 +521,6 @@ footer{
 </header>
 
 
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero">
 
     <h1>
@@ -544,10 +533,6 @@ footer{
 
 </section>
 
-
-<!-- =========================
-     LATEST ANIME
-========================= -->
 
 <div class="container">
 
@@ -579,10 +564,6 @@ footer{
 </div>
 
 
-<!-- =========================
-     POPULAR
-========================= -->
-
 <div
     class="container"
     id="popular"
@@ -601,10 +582,6 @@ footer{
 
 </div>
 
-
-<!-- =========================
-     SCHEDULE
-========================= -->
 
 <div
     class="container"
@@ -629,10 +606,6 @@ footer{
 </div>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
-
 <footer>
 
     © 2026 AnimeHindiZone
@@ -640,9 +613,7 @@ footer{
 </footer>
 
 
-<!-- =========================
-     TELEGRAM JOIN POPUP
-========================= -->
+<!-- TELEGRAM POPUP -->
 
 <div
     class="telegram-overlay"
@@ -651,8 +622,6 @@ footer{
 
     <div class="telegram-popup">
 
-        <!-- CLOSE BUTTON -->
-
         <button
             class="telegram-close"
             onclick="closeTelegramPopup()"
@@ -660,9 +629,6 @@ footer{
         >
             ×
         </button>
-
-
-        <!-- TELEGRAM LOGO -->
 
         <div class="telegram-logo">
 
@@ -692,15 +658,9 @@ footer{
 
         </div>
 
-
-        <!-- TITLE -->
-
         <h2>
             Join Our Telegram
         </h2>
-
-
-        <!-- DESCRIPTION -->
 
         <p>
             Get the latest anime updates,
@@ -708,23 +668,14 @@ footer{
             and more!
         </p>
 
-
-        <!-- JOIN BUTTON -->
-
         <a
             href="https://t.me/Anime_hindizone"
             target="_blank"
             rel="noopener noreferrer"
             class="telegram-join"
         >
-
-            ✈️
-            JOIN TELEGRAM
-
+            ✈️ JOIN TELEGRAM
         </a>
-
-
-        <!-- MAYBE LATER -->
 
         <button
             class="telegram-later"
@@ -738,7 +689,7 @@ footer{
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 
 /* =====================================
    SUPABASE CONFIG
@@ -749,6 +700,58 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================
+   LOGIN CHECK
+===================================== */
+
+async function checkLogin(){
+
+    try{
+
+        const {
+            data: {
+                session
+            }
+        } = await supabaseClient.auth.getSession();
+
+        if(!session){
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return false;
+        }
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Login check error:",
+            error
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
+
+}
 
 
 /* =====================================
@@ -824,11 +827,6 @@ async function loadAnime(){
         const data =
             await response.json();
 
-        console.log(
-            "Anime data:",
-            data
-        );
-
         allAnime =
             Array.isArray(data)
             ? data
@@ -894,9 +892,7 @@ function displayAnime(
         grid.innerHTML = `
 
             <div class="empty">
-
                 Abhi koi anime add nahi hua.
-
             </div>
 
         `;
@@ -955,15 +951,11 @@ function displayAnime(
                         <div class="card-info">
 
                             <div class="card-title">
-
                                 ${escapeHtml(title)}
-
                             </div>
 
                             <div class="card-status">
-
                                 ${escapeHtml(status)}
-
                             </div>
 
                         </div>
@@ -1120,9 +1112,7 @@ function displayPopular(
                         <div class="card-info">
 
                             <div class="card-title">
-
                                 ${escapeHtml(title)}
-
                             </div>
 
                         </div>
@@ -1205,11 +1195,6 @@ async function loadSchedule(){
         const schedules =
             await response.json();
 
-        console.log(
-            "Schedule data:",
-            schedules
-        );
-
         displaySchedule(
             Array.isArray(schedules)
             ? schedules
@@ -1272,9 +1257,7 @@ function displaySchedule(
         container.innerHTML = `
 
             <div class="schedule-empty">
-
                 📅 Abhi koi anime schedule available nahi hai.
-
             </div>
 
         `;
@@ -1338,11 +1321,7 @@ function displaySchedule(
                         <div class="schedule-top">
 
                             <div class="schedule-anime">
-
-                                ${escapeHtml(
-                                    animeTitle
-                                )}
-
+                                ${escapeHtml(animeTitle)}
                             </div>
 
                             <span
@@ -1351,13 +1330,10 @@ function displaySchedule(
                                     ${statusClass}
                                 "
                             >
-
                                 ${statusText}
-
                             </span>
 
                         </div>
-
 
                         <div class="schedule-episode">
 
@@ -1372,7 +1348,6 @@ function displaySchedule(
                             )}
 
                         </div>
-
 
                         <div class="schedule-time">
 
@@ -1534,12 +1509,21 @@ document
 
 
 /* =====================================
-   START
+   START WEBSITE
 ===================================== */
 
-loadAnime();
+checkLogin().then(
+    function(loggedIn){
 
-loadSchedule();
+        if(loggedIn){
+
+            loadAnime();
+            loadSchedule();
+
+        }
+
+    }
+);
 
 </script>
 
