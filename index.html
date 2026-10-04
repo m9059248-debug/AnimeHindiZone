@@ -277,6 +277,156 @@ footer{
     color:#888;
 }
 
+
+/* =========================
+   TELEGRAM POPUP
+========================= */
+
+.telegram-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:99999;
+    animation:telegramFadeIn .25s ease;
+}
+
+.telegram-popup{
+    width:100%;
+    max-width:390px;
+    background:#15151d;
+    border:1px solid #30303c;
+    border-radius:20px;
+    padding:30px 24px 24px;
+    text-align:center;
+    position:relative;
+    box-shadow:
+    0 20px 70px
+    rgba(0,0,0,.8);
+
+    animation:
+    telegramPopupIn .35s ease;
+}
+
+.telegram-close{
+    position:absolute;
+    top:10px;
+    right:12px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#292933;
+    color:#fff;
+    font-size:23px;
+    line-height:34px;
+    cursor:pointer;
+}
+
+.telegram-close:hover{
+    background:#3b3b48;
+}
+
+.telegram-logo{
+    width:78px;
+    height:78px;
+    margin:0 auto 18px;
+    background:#229ED9;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:
+    0 8px 30px
+    rgba(34,158,217,.35);
+}
+
+.telegram-logo svg{
+    width:45px;
+    height:45px;
+    fill:#fff;
+}
+
+.telegram-popup h2{
+    font-size:25px;
+    margin-bottom:10px;
+    color:#fff;
+}
+
+.telegram-popup p{
+    color:#aaa;
+    font-size:14px;
+    line-height:1.6;
+    margin-bottom:22px;
+}
+
+.telegram-join{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:14px 18px;
+    background:#229ED9;
+    color:#fff;
+    text-decoration:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.telegram-join:hover{
+    background:#168dcc;
+    transform:translateY(-2px);
+    box-shadow:
+    0 8px 20px
+    rgba(34,158,217,.25);
+}
+
+.telegram-later{
+    margin-top:14px;
+    background:transparent;
+    border:none;
+    color:#777;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.telegram-later:hover{
+    color:#aaa;
+}
+
+@keyframes telegramFadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+
+@keyframes telegramPopupIn{
+
+    from{
+        opacity:0;
+        transform:scale(.85) translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+
+}
+
+
 /* MOBILE */
 
 @media(max-width:600px){
@@ -322,6 +472,15 @@ footer{
 
     .schedule-anime{
         font-size:16px;
+    }
+
+    .telegram-popup{
+        max-width:350px;
+        padding:28px 20px 22px;
+    }
+
+    .telegram-popup h2{
+        font-size:22px;
     }
 
 }
@@ -479,6 +638,104 @@ footer{
     © 2026 AnimeHindiZone
 
 </footer>
+
+
+<!-- =========================
+     TELEGRAM JOIN POPUP
+========================= -->
+
+<div
+    class="telegram-overlay"
+    id="telegramPopup"
+>
+
+    <div class="telegram-popup">
+
+        <!-- CLOSE BUTTON -->
+
+        <button
+            class="telegram-close"
+            onclick="closeTelegramPopup()"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+
+        <!-- TELEGRAM LOGO -->
+
+        <div class="telegram-logo">
+
+            <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+
+                <path d="
+                    M21.4 3.6
+                    L18.2 20
+                    C18 21.1 17.2 21.4 16.5 20.9
+                    L11.8 17.4
+                    L9.5 19.6
+                    C9.2 19.9 8.9 20.2 8.4 20.2
+                    L8.7 15.4
+                    L17.4 7.6
+                    C17.8 7.2 17.3 7 16.8 7.4
+                    L7.2 13.9
+                    L2.6 12.5
+                    C1.6 12.2 1.6 11.2 2.8 10.8
+                    L20.7 3.2
+                    C21.6 2.9 22.4 3.4 21.4 3.6
+                " />
+
+            </svg>
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h2>
+            Join Our Telegram
+        </h2>
+
+
+        <!-- DESCRIPTION -->
+
+        <p>
+            Get the latest anime updates,
+            new episodes, release notifications
+            and more!
+        </p>
+
+
+        <!-- JOIN BUTTON -->
+
+        <a
+            href="https://t.me/Anime_hindizone"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="telegram-join"
+        >
+
+            ✈️
+            JOIN TELEGRAM
+
+        </a>
+
+
+        <!-- MAYBE LATER -->
+
+        <button
+            class="telegram-later"
+            onclick="closeTelegramPopup()"
+        >
+            Maybe later
+        </button>
+
+    </div>
+
+</div>
 
 
 <script>
@@ -1229,6 +1486,51 @@ function escapeId(
         );
 
 }
+
+
+/* =====================================
+   TELEGRAM POPUP CLOSE
+===================================== */
+
+function closeTelegramPopup(){
+
+    const popup =
+        document.getElementById(
+            "telegramPopup"
+        );
+
+    if(popup){
+
+        popup.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================
+   CLOSE POPUP ON BACKDROP CLICK
+===================================== */
+
+document
+    .getElementById(
+        "telegramPopup"
+    )
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target === this
+            ){
+
+                closeTelegramPopup();
+
+            }
+
+        }
+    );
 
 
 /* =====================================
