@@ -184,6 +184,16 @@ button:hover{
         Create your AnimeHindiZone account
       </div>
 
+      <!-- NAME -->
+      <input
+        type="text"
+        id="signupName"
+        placeholder="Your name"
+        autocomplete="name"
+        maxlength="50"
+      >
+
+      <!-- EMAIL -->
       <input
         type="email"
         id="signupEmail"
@@ -191,6 +201,7 @@ button:hover{
         autocomplete="email"
       >
 
+      <!-- PASSWORD -->
       <input
         type="password"
         id="signupPassword"
@@ -198,6 +209,7 @@ button:hover{
         autocomplete="new-password"
       >
 
+      <!-- CONFIRM PASSWORD -->
       <input
         type="password"
         id="signupConfirm"
@@ -242,7 +254,10 @@ window.supabase.createClient(
 );
 
 
+// ===============================
 // SHOW LOGIN
+// ===============================
+
 function showLogin(){
 
   document.getElementById("loginBox").style.display = "block";
@@ -252,7 +267,10 @@ function showLogin(){
 }
 
 
+// ===============================
 // SHOW SIGNUP
+// ===============================
+
 function showSignup(){
 
   document.getElementById("loginBox").style.display = "none";
@@ -262,7 +280,10 @@ function showSignup(){
 }
 
 
+// ===============================
 // MESSAGE
+// ===============================
+
 function showMessage(text,type){
 
   const message =
@@ -283,8 +304,14 @@ function clearMessage(){
 }
 
 
+// ===============================
 // SIGNUP
+// ===============================
+
 async function signupUser(){
+
+  const name =
+    document.getElementById("signupName").value.trim();
 
   const email =
     document.getElementById("signupEmail").value.trim();
@@ -296,7 +323,14 @@ async function signupUser(){
     document.getElementById("signupConfirm").value;
 
 
-  if(!email || !password || !confirmPassword){
+  // CHECK EMPTY FIELDS
+
+  if(
+    !name ||
+    !email ||
+    !password ||
+    !confirmPassword
+  ){
 
     showMessage(
       "Please fill all fields.",
@@ -306,6 +340,21 @@ async function signupUser(){
     return;
   }
 
+
+  // NAME LENGTH
+
+  if(name.length < 2){
+
+    showMessage(
+      "Name must be at least 2 characters.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  // PASSWORD LENGTH
 
   if(password.length < 6){
 
@@ -317,6 +366,8 @@ async function signupUser(){
     return;
   }
 
+
+  // PASSWORD MATCH
 
   if(password !== confirmPassword){
 
@@ -335,20 +386,35 @@ async function signupUser(){
   );
 
 
+  // CREATE SUPABASE ACCOUNT
+
   const { data, error } =
     await supabaseClient.auth.signUp({
 
       email: email,
+
       password: password,
 
       options:{
+
         emailRedirectTo:
         window.location.origin +
-        "/AnimeHindiZone/login.html"
+        "/AnimeHindiZone/login.html",
+
+        // NAME GOES INTO USER METADATA
+        // Supabase trigger will save it
+        // into public.profiles
+
+        data:{
+          name: name
+        }
+
       }
 
     });
 
+
+  // ERROR
 
   if(error){
 
@@ -360,6 +426,8 @@ async function signupUser(){
     return;
   }
 
+
+  // SESSION EXISTS
 
   if(data.session){
 
@@ -375,7 +443,11 @@ async function signupUser(){
 
     },1000);
 
-  }else{
+  }
+
+  // EMAIL VERIFICATION REQUIRED
+
+  else{
 
     showMessage(
       "Account created! Please check your email and verify your account before logging in.",
@@ -387,7 +459,10 @@ async function signupUser(){
 }
 
 
+// ===============================
 // LOGIN
+// ===============================
+
 async function loginUser(){
 
   const email =
@@ -418,6 +493,7 @@ async function loginUser(){
     await supabaseClient.auth.signInWithPassword({
 
       email: email,
+
       password: password
 
     });
@@ -450,7 +526,10 @@ async function loginUser(){
 }
 
 
+// ===============================
 // CHECK EXISTING SESSION
+// ===============================
+
 async function checkSession(){
 
   const { data } =
@@ -459,8 +538,8 @@ async function checkSession(){
 
   if(data.session){
 
-    // Already logged in
-    // Don't force redirect here.
+    // User is already logged in.
+    // We don't force redirect here.
   }
 
 }
