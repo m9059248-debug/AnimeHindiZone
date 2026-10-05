@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>AnimeHindiZone</title>
 
-<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+/* =====================================
+   RESET
+===================================== */
 
 *{
     box-sizing:border-box;
@@ -17,13 +26,20 @@
     padding:0;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     background:#0b0b0f;
     color:#fff;
     font-family:Arial,sans-serif;
+    min-height:100vh;
 }
 
-/* HEADER */
+/* =====================================
+   HEADER
+===================================== */
 
 header{
     background:#15151d;
@@ -59,7 +75,9 @@ nav a:hover{
     color:#ff3d71;
 }
 
-/* HERO */
+/* =====================================
+   HERO
+===================================== */
 
 .hero{
     padding:50px 5%;
@@ -78,9 +96,12 @@ nav a:hover{
 
 .hero p{
     color:#aaa;
+    line-height:1.6;
 }
 
-/* CONTAINER */
+/* =====================================
+   CONTAINER
+===================================== */
 
 .container{
     padding:30px 5%;
@@ -91,7 +112,9 @@ nav a:hover{
     margin-bottom:20px;
 }
 
-/* SEARCH */
+/* =====================================
+   SEARCH
+===================================== */
 
 .search-box{
     width:100%;
@@ -103,25 +126,36 @@ nav a:hover{
     color:#fff;
     margin-bottom:25px;
     font-size:15px;
+    border:1px solid #24242f;
+}
+
+.search-box:focus{
+    border-color:#ff3d71;
 }
 
 .search-box::placeholder{
     color:#777;
 }
 
-/* GRID */
+/* =====================================
+   GRID
+===================================== */
 
 .grid{
     display:grid;
+
     grid-template-columns:
     repeat(
         auto-fill,
         minmax(160px,1fr)
     );
+
     gap:18px;
 }
 
-/* CARD */
+/* =====================================
+   CARD
+===================================== */
 
 .card{
     background:#15151d;
@@ -130,11 +164,14 @@ nav a:hover{
     cursor:pointer;
     transition:.25s;
     border:1px solid #24242f;
+    position:relative;
 }
 
 .card:hover{
     transform:translateY(-5px);
+
     border-color:#ff3d71;
+
     box-shadow:
     0 8px 25px
     rgba(255,61,113,.15);
@@ -156,14 +193,44 @@ nav a:hover{
     font-size:16px;
     font-weight:bold;
     margin-bottom:7px;
+    line-height:1.3;
 }
 
 .card-status{
     color:#ff3d71;
     font-size:12px;
+    margin-bottom:10px;
 }
 
-/* SCHEDULE */
+/* =====================================
+   MY LIST BUTTON
+===================================== */
+
+.my-list-btn{
+    width:100%;
+    padding:9px 10px;
+    border:none;
+    border-radius:7px;
+    background:#24242f;
+    color:#fff;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.my-list-btn:hover{
+    background:#ff3d71;
+}
+
+.my-list-btn.saved{
+    background:#ff3d71;
+    color:#fff;
+}
+
+/* =====================================
+   SCHEDULE
+===================================== */
 
 .schedule-list{
     display:grid;
@@ -241,7 +308,27 @@ nav a:hover{
     border:1px solid #24242f;
 }
 
-/* LOADING */
+/* =====================================
+   MY LIST EMPTY
+===================================== */
+
+.my-list-empty{
+    text-align:center;
+    color:#aaa;
+    padding:35px 20px;
+    background:#15151d;
+    border:1px solid #24242f;
+    border-radius:10px;
+}
+
+.my-list-empty-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+/* =====================================
+   LOADING
+===================================== */
 
 .loading{
     text-align:center;
@@ -249,15 +336,15 @@ nav a:hover{
     padding:35px;
 }
 
-/* EMPTY */
-
 .empty{
     text-align:center;
     color:#aaa;
     padding:35px;
 }
 
-/* ERROR */
+/* =====================================
+   ERROR
+===================================== */
 
 .error-box{
     background:#241116;
@@ -268,7 +355,51 @@ nav a:hover{
     word-break:break-word;
 }
 
-/* FOOTER */
+/* =====================================
+   TOAST
+===================================== */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+
+    transform:
+    translateX(-50%)
+    translateY(100px);
+
+    background:#181820;
+    border:1px solid #30303c;
+    color:#fff;
+
+    padding:13px 18px;
+
+    border-radius:9px;
+
+    font-size:14px;
+
+    z-index:100000;
+
+    opacity:0;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 35px
+    rgba(0,0,0,.5);
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+/* =====================================
+   FOOTER
+===================================== */
 
 footer{
     margin-top:50px;
@@ -278,29 +409,45 @@ footer{
     color:#888;
 }
 
-/* TELEGRAM POPUP */
+/* =====================================
+   TELEGRAM POPUP
+===================================== */
 
 .telegram-overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.82);
+
+    background:
+    rgba(0,0,0,.82);
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     padding:20px;
+
     z-index:99999;
-    animation:telegramFadeIn .25s ease;
+
+    animation:
+    telegramFadeIn .25s ease;
 }
 
 .telegram-popup{
     width:100%;
     max-width:390px;
+
     background:#15151d;
+
     border:1px solid #30303c;
+
     border-radius:20px;
+
     padding:30px 24px 24px;
+
     text-align:center;
+
     position:relative;
+
     box-shadow:
     0 20px 70px
     rgba(0,0,0,.8);
@@ -311,16 +458,25 @@ footer{
 
 .telegram-close{
     position:absolute;
+
     top:10px;
     right:12px;
+
     width:34px;
     height:34px;
+
     border:none;
+
     border-radius:50%;
+
     background:#292933;
+
     color:#fff;
+
     font-size:23px;
+
     line-height:34px;
+
     cursor:pointer;
 }
 
@@ -331,12 +487,18 @@ footer{
 .telegram-logo{
     width:78px;
     height:78px;
-    margin:0 auto 18px;
+
+    margin:
+    0 auto 18px;
+
     background:#229ED9;
+
     border-radius:50%;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     box-shadow:
     0 8px 30px
     rgba(34,158,217,.35);
@@ -345,13 +507,13 @@ footer{
 .telegram-logo svg{
     width:45px;
     height:45px;
+
     fill:#fff;
 }
 
 .telegram-popup h2{
     font-size:25px;
     margin-bottom:10px;
-    color:#fff;
 }
 
 .telegram-popup p{
@@ -365,21 +527,34 @@ footer{
     display:flex;
     align-items:center;
     justify-content:center;
+
     gap:8px;
+
     width:100%;
+
     padding:14px 18px;
+
     background:#229ED9;
+
     color:#fff;
+
     text-decoration:none;
+
     border-radius:10px;
+
     font-size:16px;
+
     font-weight:bold;
+
     transition:.2s;
 }
 
 .telegram-join:hover{
     background:#168dcc;
-    transform:translateY(-2px);
+
+    transform:
+    translateY(-2px);
+
     box-shadow:
     0 8px 20px
     rgba(34,158,217,.25);
@@ -387,16 +562,25 @@ footer{
 
 .telegram-later{
     margin-top:14px;
+
     background:transparent;
+
     border:none;
+
     color:#777;
+
     font-size:13px;
+
     cursor:pointer;
 }
 
 .telegram-later:hover{
     color:#aaa;
 }
+
+/* =====================================
+   ANIMATIONS
+===================================== */
 
 @keyframes telegramFadeIn{
 
@@ -414,17 +598,25 @@ footer{
 
     from{
         opacity:0;
-        transform:scale(.85) translateY(20px);
+
+        transform:
+        scale(.85)
+        translateY(20px);
     }
 
     to{
         opacity:1;
-        transform:scale(1) translateY(0);
+
+        transform:
+        scale(1)
+        translateY(0);
     }
 
 }
 
-/* MOBILE */
+/* =====================================
+   MOBILE
+===================================== */
 
 @media(max-width:600px){
 
@@ -442,6 +634,11 @@ footer{
 
     nav a{
         font-size:11px;
+    }
+
+    nav a:nth-child(2),
+    nav a:nth-child(3){
+        display:none;
     }
 
     .hero{
@@ -463,6 +660,10 @@ footer{
         height:220px;
     }
 
+    .card-title{
+        font-size:14px;
+    }
+
     .schedule-top{
         align-items:flex-start;
     }
@@ -482,11 +683,44 @@ footer{
 
 }
 
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media(max-width:380px){
+
+    .grid{
+        grid-template-columns:
+        repeat(2,1fr);
+
+        gap:9px;
+    }
+
+    .card img{
+        height:195px;
+    }
+
+    .card-info{
+        padding:9px;
+    }
+
+    .card-title{
+        font-size:13px;
+    }
+
+}
+
 </style>
 
 </head>
 
+
 <body>
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
 
 <header>
 
@@ -512,6 +746,10 @@ footer{
             Schedule
         </a>
 
+        <a href="#my-list">
+            My List
+        </a>
+
         <a href="admin.html">
             Admin
         </a>
@@ -520,6 +758,10 @@ footer{
 
 </header>
 
+
+<!-- =====================================
+     HERO
+===================================== -->
 
 <section class="hero">
 
@@ -533,6 +775,10 @@ footer{
 
 </section>
 
+
+<!-- =====================================
+     LATEST
+===================================== -->
 
 <div class="container">
 
@@ -564,6 +810,10 @@ footer{
 </div>
 
 
+<!-- =====================================
+     POPULAR
+===================================== -->
+
 <div
     class="container"
     id="popular"
@@ -578,10 +828,45 @@ footer{
         class="grid"
     >
 
+        <div class="loading">
+            Loading popular anime...
+        </div>
+
     </div>
 
 </div>
 
+
+<!-- =====================================
+     MY LIST
+===================================== -->
+
+<div
+    class="container"
+    id="my-list"
+>
+
+    <h2 class="section-title">
+        ❤️ My List
+    </h2>
+
+    <div
+        id="myListGrid"
+        class="grid"
+    >
+
+        <div class="loading">
+            Loading your list...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     SCHEDULE
+===================================== -->
 
 <div
     class="container"
@@ -606,6 +891,10 @@ footer{
 </div>
 
 
+<!-- =====================================
+     FOOTER
+===================================== -->
+
 <footer>
 
     © 2026 AnimeHindiZone
@@ -613,7 +902,9 @@ footer{
 </footer>
 
 
-<!-- TELEGRAM POPUP -->
+<!-- =====================================
+     TELEGRAM POPUP
+===================================== -->
 
 <div
     class="telegram-overlay"
@@ -689,6 +980,16 @@ footer{
 </div>
 
 
+<!-- =====================================
+     TOAST
+===================================== -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
 <script>
 
 /* =====================================
@@ -701,12 +1002,22 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
 
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
+
+
+/* =====================================
+   GLOBAL DATA
+===================================== */
+
+let allAnime = [];
+
+let myListIds = new Set();
+
+let currentUser = null;
 
 
 /* =====================================
@@ -718,10 +1029,13 @@ async function checkLogin(){
     try{
 
         const {
-            data: {
+            data:{
                 session
             }
-        } = await supabaseClient.auth.getSession();
+        } =
+        await supabaseClient
+            .auth
+            .getSession();
 
         if(!session){
 
@@ -730,7 +1044,11 @@ async function checkLogin(){
             );
 
             return false;
+
         }
+
+        currentUser =
+            session.user;
 
         return true;
 
@@ -755,10 +1073,476 @@ async function checkLogin(){
 
 
 /* =====================================
-   GLOBAL DATA
+   LOAD MY LIST
 ===================================== */
 
-let allAnime = [];
+async function loadMyList(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+    const grid =
+        document.getElementById(
+            "myListGrid"
+        );
+
+    grid.innerHTML = `
+
+        <div class="loading">
+            Loading your list...
+        </div>
+
+    `;
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("my_list")
+            .select("anime_id")
+            .eq(
+                "user_id",
+                currentUser.id
+            );
+
+        if(error){
+
+            throw error;
+
+        }
+
+        myListIds =
+            new Set(
+                (data || [])
+                    .map(
+                        item =>
+                            String(
+                                item.anime_id
+                            )
+                    )
+            );
+
+        displayMyList();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "My List loading error:",
+            error
+        );
+
+        grid.innerHTML = `
+
+            <div class="error-box">
+
+                <strong>
+                    My List load nahi ho pa rahi.
+                </strong>
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================
+   DISPLAY MY LIST
+===================================== */
+
+function displayMyList(){
+
+    const grid =
+        document.getElementById(
+            "myListGrid"
+        );
+
+    const savedAnime =
+        allAnime.filter(
+            anime =>
+                myListIds.has(
+                    String(
+                        anime.anime_id
+                    )
+                )
+        );
+
+    if(
+        savedAnime.length === 0
+    ){
+
+        grid.innerHTML = `
+
+            <div class="my-list-empty">
+
+                <div class="my-list-empty-icon">
+                    ❤️
+                </div>
+
+                <div>
+                    Your My List is empty.
+                </div>
+
+                <div
+                    style="
+                    margin-top:8px;
+                    font-size:13px;
+                    "
+                >
+                    Anime ke neeche ❤️ Add to My List
+                    button dabao.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    grid.innerHTML =
+        savedAnime
+            .map(
+                anime =>
+                    createAnimeCard(
+                        anime
+                    )
+            )
+            .join("");
+
+}
+
+
+/* =====================================
+   ADD TO MY LIST
+===================================== */
+
+async function addToMyList(
+    animeId,
+    event
+){
+
+    if(event){
+
+        event.stopPropagation();
+
+    }
+
+    if(!currentUser){
+
+        showToast(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+    const id =
+        String(animeId);
+
+    if(
+        myListIds.has(id)
+    ){
+
+        await removeFromMyList(
+            id,
+            event
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("my_list")
+            .insert({
+                user_id:
+                    currentUser.id,
+
+                anime_id:
+                    id
+            });
+
+        if(error){
+
+            /*
+             * Agar same anime already saved hai
+             * to duplicate ko ignore karenge.
+             */
+
+            if(
+                error.code === "23505"
+            ){
+
+                myListIds.add(id);
+
+                showToast(
+                    "Already in My List."
+                );
+
+            }
+            else{
+
+                throw error;
+
+            }
+
+        }
+        else{
+
+            myListIds.add(id);
+
+            showToast(
+                "❤️ Added to My List"
+            );
+
+        }
+
+        refreshAllCards();
+
+        displayMyList();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Add My List error:",
+            error
+        );
+
+        showToast(
+            "My List me add nahi hua."
+        );
+
+    }
+
+}
+
+
+/* =====================================
+   REMOVE FROM MY LIST
+===================================== */
+
+async function removeFromMyList(
+    animeId,
+    event
+){
+
+    if(event){
+
+        event.stopPropagation();
+
+    }
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+    const id =
+        String(animeId);
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("my_list")
+            .delete()
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .eq(
+                "anime_id",
+                id
+            );
+
+        if(error){
+
+            throw error;
+
+        }
+
+        myListIds.delete(id);
+
+        showToast(
+            "❌ Removed from My List"
+        );
+
+        refreshAllCards();
+
+        displayMyList();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Remove My List error:",
+            error
+        );
+
+        showToast(
+            "My List se remove nahi hua."
+        );
+
+    }
+
+}
+
+
+/* =====================================
+   CREATE ANIME CARD
+===================================== */
+
+function createAnimeCard(
+    anime
+){
+
+    const title =
+        anime.title ||
+        "Unknown Anime";
+
+    const animeId =
+        anime.anime_id ||
+        "";
+
+    const thumbnail =
+        anime.thumbnail_url ||
+        "https://via.placeholder.com/300x450?text=No+Image";
+
+    const status =
+        anime.status ||
+        "Ongoing";
+
+    const saved =
+        myListIds.has(
+            String(animeId)
+        );
+
+    return `
+
+        <div
+            class="card"
+            onclick="
+                openAnime(
+                    '${escapeId(animeId)}'
+                )
+            "
+        >
+
+            <img
+                src="${escapeHtml(thumbnail)}"
+
+                alt="${escapeHtml(title)}"
+
+                onerror="
+                    this.src=
+                    'https://via.placeholder.com/300x450?text=No+Image'
+                "
+            >
+
+            <div class="card-info">
+
+                <div class="card-title">
+                    ${escapeHtml(title)}
+                </div>
+
+                <div class="card-status">
+                    ${escapeHtml(status)}
+                </div>
+
+                <button
+                    class="
+                        my-list-btn
+                        ${saved ? "saved" : ""}
+                    "
+                    onclick="
+                        addToMyList(
+                            '${escapeId(animeId)}',
+                            event
+                        )
+                    "
+                >
+                    ${saved
+                        ? "❤️ In My List"
+                        : "♡ Add to My List"
+                    }
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================
+   REFRESH ALL CARDS
+===================================== */
+
+function refreshAllCards(){
+
+    const search =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+    const filtered =
+        allAnime.filter(
+            anime => {
+
+                const title =
+                    anime.title ||
+                    "";
+
+                return title
+                    .toLowerCase()
+                    .includes(
+                        search
+                    );
+
+            }
+        );
+
+    displayAnime(
+        filtered
+    );
+
+}
 
 
 /* =====================================
@@ -836,6 +1620,8 @@ async function loadAnime(){
             allAnime
         );
 
+        displayMyList();
+
     }
 
     catch(error){
@@ -908,65 +1694,14 @@ function displayAnime(
     }
 
     grid.innerHTML =
-        animeList.map(
-            anime => {
-
-                const title =
-                    anime.title ||
-                    "Unknown Anime";
-
-                const animeId =
-                    anime.anime_id ||
-                    "";
-
-                const thumbnail =
-                    anime.thumbnail_url ||
-                    "https://via.placeholder.com/300x450?text=No+Image";
-
-                const status =
-                    anime.status ||
-                    "Ongoing";
-
-                return `
-
-                    <div
-                        class="card"
-                        onclick="
-                            openAnime(
-                                '${escapeId(animeId)}'
-                            )
-                        "
-                    >
-
-                        <img
-                            src="${escapeHtml(thumbnail)}"
-                            alt="${escapeHtml(title)}"
-
-                            onerror="
-                                this.src=
-                                'https://via.placeholder.com/300x450?text=No+Image'
-                            "
-                        >
-
-                        <div class="card-info">
-
-                            <div class="card-title">
-                                ${escapeHtml(title)}
-                            </div>
-
-                            <div class="card-status">
-                                ${escapeHtml(status)}
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-
-        ).join("");
+        animeList
+            .map(
+                anime =>
+                    createAnimeCard(
+                        anime
+                    )
+            )
+            .join("");
 
     displayPopular(
         animeList
@@ -1073,57 +1808,14 @@ function displayPopular(
     }
 
     popularGrid.innerHTML =
-        popular.map(
-            anime => {
-
-                const title =
-                    anime.title ||
-                    "Unknown Anime";
-
-                const animeId =
-                    anime.anime_id ||
-                    "";
-
-                const thumbnail =
-                    anime.thumbnail_url ||
-                    "https://via.placeholder.com/300x450?text=No+Image";
-
-                return `
-
-                    <div
-                        class="card"
-                        onclick="
-                            openAnime(
-                                '${escapeId(animeId)}'
-                            )
-                        "
-                    >
-
-                        <img
-                            src="${escapeHtml(thumbnail)}"
-                            alt="${escapeHtml(title)}"
-
-                            onerror="
-                                this.src=
-                                'https://via.placeholder.com/300x450?text=No+Image'
-                            "
-                        >
-
-                        <div class="card-info">
-
-                            <div class="card-title">
-                                ${escapeHtml(title)}
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-
-        ).join("");
+        popular
+            .map(
+                anime =>
+                    createAnimeCard(
+                        anime
+                    )
+            )
+            .join("");
 
 }
 
@@ -1270,101 +1962,103 @@ function displaySchedule(
         new Date();
 
     container.innerHTML =
-        schedules.map(
-            schedule => {
+        schedules
+            .map(
+                schedule => {
 
-                const releaseDate =
-                    new Date(
-                        schedule.release_at
-                    );
+                    const releaseDate =
+                        new Date(
+                            schedule.release_at
+                        );
 
-                const isReleased =
-                    releaseDate <= now;
+                    const isReleased =
+                        releaseDate <= now;
 
-                const statusText =
-                    isReleased
-                    ? "Released"
-                    : "Upcoming";
+                    const statusText =
+                        isReleased
+                        ? "Released"
+                        : "Upcoming";
 
-                const statusClass =
-                    isReleased
-                    ? "status-released"
-                    : "status-upcoming";
+                    const statusClass =
+                        isReleased
+                        ? "status-released"
+                        : "status-upcoming";
 
-                const animeTitle =
-                    schedule.anime_title ||
-                    "Unknown Anime";
+                    const animeTitle =
+                        schedule.anime_title ||
+                        "Unknown Anime";
 
-                const episodeNumber =
-                    schedule.episode_number;
+                    const episodeNumber =
+                        schedule.episode_number;
 
-                const episodeTitle =
-                    schedule.episode_title ||
-                    "Episode " +
-                    episodeNumber;
+                    const episodeTitle =
+                        schedule.episode_title ||
+                        "Episode " +
+                        episodeNumber;
 
-                const animeId =
-                    schedule.anime_id ||
-                    "";
+                    const animeId =
+                        schedule.anime_id ||
+                        "";
 
-                return `
+                    return `
 
-                    <div
-                        class="schedule-card"
-                        onclick="
-                            openAnime(
-                                '${escapeId(animeId)}'
-                            )
-                        "
-                    >
+                        <div
+                            class="schedule-card"
 
-                        <div class="schedule-top">
+                            onclick="
+                                openAnime(
+                                    '${escapeId(animeId)}'
+                                )
+                            "
+                        >
 
-                            <div class="schedule-anime">
-                                ${escapeHtml(animeTitle)}
+                            <div class="schedule-top">
+
+                                <div class="schedule-anime">
+                                    ${escapeHtml(animeTitle)}
+                                </div>
+
+                                <span
+                                    class="
+                                        schedule-status
+                                        ${statusClass}
+                                    "
+                                >
+                                    ${statusText}
+                                </span>
+
                             </div>
 
-                            <span
-                                class="
-                                    schedule-status
-                                    ${statusClass}
-                                "
-                            >
-                                ${statusText}
-                            </span>
+                            <div class="schedule-episode">
+
+                                Episode
+                                ${escapeHtml(
+                                    episodeNumber
+                                )}
+
+                                -
+                                ${escapeHtml(
+                                    episodeTitle
+                                )}
+
+                            </div>
+
+                            <div class="schedule-time">
+
+                                🕒
+                                ${formatDateTime(
+                                    schedule.release_at
+                                )}
+
+                            </div>
 
                         </div>
 
-                        <div class="schedule-episode">
+                    `;
 
-                            Episode
-                            ${escapeHtml(
-                                episodeNumber
-                            )}
-
-                            -
-                            ${escapeHtml(
-                                episodeTitle
-                            )}
-
-                        </div>
-
-                        <div class="schedule-time">
-
-                            🕒
-                            ${formatDateTime(
-                                schedule.release_at
-                            )}
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-
-        ).join("");
+                }
+            )
+            .join("");
 
 }
 
@@ -1464,6 +2158,47 @@ function escapeId(
 
 
 /* =====================================
+   TOAST
+===================================== */
+
+let toastTimer = null;
+
+function showToast(
+    message
+){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+        setTimeout(
+            function(){
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =====================================
    TELEGRAM POPUP CLOSE
 ===================================== */
 
@@ -1485,7 +2220,7 @@ function closeTelegramPopup(){
 
 
 /* =====================================
-   CLOSE POPUP ON BACKDROP CLICK
+   CLOSE POPUP ON BACKDROP
 ===================================== */
 
 document
@@ -1513,12 +2248,15 @@ document
 ===================================== */
 
 checkLogin().then(
-    function(loggedIn){
+    async function(loggedIn){
 
         if(loggedIn){
 
-            loadAnime();
-            loadSchedule();
+            await loadAnime();
+
+            await loadMyList();
+
+            await loadSchedule();
 
         }
 
@@ -1528,4 +2266,5 @@ checkLogin().then(
 </script>
 
 </body>
+
 </html>
