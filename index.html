@@ -5,10 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AnimeHindiZone</title>
 
@@ -16,9 +13,9 @@
 
 <style>
 
-/* =====================================
+/* =====================================================
    RESET
-===================================== */
+===================================================== */
 
 *{
     box-sizing:border-box;
@@ -31,102 +28,215 @@ html{
 }
 
 body{
-    background:#0b0b0f;
+    background:#08080d;
     color:#fff;
-    font-family:Arial,sans-serif;
+    font-family:Arial, sans-serif;
     min-height:100vh;
+    padding-bottom:70px;
 }
 
-/* =====================================
+button,
+input{
+    font-family:inherit;
+}
+
+/* =====================================================
    HEADER
-===================================== */
+===================================================== */
 
 header{
-    background:#15151d;
-    padding:18px 5%;
+    height:68px;
+    background:rgba(12,12,19,.96);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #242431;
+
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
+
+    padding:0 5%;
+
     position:sticky;
     top:0;
-    z-index:100;
-    border-bottom:1px solid #252532;
+    z-index:1000;
 }
 
 .logo{
-    font-size:24px;
-    font-weight:bold;
     color:#ff3d71;
+    font-size:22px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#fff;
 }
 
 nav{
     display:flex;
     align-items:center;
-    gap:18px;
+    gap:20px;
 }
 
 nav a{
-    color:#fff;
+    color:#bbb;
     text-decoration:none;
-    font-size:14px;
+    font-size:13px;
+    transition:.2s;
 }
 
 nav a:hover{
     color:#ff3d71;
 }
 
-/* =====================================
+.telegram-top{
+    background:#229ed9;
+    color:#fff !important;
+    padding:8px 13px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.signin-top{
+    background:#ff3d71;
+    color:#fff !important;
+    padding:8px 13px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+/* =====================================================
    HERO
-===================================== */
+===================================================== */
 
 .hero{
-    padding:50px 5%;
+    min-height:390px;
+    padding:70px 5% 60px;
+
+    display:flex;
+    align-items:center;
+
     background:
-    linear-gradient(
-        135deg,
-        #181827,
-        #0b0b0f
-    );
+        radial-gradient(
+            circle at 75% 40%,
+            rgba(255,61,113,.20),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #181522,
+            #09090e 70%
+        );
+
+    border-bottom:1px solid #20202b;
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.hero-label{
+    display:inline-block;
+
+    background:#ff3d71;
+    color:#fff;
+
+    padding:6px 11px;
+    border-radius:6px;
+
+    font-size:11px;
+    font-weight:bold;
+
+    margin-bottom:15px;
 }
 
 .hero h1{
-    font-size:34px;
-    margin-bottom:10px;
+    font-size:48px;
+    line-height:1.05;
+    margin-bottom:15px;
+}
+
+.hero h1 span{
+    color:#ff3d71;
 }
 
 .hero p{
     color:#aaa;
-    line-height:1.6;
+    max-width:600px;
+    line-height:1.7;
+    font-size:15px;
 }
 
-/* =====================================
-   CONTAINER
-===================================== */
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:25px;
+}
+
+.hero-btn{
+    text-decoration:none;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.watch-btn{
+    background:#ff3d71;
+    color:#fff;
+}
+
+.details-btn{
+    background:#252530;
+    color:#fff;
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
 
 .container{
-    padding:30px 5%;
+    padding:35px 5%;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
 }
 
 .section-title{
-    font-size:24px;
-    margin-bottom:20px;
+    font-size:23px;
+    font-weight:800;
 }
 
-/* =====================================
+.view-all{
+    color:#ff3d71;
+    text-decoration:none;
+    font-size:13px;
+}
+
+/* =====================================================
    SEARCH
-===================================== */
+===================================================== */
 
 .search-box{
     width:100%;
-    padding:14px 16px;
-    border:none;
-    outline:none;
-    border-radius:8px;
-    background:#171720;
+    padding:15px 17px;
+
+    background:#15151e;
     color:#fff;
-    margin-bottom:25px;
-    font-size:15px;
-    border:1px solid #24242f;
+
+    border:1px solid #282833;
+    border-radius:10px;
+
+    outline:none;
+    font-size:14px;
+
+    margin-bottom:20px;
 }
 
 .search-box:focus{
@@ -137,100 +247,265 @@ nav a:hover{
     color:#777;
 }
 
-/* =====================================
+/* =====================================================
+   GENRE CHIPS
+===================================================== */
+
+.genre-row{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    padding-bottom:5px;
+
+    scrollbar-width:none;
+}
+
+.genre-row::-webkit-scrollbar{
+    display:none;
+}
+
+.genre-chip{
+    flex:0 0 auto;
+
+    border:1px solid #292934;
+    background:#14141c;
+    color:#aaa;
+
+    padding:9px 14px;
+    border-radius:20px;
+
+    font-size:12px;
+    cursor:pointer;
+}
+
+.genre-chip:hover,
+.genre-chip.active{
+    background:#ff3d71;
+    color:#fff;
+    border-color:#ff3d71;
+}
+
+/* =====================================================
+   TELEGRAM BANNER
+===================================================== */
+
+.telegram-banner{
+    margin:5px 5% 15px;
+
+    padding:20px;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #168dcc,
+            #17628d
+        );
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.3);
+}
+
+.telegram-banner-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.telegram-banner-icon{
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.18);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:24px;
+}
+
+.telegram-banner h3{
+    font-size:16px;
+    margin-bottom:4px;
+}
+
+.telegram-banner p{
+    font-size:12px;
+    color:#d8f3ff;
+}
+
+.telegram-banner a{
+    flex:0 0 auto;
+
+    background:#fff;
+    color:#168dcc;
+
+    padding:10px 15px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* =====================================================
    GRID
-===================================== */
+===================================================== */
 
 .grid{
     display:grid;
 
     grid-template-columns:
-    repeat(
-        auto-fill,
-        minmax(160px,1fr)
-    );
+        repeat(
+            auto-fill,
+            minmax(165px,1fr)
+        );
 
-    gap:18px;
+    gap:17px;
 }
 
-/* =====================================
+/* =====================================================
    CARD
-===================================== */
+===================================================== */
 
 .card{
-    background:#15151d;
-    border-radius:10px;
+    background:#13131b;
+    border:1px solid #252530;
+    border-radius:11px;
+
     overflow:hidden;
+
     cursor:pointer;
+
     transition:.25s;
-    border:1px solid #24242f;
+
     position:relative;
 }
 
 .card:hover{
     transform:translateY(-5px);
-
     border-color:#ff3d71;
 
     box-shadow:
-    0 8px 25px
-    rgba(255,61,113,.15);
+        0 10px 30px
+        rgba(255,61,113,.14);
+}
+
+.card-img-wrap{
+    position:relative;
+    overflow:hidden;
 }
 
 .card img{
     width:100%;
-    height:230px;
+    height:245px;
+
     object-fit:cover;
+
     display:block;
+
     background:#20202a;
+
+    transition:.3s;
+}
+
+.card:hover img{
+    transform:scale(1.03);
+}
+
+.card-badge{
+    position:absolute;
+
+    top:9px;
+    left:9px;
+
+    padding:5px 8px;
+
+    border-radius:5px;
+
+    background:#ff3d71;
+
+    color:#fff;
+
+    font-size:9px;
+    font-weight:bold;
 }
 
 .card-info{
-    padding:12px;
+    padding:11px;
 }
 
 .card-title{
-    font-size:16px;
+    font-size:14px;
     font-weight:bold;
-    margin-bottom:7px;
-    line-height:1.3;
+
+    line-height:1.35;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+    margin-bottom:6px;
+}
+
+.card-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    color:#888;
+
+    font-size:11px;
+
+    margin-bottom:10px;
 }
 
 .card-status{
     color:#ff3d71;
-    font-size:12px;
-    margin-bottom:10px;
 }
 
-/* =====================================
+/* =====================================================
    MY LIST BUTTON
-===================================== */
+===================================================== */
 
 .my-list-btn{
     width:100%;
-    padding:9px 10px;
+
+    padding:9px;
+
     border:none;
     border-radius:7px;
-    background:#24242f;
+
+    background:#252530;
     color:#fff;
+
     cursor:pointer;
-    font-size:12px;
+
+    font-size:11px;
     font-weight:bold;
+
     transition:.2s;
 }
 
-.my-list-btn:hover{
-    background:#ff3d71;
-}
-
+.my-list-btn:hover,
 .my-list-btn.saved{
     background:#ff3d71;
-    color:#fff;
 }
 
-/* =====================================
+/* =====================================================
    SCHEDULE
-===================================== */
+===================================================== */
 
 .schedule-list{
     display:grid;
@@ -238,12 +513,16 @@ nav a:hover{
 }
 
 .schedule-card{
-    background:#15151d;
-    border:1px solid #24242f;
-    border-radius:10px;
+    background:#13131b;
+
+    border:1px solid #252530;
+    border-radius:11px;
+
     padding:16px;
-    transition:.25s;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
 .schedule-card:hover{
@@ -255,70 +534,87 @@ nav a:hover{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     gap:10px;
+
     margin-bottom:8px;
 }
 
 .schedule-anime{
-    font-size:18px;
+    font-size:16px;
     font-weight:bold;
 }
 
 .schedule-episode{
-    color:#bbb;
-    font-size:14px;
+    color:#aaa;
+    font-size:13px;
     margin-bottom:8px;
 }
 
 .schedule-time{
-    color:#aaa;
-    font-size:13px;
+    color:#777;
+    font-size:12px;
 }
 
 .schedule-status{
-    display:inline-block;
-    padding:5px 9px;
+    padding:5px 8px;
     border-radius:5px;
-    font-size:11px;
+    font-size:10px;
     font-weight:bold;
 }
 
 .status-upcoming{
-    color:#7dd3fc;
     background:#102a38;
+    color:#7dd3fc;
 }
 
 .status-released{
-    color:#86efac;
     background:#102c1b;
+    color:#86efac;
 }
 
-.schedule-loading{
+/* =====================================================
+   EMPTY / LOADING
+===================================================== */
+
+.loading,
+.empty{
+    color:#888;
     text-align:center;
-    color:#aaa;
-    padding:30px;
+    padding:35px;
+    grid-column:1/-1;
 }
 
+.error-box{
+    background:#241116;
+    border:1px solid #ff3d71;
+
+    border-radius:9px;
+
+    padding:18px;
+
+    color:#ffb3c5;
+
+    grid-column:1/-1;
+
+    word-break:break-word;
+}
+
+.my-list-empty,
 .schedule-empty{
     text-align:center;
-    color:#aaa;
-    padding:30px;
-    background:#15151d;
-    border-radius:10px;
-    border:1px solid #24242f;
-}
 
-/* =====================================
-   MY LIST EMPTY
-===================================== */
+    color:#888;
 
-.my-list-empty{
-    text-align:center;
-    color:#aaa;
     padding:35px 20px;
-    background:#15151d;
-    border:1px solid #24242f;
-    border-radius:10px;
+
+    background:#13131b;
+
+    border:1px solid #252530;
+
+    border-radius:11px;
+
+    grid-column:1/-1;
 }
 
 .my-list-empty-icon{
@@ -326,110 +622,142 @@ nav a:hover{
     margin-bottom:10px;
 }
 
-/* =====================================
-   LOADING
-===================================== */
+/* =====================================================
+   FOOTER
+===================================================== */
 
-.loading{
+footer{
+    margin-top:30px;
+
+    padding:30px 5%;
+
+    background:#101017;
+
+    border-top:1px solid #24242e;
+
     text-align:center;
-    color:#aaa;
-    padding:35px;
+
+    color:#777;
+
+    font-size:12px;
 }
 
-.empty{
-    text-align:center;
-    color:#aaa;
-    padding:35px;
+.footer-logo{
+    color:#ff3d71;
+    font-size:19px;
+    font-weight:bold;
+    margin-bottom:8px;
 }
 
-/* =====================================
-   ERROR
-===================================== */
+/* =====================================================
+   MOBILE BOTTOM NAV
+===================================================== */
 
-.error-box{
-    background:#241116;
-    border:1px solid #ff3d71;
-    border-radius:8px;
-    padding:18px;
-    color:#ffb3c5;
-    word-break:break-word;
+.bottom-nav{
+    position:fixed;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:62px;
+
+    background:rgba(13,13,20,.97);
+
+    backdrop-filter:blur(15px);
+
+    border-top:1px solid #292934;
+
+    z-index:5000;
+
+    display:none;
+
+    grid-template-columns:
+        repeat(5,1fr);
 }
 
-/* =====================================
+.bottom-nav a{
+    color:#777;
+
+    text-decoration:none;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:4px;
+
+    font-size:10px;
+}
+
+.bottom-nav a span{
+    font-size:18px;
+}
+
+.bottom-nav a:hover{
+    color:#ff3d71;
+}
+
+/* =====================================================
    TOAST
-===================================== */
+===================================================== */
 
 .toast{
     position:fixed;
+
     left:50%;
-    bottom:25px;
+    bottom:80px;
 
     transform:
-    translateX(-50%)
-    translateY(100px);
+        translateX(-50%)
+        translateY(100px);
 
-    background:#181820;
-    border:1px solid #30303c;
-    color:#fff;
+    background:#191922;
 
-    padding:13px 18px;
+    border:1px solid #333340;
+
+    padding:12px 17px;
 
     border-radius:9px;
 
-    font-size:14px;
-
-    z-index:100000;
+    font-size:13px;
 
     opacity:0;
 
-    transition:.3s;
+    z-index:10000;
 
-    box-shadow:
-    0 10px 35px
-    rgba(0,0,0,.5);
+    transition:.3s;
 }
 
 .toast.show{
     opacity:1;
 
     transform:
-    translateX(-50%)
-    translateY(0);
+        translateX(-50%)
+        translateY(0);
 }
 
-/* =====================================
-   FOOTER
-===================================== */
-
-footer{
-    margin-top:50px;
-    padding:25px;
-    text-align:center;
-    background:#15151d;
-    color:#888;
-}
-
-/* =====================================
+/* =====================================================
    TELEGRAM POPUP
-===================================== */
+===================================================== */
 
 .telegram-overlay{
     position:fixed;
     inset:0;
 
-    background:
-    rgba(0,0,0,.82);
+    background:rgba(0,0,0,.84);
 
     display:flex;
-    justify-content:center;
+
     align-items:center;
+    justify-content:center;
 
     padding:20px;
 
     z-index:99999;
-
-    animation:
-    telegramFadeIn .25s ease;
 }
 
 .telegram-popup{
@@ -449,11 +777,8 @@ footer{
     position:relative;
 
     box-shadow:
-    0 20px 70px
-    rgba(0,0,0,.8);
-
-    animation:
-    telegramPopupIn .35s ease;
+        0 20px 70px
+        rgba(0,0,0,.8);
 }
 
 .telegram-close{
@@ -466,7 +791,6 @@ footer{
     height:34px;
 
     border:none;
-
     border-radius:50%;
 
     background:#292933;
@@ -475,229 +799,134 @@ footer{
 
     font-size:23px;
 
-    line-height:34px;
-
     cursor:pointer;
 }
 
-.telegram-close:hover{
-    background:#3b3b48;
-}
-
 .telegram-logo{
-    width:78px;
-    height:78px;
+    width:75px;
+    height:75px;
 
-    margin:
-    0 auto 18px;
+    margin:0 auto 17px;
 
-    background:#229ED9;
+    background:#229ed9;
 
     border-radius:50%;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
-    box-shadow:
-    0 8px 30px
-    rgba(34,158,217,.35);
-}
-
-.telegram-logo svg{
-    width:45px;
-    height:45px;
-
-    fill:#fff;
+    font-size:35px;
 }
 
 .telegram-popup h2{
-    font-size:25px;
+    font-size:23px;
     margin-bottom:10px;
 }
 
 .telegram-popup p{
     color:#aaa;
-    font-size:14px;
+    font-size:13px;
     line-height:1.6;
-    margin-bottom:22px;
+
+    margin-bottom:20px;
 }
 
 .telegram-join{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    gap:8px;
+    display:block;
 
     width:100%;
 
-    padding:14px 18px;
+    padding:13px;
 
-    background:#229ED9;
+    background:#229ed9;
 
     color:#fff;
 
     text-decoration:none;
 
-    border-radius:10px;
-
-    font-size:16px;
+    border-radius:9px;
 
     font-weight:bold;
-
-    transition:.2s;
-}
-
-.telegram-join:hover{
-    background:#168dcc;
-
-    transform:
-    translateY(-2px);
-
-    box-shadow:
-    0 8px 20px
-    rgba(34,158,217,.25);
 }
 
 .telegram-later{
-    margin-top:14px;
+    margin-top:13px;
 
-    background:transparent;
-
+    background:none;
     border:none;
 
     color:#777;
 
-    font-size:13px;
-
     cursor:pointer;
 }
 
-.telegram-later:hover{
-    color:#aaa;
-}
-
-/* =====================================
-   ANIMATIONS
-===================================== */
-
-@keyframes telegramFadeIn{
-
-    from{
-        opacity:0;
-    }
-
-    to{
-        opacity:1;
-    }
-
-}
-
-@keyframes telegramPopupIn{
-
-    from{
-        opacity:0;
-
-        transform:
-        scale(.85)
-        translateY(20px);
-    }
-
-    to{
-        opacity:1;
-
-        transform:
-        scale(1)
-        translateY(0);
-    }
-
-}
-
-/* =====================================
+/* =====================================================
    MOBILE
-===================================== */
+===================================================== */
 
-@media(max-width:600px){
+@media(max-width:700px){
+
+    body{
+        padding-bottom:70px;
+    }
 
     header{
-        padding:15px 4%;
+        height:60px;
+        padding:0 4%;
     }
 
     .logo{
-        font-size:20px;
+        font-size:19px;
     }
 
     nav{
-        gap:10px;
+        gap:7px;
     }
 
     nav a{
-        font-size:11px;
+        display:none;
     }
 
-    nav a:nth-child(2),
-    nav a:nth-child(3){
+    nav a:nth-last-child(2){
+        display:block;
+    }
+
+    nav a:last-child{
         display:none;
     }
 
     .hero{
-        padding:40px 5%;
+        min-height:330px;
+        padding:45px 5%;
     }
 
     .hero h1{
-        font-size:27px;
+        font-size:34px;
+    }
+
+    .hero p{
+        font-size:13px;
+    }
+
+    .container{
+        padding:28px 4%;
+    }
+
+    .section-title{
+        font-size:20px;
     }
 
     .grid{
         grid-template-columns:
-        repeat(2,1fr);
+            repeat(2,1fr);
 
-        gap:12px;
+        gap:11px;
     }
 
     .card img{
         height:220px;
-    }
-
-    .card-title{
-        font-size:14px;
-    }
-
-    .schedule-top{
-        align-items:flex-start;
-    }
-
-    .schedule-anime{
-        font-size:16px;
-    }
-
-    .telegram-popup{
-        max-width:350px;
-        padding:28px 20px 22px;
-    }
-
-    .telegram-popup h2{
-        font-size:22px;
-    }
-
-}
-
-/* =====================================
-   SMALL MOBILE
-===================================== */
-
-@media(max-width:380px){
-
-    .grid{
-        grid-template-columns:
-        repeat(2,1fr);
-
-        gap:9px;
-    }
-
-    .card img{
-        height:195px;
     }
 
     .card-info{
@@ -708,50 +937,97 @@ footer{
         font-size:13px;
     }
 
+    .telegram-banner{
+        margin:0 4% 10px;
+
+        padding:15px;
+
+        align-items:flex-start;
+    }
+
+    .telegram-banner p{
+        display:none;
+    }
+
+    .telegram-banner a{
+        padding:9px 10px;
+    }
+
+    .telegram-banner-icon{
+        width:40px;
+        height:40px;
+        font-size:19px;
+    }
+
+    .hero-buttons{
+        margin-top:20px;
+    }
+
+    .hero-btn{
+        padding:11px 15px;
+    }
+
+    .bottom-nav{
+        display:grid;
+    }
+
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media(max-width:380px){
+
+    .grid{
+        gap:8px;
+    }
+
+    .card img{
+        height:195px;
+    }
+
+    .card-title{
+        font-size:12px;
+    }
+
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 
-<!-- =====================================
+<!-- =====================================================
      HEADER
-===================================== -->
+===================================================== -->
 
 <header>
 
     <div class="logo">
-        AnimeHindiZone
+        Anime<span>HindiZone</span>
     </div>
 
     <nav>
 
-        <a href="index.html">
-            Home
-        </a>
+        <a href="#home">Home</a>
 
-        <a href="#latest">
-            Latest
-        </a>
+        <a href="#latest">Latest</a>
 
-        <a href="#popular">
-            Popular
-        </a>
+        <a href="#popular">Popular</a>
 
-        <a href="#schedule">
-            Schedule
-        </a>
+        <a href="#schedule">Schedule</a>
 
-        <a href="#my-list">
-            My List
-        </a>
+        <a href="#my-list">My List</a>
 
-        <a href="admin.html">
-            Admin
+        <a
+            href="https://t.me/Anime_hindizone"
+            target="_blank"
+            class="telegram-top"
+        >
+            Telegram
         </a>
 
     </nav>
@@ -759,26 +1035,58 @@ footer{
 </header>
 
 
-<!-- =====================================
+<!-- =====================================================
      HERO
-===================================== -->
+===================================================== -->
 
-<section class="hero">
+<section
+    class="hero"
+    id="home"
+>
 
-    <h1>
-        Watch Anime in Hindi
-    </h1>
+    <div class="hero-content">
 
-    <p>
-        Latest anime, episodes and more.
-    </p>
+        <div class="hero-label">
+            ANIMEHINDIZONE
+        </div>
+
+        <h1>
+            Watch Anime<br>
+            <span>in Hindi</span>
+        </h1>
+
+        <p>
+            Watch the latest anime, discover new series,
+            check upcoming episodes and keep your favourite
+            anime in your personal list.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="#latest"
+                class="hero-btn watch-btn"
+            >
+                ▶ Explore Anime
+            </a>
+
+            <a
+                href="#schedule"
+                class="hero-btn details-btn"
+            >
+                📅 Schedule
+            </a>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- =====================================
-     LATEST
-===================================== -->
+<!-- =====================================================
+     SEARCH + GENRES
+===================================================== -->
 
 <div class="container">
 
@@ -786,42 +1094,118 @@ footer{
         type="text"
         id="searchInput"
         class="search-box"
-        placeholder="Search anime..."
+        placeholder="🔍 Search anime..."
     >
 
-    <h2
-        class="section-title"
-        id="latest"
-    >
-        Latest Anime
-    </h2>
+    <div class="genre-row">
 
-    <div
-        id="animeGrid"
-        class="grid"
-    >
+        <button
+            class="genre-chip active"
+            onclick="filterGenre('all',this)"
+        >
+            All
+        </button>
 
-        <div class="loading">
-            Loading anime...
-        </div>
+        <button
+            class="genre-chip"
+            onclick="filterGenre('Action',this)"
+        >
+            Action
+        </button>
+
+        <button
+            class="genre-chip"
+            onclick="filterGenre('Adventure',this)"
+        >
+            Adventure
+        </button>
+
+        <button
+            class="genre-chip"
+            onclick="filterGenre('Comedy',this)"
+        >
+            Comedy
+        </button>
+
+        <button
+            class="genre-chip"
+            onclick="filterGenre('Fantasy',this)"
+        >
+            Fantasy
+        </button>
+
+        <button
+            class="genre-chip"
+            onclick="filterGenre('Romance',this)"
+        >
+            Romance
+        </button>
+
+        <button
+            class="genre-chip"
+            onclick="filterGenre('Isekai',this)"
+        >
+            Isekai
+        </button>
 
     </div>
 
 </div>
 
 
-<!-- =====================================
-     POPULAR
-===================================== -->
+<!-- =====================================================
+     TELEGRAM BANNER
+===================================================== -->
 
-<div
+<div class="telegram-banner">
+
+    <div class="telegram-banner-left">
+
+        <div class="telegram-banner-icon">
+            ✈️
+        </div>
+
+        <div>
+
+            <h3>
+                Join AnimeHindiZone Telegram
+            </h3>
+
+            <p>
+                New anime & episode updates directly on Telegram.
+            </p>
+
+        </div>
+
+    </div>
+
+    <a
+        href="https://t.me/Anime_hindizone"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        JOIN
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     TRENDING
+===================================================== -->
+
+<section
     class="container"
     id="popular"
 >
 
-    <h2 class="section-title">
-        Popular Anime
-    </h2>
+    <div class="section-head">
+
+        <h2 class="section-title">
+            🔥 Trending Now
+        </h2>
+
+    </div>
 
     <div
         id="popularGrid"
@@ -829,26 +1213,120 @@ footer{
     >
 
         <div class="loading">
-            Loading popular anime...
+            Loading trending anime...
         </div>
 
     </div>
 
-</div>
+</section>
 
 
-<!-- =====================================
+<!-- =====================================================
+     LATEST EPISODES
+===================================================== -->
+
+<section
+    class="container"
+    id="latest"
+>
+
+    <div class="section-head">
+
+        <h2 class="section-title">
+            🆕 Latest Episodes
+        </h2>
+
+    </div>
+
+    <div
+        id="animeGrid"
+        class="grid"
+    >
+
+        <div class="loading">
+            Loading latest anime...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RECENTLY ADDED
+===================================================== -->
+
+<section class="container">
+
+    <div class="section-head">
+
+        <h2 class="section-title">
+            ✨ Recently Added
+        </h2>
+
+    </div>
+
+    <div
+        id="recentGrid"
+        class="grid"
+    >
+
+        <div class="loading">
+            Loading recently added...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SCHEDULE
+===================================================== -->
+
+<section
+    class="container"
+    id="schedule"
+>
+
+    <div class="section-head">
+
+        <h2 class="section-title">
+            📅 Anime Schedule
+        </h2>
+
+    </div>
+
+    <div
+        id="scheduleContainer"
+        class="schedule-list"
+    >
+
+        <div class="loading">
+            Loading schedule...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
      MY LIST
-===================================== -->
+===================================================== -->
 
-<div
+<section
     class="container"
     id="my-list"
 >
 
-    <h2 class="section-title">
-        ❤️ My List
-    </h2>
+    <div class="section-head">
+
+        <h2 class="section-title">
+            ❤️ My List
+        </h2>
+
+    </div>
 
     <div
         id="myListGrid"
@@ -861,50 +1339,67 @@ footer{
 
     </div>
 
-</div>
+</section>
 
 
-<!-- =====================================
-     SCHEDULE
-===================================== -->
-
-<div
-    class="container"
-    id="schedule"
->
-
-    <h2 class="section-title">
-        📅 Anime Schedule
-    </h2>
-
-    <div
-        id="scheduleContainer"
-        class="schedule-list"
-    >
-
-        <div class="schedule-loading">
-            Loading schedule...
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================
+<!-- =====================================================
      FOOTER
-===================================== -->
+===================================================== -->
 
 <footer>
+
+    <div class="footer-logo">
+        AnimeHindiZone
+    </div>
+
+    <p>
+        Your anime destination.
+    </p>
+
+    <br>
 
     © 2026 AnimeHindiZone
 
 </footer>
 
 
-<!-- =====================================
+<!-- =====================================================
+     MOBILE BOTTOM NAV
+===================================================== -->
+
+<div class="bottom-nav">
+
+    <a href="#home">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="#latest">
+        <span>▶</span>
+        Latest
+    </a>
+
+    <a href="#popular">
+        <span>🔥</span>
+        Top
+    </a>
+
+    <a href="#schedule">
+        <span>📅</span>
+        Schedule
+    </a>
+
+    <a href="#my-list">
+        <span>❤️</span>
+        My List
+    </a>
+
+</div>
+
+
+<!-- =====================================================
      TELEGRAM POPUP
-===================================== -->
+===================================================== -->
 
 <div
     class="telegram-overlay"
@@ -916,37 +1411,12 @@ footer{
         <button
             class="telegram-close"
             onclick="closeTelegramPopup()"
-            aria-label="Close"
         >
             ×
         </button>
 
         <div class="telegram-logo">
-
-            <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-            >
-
-                <path d="
-                    M21.4 3.6
-                    L18.2 20
-                    C18 21.1 17.2 21.4 16.5 20.9
-                    L11.8 17.4
-                    L9.5 19.6
-                    C9.2 19.9 8.9 20.2 8.4 20.2
-                    L8.7 15.4
-                    L17.4 7.6
-                    C17.8 7.2 17.3 7 16.8 7.4
-                    L7.2 13.9
-                    L2.6 12.5
-                    C1.6 12.2 1.6 11.2 2.8 10.8
-                    L20.7 3.2
-                    C21.6 2.9 22.4 3.4 21.4 3.6
-                " />
-
-            </svg>
-
+            ✈️
         </div>
 
         <h2>
@@ -954,9 +1424,8 @@ footer{
         </h2>
 
         <p>
-            Get the latest anime updates,
-            new episodes, release notifications
-            and more!
+            Get latest anime updates,
+            new episodes and release notifications.
         </p>
 
         <a
@@ -980,9 +1449,9 @@ footer{
 </div>
 
 
-<!-- =====================================
+<!-- =====================================================
      TOAST
-===================================== -->
+===================================================== -->
 
 <div
     id="toast"
@@ -992,9 +1461,9 @@ footer{
 
 <script>
 
-/* =====================================
-   SUPABASE CONFIG
-===================================== */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
 "https://gmacsiymybvfcxydvkla.supabase.co";
@@ -1003,15 +1472,15 @@ const SUPABASE_KEY =
 "sb_publishable_Li6BRvLN87cvF8zghHQCxw_STmBDeGF";
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-/* =====================================
-   GLOBAL DATA
-===================================== */
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
 
 let allAnime = [];
 
@@ -1019,23 +1488,23 @@ let myListIds = new Set();
 
 let currentUser = null;
 
+let selectedGenre = "all";
 
-/* =====================================
-   LOGIN CHECK
-===================================== */
+
+/* =====================================================
+   LOGIN
+===================================================== */
 
 async function checkLogin(){
 
     try{
 
         const {
-            data:{
-                session
-            }
+            data:{session}
         } =
         await supabaseClient
-            .auth
-            .getSession();
+        .auth
+        .getSession();
 
         if(!session){
 
@@ -1056,10 +1525,7 @@ async function checkLogin(){
 
     catch(error){
 
-        console.error(
-            "Login check error:",
-            error
-        );
+        console.error(error);
 
         window.location.replace(
             "login.html"
@@ -1072,9 +1538,364 @@ async function checkLogin(){
 }
 
 
-/* =====================================
-   LOAD MY LIST
-===================================== */
+/* =====================================================
+   LOAD ANIME
+===================================================== */
+
+async function loadAnime(){
+
+    const grid =
+        document.getElementById(
+            "animeGrid"
+        );
+
+    try{
+
+        const url =
+            SUPABASE_URL +
+            "/rest/v1/anime" +
+            "?select=id,anime_id,title,thumbnail_url,banner_url,description,genre,season,language,status" +
+            "&order=id.desc";
+
+        const response =
+            await fetch(
+                url,
+                {
+                    headers:{
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY
+                    }
+                }
+            );
+
+        if(!response.ok){
+
+            throw new Error(
+                "Supabase HTTP " +
+                response.status
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        allAnime =
+            Array.isArray(data)
+            ? data
+            : [];
+
+        displayAllSections();
+
+        displayMyList();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Anime error:",
+            error
+        );
+
+        grid.innerHTML = `
+            <div class="error-box">
+                Anime load nahi ho pa raha.<br><br>
+                ${escapeHtml(error.message)}
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY ALL SECTIONS
+===================================================== */
+
+function displayAllSections(){
+
+    const filtered =
+        getFilteredAnime();
+
+    displayLatest(filtered);
+
+    displayPopular(filtered);
+
+    displayRecent();
+
+}
+
+
+/* =====================================================
+   FILTER DATA
+===================================================== */
+
+function getFilteredAnime(){
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    return allAnime.filter(anime => {
+
+        const title =
+            String(anime.title || "")
+            .toLowerCase();
+
+        const genre =
+            String(anime.genre || "")
+            .toLowerCase();
+
+        const searchMatch =
+            !search ||
+            title.includes(search);
+
+        const genreMatch =
+            selectedGenre === "all" ||
+            genre.includes(
+                selectedGenre.toLowerCase()
+            );
+
+        return searchMatch &&
+               genreMatch;
+
+    });
+
+}
+
+
+/* =====================================================
+   LATEST
+===================================================== */
+
+function displayLatest(list){
+
+    const grid =
+        document.getElementById(
+            "animeGrid"
+        );
+
+    if(!list.length){
+
+        grid.innerHTML = `
+            <div class="empty">
+                Koi anime nahi mila.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    grid.innerHTML =
+        list
+        .slice(0,8)
+        .map(createAnimeCard)
+        .join("");
+
+}
+
+
+/* =====================================================
+   TRENDING
+===================================================== */
+
+function displayPopular(list){
+
+    const grid =
+        document.getElementById(
+            "popularGrid"
+        );
+
+    const popular =
+        list.slice(0,6);
+
+    if(!popular.length){
+
+        grid.innerHTML = `
+            <div class="empty">
+                Koi anime nahi mila.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    grid.innerHTML =
+        popular
+        .map(createAnimeCard)
+        .join("");
+
+}
+
+
+/* =====================================================
+   RECENTLY ADDED
+===================================================== */
+
+function displayRecent(){
+
+    const grid =
+        document.getElementById(
+            "recentGrid"
+        );
+
+    const recent =
+        allAnime.slice(0,6);
+
+    if(!recent.length){
+
+        grid.innerHTML = `
+            <div class="empty">
+                Abhi koi anime available nahi hai.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    grid.innerHTML =
+        recent
+        .map(createAnimeCard)
+        .join("");
+
+}
+
+
+/* =====================================================
+   CREATE CARD
+===================================================== */
+
+function createAnimeCard(anime){
+
+    const title =
+        anime.title ||
+        "Unknown Anime";
+
+    const animeId =
+        anime.anime_id ||
+        "";
+
+    const image =
+        anime.thumbnail_url ||
+        "https://via.placeholder.com/300x450?text=No+Image";
+
+    const status =
+        anime.status ||
+        "Ongoing";
+
+    const genre =
+        anime.genre ||
+        "Anime";
+
+    const saved =
+        myListIds.has(
+            String(animeId)
+        );
+
+    return `
+
+        <div
+            class="card"
+            onclick="openAnime('${escapeId(animeId)}')"
+        >
+
+            <div class="card-img-wrap">
+
+                <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(title)}"
+                    onerror="
+                        this.src='https://via.placeholder.com/300x450?text=No+Image'
+                    "
+                >
+
+                <div class="card-badge">
+                    ${escapeHtml(status)}
+                </div>
+
+            </div>
+
+            <div class="card-info">
+
+                <div class="card-title">
+                    ${escapeHtml(title)}
+                </div>
+
+                <div class="card-meta">
+
+                    <span class="card-status">
+                        ${escapeHtml(status)}
+                    </span>
+
+                    <span>
+                        ${escapeHtml(genre)}
+                    </span>
+
+                </div>
+
+                <button
+                    class="my-list-btn ${saved ? "saved" : ""}"
+                    onclick="
+                        addToMyList(
+                            '${escapeId(animeId)}',
+                            event
+                        )
+                    "
+                >
+                    ${
+                        saved
+                        ? "❤️ In My List"
+                        : "♡ Add to My List"
+                    }
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   OPEN ANIME
+===================================================== */
+
+function openAnime(id){
+
+    if(!id){
+
+        showToast(
+            "Anime ID available nahi hai."
+        );
+
+        return;
+
+    }
+
+    window.location.href =
+        "anime-details.html?id=" +
+        encodeURIComponent(id);
+
+}
+
+
+/* =====================================================
+   MY LIST LOAD
+===================================================== */
 
 async function loadMyList(){
 
@@ -1084,19 +1905,6 @@ async function loadMyList(){
 
     }
 
-    const grid =
-        document.getElementById(
-            "myListGrid"
-        );
-
-    grid.innerHTML = `
-
-        <div class="loading">
-            Loading your list...
-        </div>
-
-    `;
-
     try{
 
         const {
@@ -1104,12 +1912,12 @@ async function loadMyList(){
             error
         } =
         await supabaseClient
-            .from("my_list")
-            .select("anime_id")
-            .eq(
-                "user_id",
-                currentUser.id
-            );
+        .from("my_list")
+        .select("anime_id")
+        .eq(
+            "user_id",
+            currentUser.id
+        );
 
         if(error){
 
@@ -1120,32 +1928,34 @@ async function loadMyList(){
         myListIds =
             new Set(
                 (data || [])
-                    .map(
-                        item =>
-                            String(
-                                item.anime_id
-                            )
+                .map(
+                    x =>
+                    String(
+                        x.anime_id
                     )
+                )
             );
 
         displayMyList();
+
+        displayAllSections();
 
     }
 
     catch(error){
 
         console.error(
-            "My List loading error:",
+            "My List:",
             error
         );
 
-        grid.innerHTML = `
+        document.getElementById(
+            "myListGrid"
+        ).innerHTML = `
 
             <div class="error-box">
 
-                <strong>
-                    My List load nahi ho pa rahi.
-                </strong>
+                My List load nahi ho pa rahi.
 
                 <br><br>
 
@@ -1162,9 +1972,9 @@ async function loadMyList(){
 }
 
 
-/* =====================================
+/* =====================================================
    DISPLAY MY LIST
-===================================== */
+===================================================== */
 
 function displayMyList(){
 
@@ -1173,7 +1983,7 @@ function displayMyList(){
             "myListGrid"
         );
 
-    const savedAnime =
+    const saved =
         allAnime.filter(
             anime =>
                 myListIds.has(
@@ -1183,9 +1993,7 @@ function displayMyList(){
                 )
         );
 
-    if(
-        savedAnime.length === 0
-    ){
+    if(!saved.length){
 
         grid.innerHTML = `
 
@@ -1202,10 +2010,11 @@ function displayMyList(){
                 <div
                     style="
                     margin-top:8px;
-                    font-size:13px;
+                    font-size:12px;
                     "
                 >
-                    Anime ke neeche ❤️ Add to My List
+                    Anime ke neeche
+                    ❤️ Add to My List
                     button dabao.
                 </div>
 
@@ -1218,21 +2027,16 @@ function displayMyList(){
     }
 
     grid.innerHTML =
-        savedAnime
-            .map(
-                anime =>
-                    createAnimeCard(
-                        anime
-                    )
-            )
-            .join("");
+        saved
+        .map(createAnimeCard)
+        .join("");
 
 }
 
 
-/* =====================================
-   ADD TO MY LIST
-===================================== */
+/* =====================================================
+   ADD / REMOVE MY LIST
+===================================================== */
 
 async function addToMyList(
     animeId,
@@ -1277,51 +2081,28 @@ async function addToMyList(
             error
         } =
         await supabaseClient
-            .from("my_list")
-            .insert({
-                user_id:
-                    currentUser.id,
+        .from("my_list")
+        .insert({
+            user_id:
+                currentUser.id,
 
-                anime_id:
-                    id
-            });
+            anime_id:
+                id
+        });
 
         if(error){
 
-            /*
-             * Agar same anime already saved hai
-             * to duplicate ko ignore karenge.
-             */
-
-            if(
-                error.code === "23505"
-            ){
-
-                myListIds.add(id);
-
-                showToast(
-                    "Already in My List."
-                );
-
-            }
-            else{
-
-                throw error;
-
-            }
-
-        }
-        else{
-
-            myListIds.add(id);
-
-            showToast(
-                "❤️ Added to My List"
-            );
+            throw error;
 
         }
 
-        refreshAllCards();
+        myListIds.add(id);
+
+        showToast(
+            "❤️ Added to My List"
+        );
+
+        displayAllSections();
 
         displayMyList();
 
@@ -1329,10 +2110,7 @@ async function addToMyList(
 
     catch(error){
 
-        console.error(
-            "Add My List error:",
-            error
-        );
+        console.error(error);
 
         showToast(
             "My List me add nahi hua."
@@ -1342,10 +2120,6 @@ async function addToMyList(
 
 }
 
-
-/* =====================================
-   REMOVE FROM MY LIST
-===================================== */
 
 async function removeFromMyList(
     animeId,
@@ -1358,31 +2132,22 @@ async function removeFromMyList(
 
     }
 
-    if(!currentUser){
-
-        return;
-
-    }
-
-    const id =
-        String(animeId);
-
     try{
 
         const {
             error
         } =
         await supabaseClient
-            .from("my_list")
-            .delete()
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .eq(
-                "anime_id",
-                id
-            );
+        .from("my_list")
+        .delete()
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .eq(
+            "anime_id",
+            String(animeId)
+        );
 
         if(error){
 
@@ -1390,13 +2155,15 @@ async function removeFromMyList(
 
         }
 
-        myListIds.delete(id);
+        myListIds.delete(
+            String(animeId)
+        );
 
         showToast(
             "❌ Removed from My List"
         );
 
-        refreshAllCards();
+        displayAllSections();
 
         displayMyList();
 
@@ -1404,13 +2171,10 @@ async function removeFromMyList(
 
     catch(error){
 
-        console.error(
-            "Remove My List error:",
-            error
-        );
+        console.error(error);
 
         showToast(
-            "My List se remove nahi hua."
+            "Remove nahi hua."
         );
 
     }
@@ -1418,411 +2182,59 @@ async function removeFromMyList(
 }
 
 
-/* =====================================
-   CREATE ANIME CARD
-===================================== */
+/* =====================================================
+   GENRE FILTER
+===================================================== */
 
-function createAnimeCard(
-    anime
+function filterGenre(
+    genre,
+    button
 ){
 
-    const title =
-        anime.title ||
-        "Unknown Anime";
+    selectedGenre =
+        genre;
 
-    const animeId =
-        anime.anime_id ||
-        "";
-
-    const thumbnail =
-        anime.thumbnail_url ||
-        "https://via.placeholder.com/300x450?text=No+Image";
-
-    const status =
-        anime.status ||
-        "Ongoing";
-
-    const saved =
-        myListIds.has(
-            String(animeId)
-        );
-
-    return `
-
-        <div
-            class="card"
-            onclick="
-                openAnime(
-                    '${escapeId(animeId)}'
-                )
-            "
-        >
-
-            <img
-                src="${escapeHtml(thumbnail)}"
-
-                alt="${escapeHtml(title)}"
-
-                onerror="
-                    this.src=
-                    'https://via.placeholder.com/300x450?text=No+Image'
-                "
-            >
-
-            <div class="card-info">
-
-                <div class="card-title">
-                    ${escapeHtml(title)}
-                </div>
-
-                <div class="card-status">
-                    ${escapeHtml(status)}
-                </div>
-
-                <button
-                    class="
-                        my-list-btn
-                        ${saved ? "saved" : ""}
-                    "
-                    onclick="
-                        addToMyList(
-                            '${escapeId(animeId)}',
-                            event
-                        )
-                    "
-                >
-                    ${saved
-                        ? "❤️ In My List"
-                        : "♡ Add to My List"
-                    }
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================
-   REFRESH ALL CARDS
-===================================== */
-
-function refreshAllCards(){
-
-    const search =
-        document
-            .getElementById(
-                "searchInput"
-            )
-            .value
-            .toLowerCase()
-            .trim();
-
-    const filtered =
-        allAnime.filter(
-            anime => {
-
-                const title =
-                    anime.title ||
-                    "";
-
-                return title
-                    .toLowerCase()
-                    .includes(
-                        search
-                    );
-
-            }
-        );
-
-    displayAnime(
-        filtered
+    document
+    .querySelectorAll(
+        ".genre-chip"
+    )
+    .forEach(
+        item =>
+        item.classList.remove(
+            "active"
+        )
     );
 
-}
-
-
-/* =====================================
-   LOAD ANIME
-===================================== */
-
-async function loadAnime(){
-
-    const grid =
-        document.getElementById(
-            "animeGrid"
-        );
-
-    grid.innerHTML = `
-
-        <div class="loading">
-            Loading anime...
-        </div>
-
-    `;
-
-    try{
-
-        const url =
-            SUPABASE_URL +
-            "/rest/v1/anime" +
-            "?select=id,anime_id,title,thumbnail_url,banner_url,description,genre,season,language,status" +
-            "&order=id.desc";
-
-        const response =
-            await fetch(
-                url,
-                {
-                    method:"GET",
-
-                    headers:{
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json"
-
-                    }
-                }
-            );
-
-        if(!response.ok){
-
-            const errorText =
-                await response.text();
-
-            throw new Error(
-                "Supabase HTTP " +
-                response.status +
-                ": " +
-                errorText
-            );
-
-        }
-
-        const data =
-            await response.json();
-
-        allAnime =
-            Array.isArray(data)
-            ? data
-            : [];
-
-        displayAnime(
-            allAnime
-        );
-
-        displayMyList();
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Anime loading error:",
-            error
-        );
-
-        grid.innerHTML = `
-
-            <div class="error-box">
-
-                <strong>
-                    Anime load nahi ho pa raha.
-                </strong>
-
-                <br><br>
-
-                Error:
-                <br><br>
-
-                ${escapeHtml(
-                    error.message
-                )}
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =====================================
-   DISPLAY ANIME
-===================================== */
-
-function displayAnime(
-    animeList
-){
-
-    const grid =
-        document.getElementById(
-            "animeGrid"
-        );
-
-    if(
-        !animeList ||
-        animeList.length === 0
-    ){
-
-        grid.innerHTML = `
-
-            <div class="empty">
-                Abhi koi anime add nahi hua.
-            </div>
-
-        `;
-
-        document
-            .getElementById(
-                "popularGrid"
-            )
-            .innerHTML = "";
-
-        return;
-
-    }
-
-    grid.innerHTML =
-        animeList
-            .map(
-                anime =>
-                    createAnimeCard(
-                        anime
-                    )
-            )
-            .join("");
-
-    displayPopular(
-        animeList
+    button.classList.add(
+        "active"
     );
 
-}
-
-
-/* =====================================
-   OPEN ANIME
-===================================== */
-
-function openAnime(
-    id
-){
-
-    if(!id){
-
-        alert(
-            "Anime ID available nahi hai."
-        );
-
-        return;
-
-    }
-
-    window.location.href =
-        "anime-details.html?id=" +
-        encodeURIComponent(id);
+    displayAllSections();
 
 }
 
 
-/* =====================================
+/* =====================================================
    SEARCH
-===================================== */
+===================================================== */
 
 document
-    .getElementById(
-        "searchInput"
-    )
-    .addEventListener(
-        "input",
-        function(){
+.getElementById(
+    "searchInput"
+)
+.addEventListener(
+    "input",
+    function(){
 
-            const search =
-                this.value
-                    .toLowerCase()
-                    .trim();
-
-            const filtered =
-                allAnime.filter(
-                    anime => {
-
-                        const title =
-                            anime.title ||
-                            "";
-
-                        return title
-                            .toLowerCase()
-                            .includes(
-                                search
-                            );
-
-                    }
-                );
-
-            displayAnime(
-                filtered
-            );
-
-        }
-    );
-
-
-/* =====================================
-   POPULAR
-===================================== */
-
-function displayPopular(
-    animeList
-){
-
-    const popularGrid =
-        document.getElementById(
-            "popularGrid"
-        );
-
-    const popular =
-        animeList.slice(
-            0,
-            6
-        );
-
-    if(
-        popular.length === 0
-    ){
-
-        popularGrid.innerHTML =
-            "";
-
-        return;
+        displayAllSections();
 
     }
-
-    popularGrid.innerHTML =
-        popular
-            .map(
-                anime =>
-                    createAnimeCard(
-                        anime
-                    )
-            )
-            .join("");
-
-}
+);
 
 
-/* =====================================
-   LOAD SCHEDULE
-===================================== */
+/* =====================================================
+   SCHEDULE
+===================================================== */
 
 async function loadSchedule(){
 
@@ -1830,14 +2242,6 @@ async function loadSchedule(){
         document.getElementById(
             "scheduleContainer"
         );
-
-    container.innerHTML = `
-
-        <div class="schedule-loading">
-            Loading schedule...
-        </div>
-
-    `;
 
     try{
 
@@ -1852,44 +2256,32 @@ async function loadSchedule(){
             await fetch(
                 url,
                 {
-                    method:"GET",
-
                     headers:{
-
                         "apikey":
                             SUPABASE_KEY,
 
                         "Authorization":
                             "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json"
-
+                            SUPABASE_KEY
                     }
                 }
             );
 
         if(!response.ok){
 
-            const errorText =
-                await response.text();
-
             throw new Error(
                 "Supabase HTTP " +
-                response.status +
-                ": " +
-                errorText
+                response.status
             );
 
         }
 
-        const schedules =
+        const data =
             await response.json();
 
         displaySchedule(
-            Array.isArray(schedules)
-            ? schedules
+            Array.isArray(data)
+            ? data
             : []
         );
 
@@ -1897,30 +2289,13 @@ async function loadSchedule(){
 
     catch(error){
 
-        console.error(
-            "Schedule loading error:",
-            error
-        );
+        console.error(error);
 
         container.innerHTML = `
-
             <div class="error-box">
-
-                <strong>
-                    Schedule load nahi ho pa raha.
-                </strong>
-
-                <br><br>
-
-                Error:
-                <br><br>
-
-                ${escapeHtml(
-                    error.message
-                )}
-
+                Schedule load nahi ho pa raha.<br><br>
+                ${escapeHtml(error.message)}
             </div>
-
         `;
 
     }
@@ -1928,9 +2303,9 @@ async function loadSchedule(){
 }
 
 
-/* =====================================
+/* =====================================================
    DISPLAY SCHEDULE
-===================================== */
+===================================================== */
 
 function displaySchedule(
     schedules
@@ -1941,17 +2316,12 @@ function displaySchedule(
             "scheduleContainer"
         );
 
-    if(
-        !schedules ||
-        schedules.length === 0
-    ){
+    if(!schedules.length){
 
         container.innerHTML = `
-
             <div class="schedule-empty">
                 📅 Abhi koi anime schedule available nahi hai.
             </div>
-
         `;
 
         return;
@@ -1963,109 +2333,95 @@ function displaySchedule(
 
     container.innerHTML =
         schedules
-            .map(
-                schedule => {
+        .map(schedule => {
 
-                    const releaseDate =
-                        new Date(
-                            schedule.release_at
-                        );
+            const release =
+                new Date(
+                    schedule.release_at
+                );
 
-                    const isReleased =
-                        releaseDate <= now;
+            const released =
+                release <= now;
 
-                    const statusText =
-                        isReleased
-                        ? "Released"
-                        : "Upcoming";
+            const title =
+                schedule.anime_title ||
+                "Unknown Anime";
 
-                    const statusClass =
-                        isReleased
-                        ? "status-released"
-                        : "status-upcoming";
+            const ep =
+                schedule.episode_number ||
+                "";
 
-                    const animeTitle =
-                        schedule.anime_title ||
-                        "Unknown Anime";
+            const epTitle =
+                schedule.episode_title ||
+                "Episode " + ep;
 
-                    const episodeNumber =
-                        schedule.episode_number;
+            const animeId =
+                schedule.anime_id ||
+                "";
 
-                    const episodeTitle =
-                        schedule.episode_title ||
-                        "Episode " +
-                        episodeNumber;
+            return `
 
-                    const animeId =
-                        schedule.anime_id ||
-                        "";
+                <div
+                    class="schedule-card"
+                    onclick="
+                        openAnime(
+                            '${escapeId(animeId)}'
+                        )
+                    "
+                >
 
-                    return `
+                    <div class="schedule-top">
 
-                        <div
-                            class="schedule-card"
-
-                            onclick="
-                                openAnime(
-                                    '${escapeId(animeId)}'
-                                )
-                            "
-                        >
-
-                            <div class="schedule-top">
-
-                                <div class="schedule-anime">
-                                    ${escapeHtml(animeTitle)}
-                                </div>
-
-                                <span
-                                    class="
-                                        schedule-status
-                                        ${statusClass}
-                                    "
-                                >
-                                    ${statusText}
-                                </span>
-
-                            </div>
-
-                            <div class="schedule-episode">
-
-                                Episode
-                                ${escapeHtml(
-                                    episodeNumber
-                                )}
-
-                                -
-                                ${escapeHtml(
-                                    episodeTitle
-                                )}
-
-                            </div>
-
-                            <div class="schedule-time">
-
-                                🕒
-                                ${formatDateTime(
-                                    schedule.release_at
-                                )}
-
-                            </div>
-
+                        <div class="schedule-anime">
+                            ${escapeHtml(title)}
                         </div>
 
-                    `;
+                        <span
+                            class="
+                            schedule-status
+                            ${
+                                released
+                                ? "status-released"
+                                : "status-upcoming"
+                            }
+                            "
+                        >
+                            ${
+                                released
+                                ? "Released"
+                                : "Upcoming"
+                            }
+                        </span>
 
-                }
-            )
-            .join("");
+                    </div>
+
+                    <div class="schedule-episode">
+                        Episode
+                        ${escapeHtml(ep)}
+                        -
+                        ${escapeHtml(epTitle)}
+                    </div>
+
+                    <div class="schedule-time">
+                        🕒
+                        ${formatDateTime(
+                            schedule.release_at
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
 
 }
 
 
-/* =====================================
-   FORMAT INDIA DATE/TIME
-===================================== */
+/* =====================================================
+   DATE FORMAT
+===================================================== */
 
 function formatDateTime(
     value
@@ -2096,76 +2452,37 @@ function formatDateTime(
 }
 
 
-/* =====================================
-   ESCAPE HTML
-===================================== */
+/* =====================================================
+   ESCAPE
+===================================================== */
 
-function escapeHtml(
-    value
-){
+function escapeHtml(value){
 
     return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+}
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+function escapeId(value){
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'");
 
 }
 
 
-/* =====================================
-   ESCAPE ID
-===================================== */
-
-function escapeId(
-    value
-){
-
-    return String(value)
-
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-
-        .replace(
-            /'/g,
-            "\\'"
-        );
-
-}
-
-
-/* =====================================
+/* =====================================================
    TOAST
-===================================== */
+===================================================== */
 
-let toastTimer = null;
+let toastTimer;
 
-function showToast(
-    message
-){
+function showToast(message){
 
     const toast =
         document.getElementById(
@@ -2185,7 +2502,7 @@ function showToast(
 
     toastTimer =
         setTimeout(
-            function(){
+            () => {
 
                 toast.classList.remove(
                     "show"
@@ -2198,9 +2515,9 @@ function showToast(
 }
 
 
-/* =====================================
-   TELEGRAM POPUP CLOSE
-===================================== */
+/* =====================================================
+   TELEGRAM POPUP
+===================================================== */
 
 function closeTelegramPopup(){
 
@@ -2209,56 +2526,30 @@ function closeTelegramPopup(){
             "telegramPopup"
         );
 
-    if(popup){
-
-        popup.style.display =
-            "none";
-
-    }
+    popup.style.display =
+        "none";
 
 }
 
 
-/* =====================================
-   CLOSE POPUP ON BACKDROP
-===================================== */
-
-document
-    .getElementById(
-        "telegramPopup"
-    )
-    .addEventListener(
-        "click",
-        function(event){
-
-            if(
-                event.target === this
-            ){
-
-                closeTelegramPopup();
-
-            }
-
-        }
-    );
-
-
-/* =====================================
-   START WEBSITE
-===================================== */
+/* =====================================================
+   START
+===================================================== */
 
 checkLogin().then(
-    async function(loggedIn){
+    async loggedIn => {
 
-        if(loggedIn){
+        if(!loggedIn){
 
-            await loadAnime();
-
-            await loadMyList();
-
-            await loadSchedule();
+            return;
 
         }
+
+        await loadAnime();
+
+        await loadMyList();
+
+        await loadSchedule();
 
     }
 );
@@ -2266,5 +2557,4 @@ checkLogin().then(
 </script>
 
 </body>
-
 </html>
