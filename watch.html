@@ -163,10 +163,25 @@ iframe{
   margin-bottom:15px;
 }
 
+.view-info{
+  margin-top:12px;
+  color:#888;
+  font-size:13px;
+}
+
 @media(max-width:600px){
 
   .info h1{
     font-size:20px;
+  }
+
+  .nav{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .nav a{
+    margin-left:8px;
   }
 
 }
@@ -242,6 +257,11 @@ iframe{
     <div
       id="episodeMeta"
       class="meta"
+    ></div>
+
+    <div
+      id="viewInfo"
+      class="view-info"
     ></div>
 
   </div>
@@ -334,6 +354,11 @@ document.getElementById(
   "episodeNav"
 );
 
+const viewInfo =
+document.getElementById(
+  "viewInfo"
+);
+
 
 // =================================
 // ESCAPE HTML
@@ -367,6 +392,110 @@ function escapeHtml(value){
 
 
 // =================================
+// RECORD ANIME VIEW
+// =================================
+
+async function recordAnimeView(){
+
+  if(!animeId){
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabaseClient
+        .auth
+        .getUser();
+
+
+    if(!user){
+
+      console.log(
+        "User login nahi hai."
+      );
+
+      return;
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from(
+          "anime_views"
+        )
+        .insert({
+
+          anime_id:
+            animeId,
+
+          user_id:
+            user.id
+
+        });
+
+
+    if(error){
+
+      /*
+        Agar same user ne
+        same anime pehle hi dekha hai,
+        to duplicate error ko ignore karenge.
+      */
+
+      if(
+        error.code === "23505"
+      ){
+
+        viewInfo.textContent =
+          "👁️ Already viewed";
+
+        return;
+
+      }
+
+
+      console.error(
+        "View save failed:",
+        error
+      );
+
+      viewInfo.textContent =
+        "👁️ View tracking unavailable";
+
+      return;
+
+    }
+
+
+    viewInfo.textContent =
+      "👁️ View counted";
+
+  }
+
+  catch(error){
+
+    console.error(
+      "View tracking error:",
+      error
+    );
+
+  }
+
+}
+
+
+// =================================
 // LOAD CURRENT EPISODE
 // =================================
 
@@ -385,24 +514,28 @@ async function loadEpisode(){
       "Episode unavailable";
 
     return;
+
   }
 
 
   const {
     data,
     error
-  } = await supabaseClient
-    .from("episodes")
-    .select("*")
-    .eq(
-      "anime_id",
-      animeId
-    )
-    .eq(
-      "episode_number",
-      Number(episodeNumber)
-    )
-    .maybeSingle();
+  } =
+    await supabaseClient
+      .from("episodes")
+      .select("*")
+      .eq(
+        "anime_id",
+        animeId
+      )
+      .eq(
+        "episode_number",
+        Number(
+          episodeNumber
+        )
+      )
+      .maybeSingle();
 
 
   if(error){
@@ -411,11 +544,14 @@ async function loadEpisode(){
       `
       <div class="message error">
         ❌ Video load failed:
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
       </div>
       `;
 
     return;
+
   }
 
 
@@ -429,6 +565,7 @@ async function loadEpisode(){
       `;
 
     return;
+
   }
 
 
@@ -450,9 +587,16 @@ async function loadEpisode(){
     data.episode_number;
 
 
+  // VIDEO LOAD
+
   loadVideo(
     data.video_url
   );
+
+
+  // VIEW RECORD
+
+  recordAnimeView();
 
 }
 
@@ -473,16 +617,8 @@ function loadVideo(url){
       `;
 
     return;
+
   }
-
-
-  /*
-    Direct video files ke liye <video>
-    use karenge.
-
-    Agar URL iframe/embed page hai,
-    neeche fallback iframe diya gaya hai.
-  */
 
 
   const lowerUrl =
@@ -503,13 +639,21 @@ function loadVideo(url){
         "video"
       );
 
-    video.controls = true;
 
-    video.playsInline = true;
+    video.controls =
+      true;
 
-    video.preload = "metadata";
 
-    video.src = url;
+    video.playsInline =
+      true;
+
+
+    video.preload =
+      "metadata";
+
+
+    video.src =
+      url;
 
 
     video.addEventListener(
@@ -527,29 +671,37 @@ function loadVideo(url){
     );
 
 
-    videoContainer.innerHTML = "";
+    videoContainer.innerHTML =
+      "";
+
 
     videoContainer.appendChild(
       video
     );
 
+
     return;
+
   }
 
 
-  /*
-    Agar URL normal watch/embed page hai,
-    iframe try kiya jayega.
-  */
+  // =================================
+  // IFRAME / EMBED VIDEO
+  // =================================
 
   const iframe =
     document.createElement(
       "iframe"
     );
 
-  iframe.src = url;
 
-  iframe.allowFullscreen = true;
+  iframe.src =
+    url;
+
+
+  iframe.allowFullscreen =
+    true;
+
 
   iframe.setAttribute(
     "allow",
@@ -557,7 +709,9 @@ function loadVideo(url){
   );
 
 
-  videoContainer.innerHTML = "";
+  videoContainer.innerHTML =
+    "";
+
 
   videoContainer.appendChild(
     iframe
@@ -582,21 +736,23 @@ async function loadEpisodeList(){
   const {
     data,
     error
-  } = await supabaseClient
-    .from("episodes")
-    .select(
-      "episode_number,episode_title"
-    )
-    .eq(
-      "anime_id",
-      animeId
-    )
-    .order(
-      "episode_number",
-      {
-        ascending:true
-      }
-    );
+  } =
+    await supabaseClient
+      .from("episodes")
+      .select(
+        "episode_number,episode_title"
+      )
+      .eq(
+        "anime_id",
+        animeId
+      )
+      .order(
+        "episode_number",
+        {
+          ascending:
+            true
+        }
+      );
 
 
   if(error){
@@ -609,10 +765,14 @@ async function loadEpisodeList(){
       `;
 
     return;
+
   }
 
 
-  if(!data || data.length === 0){
+  if(
+    !data ||
+    data.length === 0
+  ){
 
     episodeNav.innerHTML =
       `
@@ -622,10 +782,12 @@ async function loadEpisodeList(){
       `;
 
     return;
+
   }
 
 
-  episodeNav.innerHTML = "";
+  episodeNav.innerHTML =
+    "";
 
 
   data.forEach(
