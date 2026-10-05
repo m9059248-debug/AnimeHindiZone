@@ -4,10 +4,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AnimeHindiZone - Watch Anime in Hindi</title>
 
@@ -36,9 +33,7 @@ a{
   color:inherit;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
   position:sticky;
@@ -71,37 +66,51 @@ header{
 .nav-links{
   display:flex;
   align-items:center;
-  gap:17px;
+  gap:10px;
 }
 
 .nav-links a{
   text-decoration:none;
   color:#aaa;
   font-size:13px;
-  transition:.2s;
 }
 
 .nav-links a:hover{
   color:#fff;
 }
 
-.sign-btn{
-  color:#fff !important;
-  border:1px solid #393944;
-  padding:8px 12px;
-  border-radius:8px;
-}
-
+.sign-btn,
 .admin-btn{
   color:#fff !important;
   border:1px solid #393944;
   padding:8px 12px;
   border-radius:8px;
+  background:transparent;
 }
 
-/* =========================
-   HERO
-========================= */
+#profileName{
+  color:#fff;
+  border:1px solid #393944;
+  padding:8px 12px;
+  border-radius:8px;
+  font-size:12px;
+  max-width:130px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+#logoutBtn{
+  cursor:pointer;
+  color:#fff;
+  border:1px solid #393944;
+  padding:8px 12px;
+  border-radius:8px;
+  background:transparent;
+  font-size:12px;
+}
+
+/* HERO */
 
 .hero{
   min-height:430px;
@@ -190,9 +199,7 @@ header{
   color:#fff;
 }
 
-/* =========================
-   MAIN
-========================= */
+/* MAIN */
 
 .container{
   max-width:1250px;
@@ -200,9 +207,7 @@ header{
   padding:25px 20px 90px;
 }
 
-/* =========================
-   SEARCH
-========================= */
+/* SEARCH */
 
 .search-box{
   margin-bottom:15px;
@@ -226,9 +231,7 @@ header{
   color:#777;
 }
 
-/* =========================
-   GENRES
-========================= */
+/* GENRES */
 
 .genre-list{
   display:flex;
@@ -259,25 +262,15 @@ header{
   border-color:#ff3575;
 }
 
-/* =========================
-   TELEGRAM BANNER
-========================= */
+/* TELEGRAM */
 
 .telegram-banner{
-  background:
-    linear-gradient(
-      100deg,
-      #178ac0,
-      #207eb3
-    );
-
+  background:linear-gradient(100deg,#178ac0,#207eb3);
   border-radius:12px;
   padding:16px 18px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   gap:15px;
   margin-bottom:35px;
 }
@@ -312,9 +305,7 @@ header{
   font-size:11px;
 }
 
-/* =========================
-   SECTION
-========================= */
+/* SECTION */
 
 .section{
   margin-bottom:40px;
@@ -336,24 +327,11 @@ header{
   color:#ff3575;
 }
 
-.section-title a{
-  color:#888;
-  font-size:12px;
-  text-decoration:none;
-}
-
-.section-title a:hover{
-  color:#ff3575;
-}
-
-/* =========================
-   GRID
-========================= */
+/* GRID */
 
 .anime-grid{
   display:grid;
-  grid-template-columns:
-    repeat(6,minmax(0,1fr));
+  grid-template-columns:repeat(6,minmax(0,1fr));
   gap:15px;
 }
 
@@ -369,8 +347,7 @@ header{
 .anime-card:hover{
   transform:translateY(-4px);
   border-color:#ff3575;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.35);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .poster-wrap{
@@ -458,9 +435,7 @@ header{
   font-size:11px;
 }
 
-/* =========================
-   SCHEDULE
-========================= */
+/* SCHEDULE */
 
 .schedule-list{
   display:flex;
@@ -473,11 +448,9 @@ header{
   border:1px solid #292936;
   border-radius:9px;
   padding:13px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   gap:15px;
 }
 
@@ -498,9 +471,7 @@ header{
   white-space:nowrap;
 }
 
-/* =========================
-   MESSAGE
-========================= */
+/* MESSAGE */
 
 .message{
   background:#12121a;
@@ -512,9 +483,7 @@ header{
   grid-column:1/-1;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer{
   border-top:1px solid #24242e;
@@ -524,60 +493,42 @@ footer{
   font-size:11px;
 }
 
-/* =========================
-   TOAST
-========================= */
+/* TOAST */
 
 .toast{
   position:fixed;
   left:50%;
   bottom:85px;
-
-  transform:
-    translateX(-50%)
-    translateY(20px);
-
+  transform:translateX(-50%) translateY(20px);
   background:#20202a;
   border:1px solid #383844;
   color:#fff;
-
   padding:11px 16px;
   border-radius:8px;
   font-size:12px;
-
   opacity:0;
   pointer-events:none;
-
   transition:.25s;
-
   z-index:5000;
 }
 
 .toast.show{
   opacity:1;
-
-  transform:
-    translateX(-50%)
-    translateY(0);
+  transform:translateX(-50%) translateY(0);
 }
 
-/* =========================
-   MOBILE NAV
-========================= */
+/* MOBILE NAV */
 
 .bottom-nav{
   display:none;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media(max-width:1050px){
 
   .anime-grid{
-    grid-template-columns:
-      repeat(4,minmax(0,1fr));
+    grid-template-columns:repeat(4,minmax(0,1fr));
   }
 
 }
@@ -594,18 +545,28 @@ footer{
   }
 
   .nav-links{
-    gap:7px;
+    gap:5px;
   }
 
   .nav-links a{
     display:none;
   }
 
-  .nav-links .sign-btn,
   .nav-links .admin-btn{
     display:block;
     padding:6px 8px;
     font-size:9px;
+  }
+
+  #profileName,
+  #logoutBtn{
+    display:block;
+    padding:6px 8px;
+    font-size:9px;
+  }
+
+  #profileName{
+    max-width:75px;
   }
 
   .hero{
@@ -625,16 +586,11 @@ footer{
   }
 
   .container{
-    padding:
-      20px
-      12px
-      90px;
+    padding:20px 12px 90px;
   }
 
   .anime-grid{
-    grid-template-columns:
-      repeat(2,minmax(0,1fr));
-
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:12px;
   }
 
@@ -662,28 +618,17 @@ footer{
 
   .bottom-nav{
     position:fixed;
-
     left:0;
     right:0;
     bottom:0;
-
     height:64px;
-
-    background:
-      rgba(13,13,19,.98);
-
-    border-top:
-      1px solid #292936;
-
+    background:rgba(13,13,19,.98);
+    border-top:1px solid #292936;
     display:flex;
-
     align-items:center;
     justify-content:space-around;
-
     z-index:3000;
-
-    padding-bottom:
-      env(safe-area-inset-bottom);
+    padding-bottom:env(safe-area-inset-bottom);
   }
 
   .bottom-nav a{
@@ -711,50 +656,38 @@ footer{
 
 <body>
 
-
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 
 <header>
 
   <div class="nav">
 
-    <a
-      href="index.html"
-      class="logo"
-    >
+    <a href="index.html" class="logo">
       🔥 AnimeHindiZone
     </a>
 
     <nav class="nav-links">
 
-      <a href="#home">
-        Home
-      </a>
+      <a href="#home">Home</a>
 
-      <a href="#latest">
-        Latest
-      </a>
+      <a href="#latest">Latest</a>
 
-      <a href="#top">
-        Popular
-      </a>
+      <a href="#top">Popular</a>
 
-      <a href="#schedule">
-        Schedule
-      </a>
+      <a href="#schedule">Schedule</a>
 
-      <a href="#mylist">
-        My List
-      </a>
+      <a href="#mylist">My List</a>
 
-      <a
-        href="login.html"
-        class="sign-btn"
+      <span id="profileName">
+        Profile
+      </span>
+
+      <button
+        id="logoutBtn"
+        type="button"
       >
-        Sign In
-      </a>
+        Logout
+      </button>
 
       <a
         href="admin.html"
@@ -770,14 +703,9 @@ footer{
 </header>
 
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- HERO -->
 
-<section
-  id="home"
-  class="hero"
->
+<section id="home" class="hero">
 
   <div class="hero-content">
 
@@ -819,12 +747,9 @@ footer{
 </section>
 
 
-<!-- =========================
-     MAIN
-========================= -->
+<!-- MAIN -->
 
 <main class="container">
-
 
   <!-- SEARCH -->
 
@@ -881,8 +806,9 @@ footer{
     </div>
 
     <a
-      href="https://t.me/"
+      href="https://t.me/Anime_hindizone"
       target="_blank"
+      rel="noopener noreferrer"
       class="join-btn"
     >
       JOIN
@@ -893,10 +819,7 @@ footer{
 
   <!-- TRENDING -->
 
-  <section
-    id="top"
-    class="section"
-  >
+  <section id="top" class="section">
 
     <div class="section-title">
 
@@ -922,10 +845,7 @@ footer{
 
   <!-- LATEST -->
 
-  <section
-    id="latest"
-    class="section"
-  >
+  <section id="latest" class="section">
 
     <div class="section-title">
 
@@ -951,9 +871,7 @@ footer{
 
   <!-- RECENT -->
 
-  <section
-    class="section"
-  >
+  <section class="section">
 
     <div class="section-title">
 
@@ -979,10 +897,7 @@ footer{
 
   <!-- MY LIST -->
 
-  <section
-    id="mylist"
-    class="section"
-  >
+  <section id="mylist" class="section">
 
     <div class="section-title">
 
@@ -1008,10 +923,7 @@ footer{
 
   <!-- SCHEDULE -->
 
-  <section
-    id="schedule"
-    class="section"
-  >
+  <section id="schedule" class="section">
 
     <div class="section-title">
 
@@ -1034,7 +946,6 @@ footer{
 
   </section>
 
-
 </main>
 
 
@@ -1051,10 +962,7 @@ footer{
 
 <nav class="bottom-nav">
 
-  <a
-    href="#home"
-    class="active"
-  >
+  <a href="#home" class="active">
     <span>⌂</span>
     Home
   </a>
@@ -1089,14 +997,10 @@ footer{
 
 <!-- TOAST -->
 
-<div
-  id="toast"
-  class="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 
 <script>
-
 
 // =================================
 // SUPABASE
@@ -1123,11 +1027,9 @@ let animeList = [];
 
 let viewCounts = {};
 
-let myListIds =
-  new Set();
+let myListIds = new Set();
 
-let selectedGenre =
-  "all";
+let selectedGenre = "all";
 
 
 // =================================
@@ -1135,44 +1037,28 @@ let selectedGenre =
 // =================================
 
 const searchInput =
-document.getElementById(
-  "searchInput"
-);
+document.getElementById("searchInput");
 
 const topGrid =
-document.getElementById(
-  "topGrid"
-);
+document.getElementById("topGrid");
 
 const latestGrid =
-document.getElementById(
-  "latestGrid"
-);
+document.getElementById("latestGrid");
 
 const recentGrid =
-document.getElementById(
-  "recentGrid"
-);
+document.getElementById("recentGrid");
 
 const myListGrid =
-document.getElementById(
-  "myListGrid"
-);
+document.getElementById("myListGrid");
 
 const scheduleList =
-document.getElementById(
-  "scheduleList"
-);
+document.getElementById("scheduleList");
 
 const genreList =
-document.getElementById(
-  "genreList"
-);
+document.getElementById("genreList");
 
 const toast =
-document.getElementById(
-  "toast"
-);
+document.getElementById("toast");
 
 
 // =================================
@@ -1181,23 +1067,15 @@ document.getElementById(
 
 function showToast(message){
 
-  toast.textContent =
-    message;
+  toast.textContent = message;
 
-  toast.classList.add(
-    "show"
-  );
+  toast.classList.add("show");
 
-  setTimeout(
-    () => {
+  setTimeout(() => {
 
-      toast.classList.remove(
-        "show"
-      );
+    toast.classList.remove("show");
 
-    },
-    2200
-  );
+  },2200);
 
 }
 
@@ -1208,29 +1086,12 @@ function showToast(message){
 
 function escapeHtml(value){
 
-  return String(
-    value || ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
@@ -1241,9 +1102,7 @@ function escapeHtml(value){
 
 async function checkLogin(){
 
-  const {
-    data
-  } =
+  const { data } =
     await supabaseClient
       .auth
       .getSession();
@@ -1266,6 +1125,99 @@ async function checkLogin(){
 
 
 // =================================
+// LOAD PROFILE
+// =================================
+
+async function loadProfile(){
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+
+  if(!user){
+    return;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select("name,email")
+      .eq("id",user.id)
+      .maybeSingle();
+
+  if(error){
+
+    console.error(
+      "Profile error:",
+      error
+    );
+
+    return;
+
+  }
+
+  const profileName =
+    document.getElementById(
+      "profileName"
+    );
+
+  if(profileName){
+
+    profileName.textContent =
+      data?.name ||
+      user.email?.split("@")[0] ||
+      "Profile";
+
+  }
+
+}
+
+
+// =================================
+// LOGOUT
+// =================================
+
+document
+  .getElementById("logoutBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .auth
+          .signOut();
+
+      if(error){
+
+        console.error(error);
+
+        showToast(
+          "❌ Logout failed"
+        );
+
+        return;
+
+      }
+
+      window.location.href =
+        "login.html";
+
+    }
+  );
+
+
+// =================================
 // LOAD ANIME
 // =================================
 
@@ -1285,20 +1237,15 @@ async function loadAnime(){
         }
       );
 
-
   if(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
     latestGrid.innerHTML =
       `
       <div class="message">
         ❌ Anime load failed:
-        ${escapeHtml(
-          error.message
-        )}
+        ${escapeHtml(error.message)}
       </div>
       `;
 
@@ -1306,10 +1253,8 @@ async function loadAnime(){
 
   }
 
-
   animeList =
     data || [];
-
 
   buildGenres();
 
@@ -1335,7 +1280,6 @@ async function loadViewCounts(){
           "get_anime_view_counts"
         );
 
-
     if(error){
 
       console.error(
@@ -1349,9 +1293,7 @@ async function loadViewCounts(){
 
     }
 
-
     viewCounts = {};
-
 
     (data || []).forEach(
       item => {
@@ -1370,9 +1312,9 @@ async function loadViewCounts(){
 
   catch(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
+
+    viewCounts = {};
 
   }
 
@@ -1394,13 +1336,11 @@ async function loadMyList(){
       .auth
       .getUser();
 
-
   if(!user){
 
     return;
 
   }
-
 
   const {
     data,
@@ -1408,14 +1348,11 @@ async function loadMyList(){
   } =
     await supabaseClient
       .from("my_list")
-      .select(
-        "anime_id"
-      )
+      .select("anime_id")
       .eq(
         "user_id",
         user.id
       );
-
 
   if(error){
 
@@ -1428,9 +1365,7 @@ async function loadMyList(){
       `
       <div class="message">
         ❌ My List load nahi ho pa rahi.
-        ${escapeHtml(
-          error.message
-        )}
+        ${escapeHtml(error.message)}
       </div>
       `;
 
@@ -1438,15 +1373,12 @@ async function loadMyList(){
 
   }
 
-
   myListIds =
     new Set(
       (data || [])
         .map(
           item =>
-            String(
-              item.anime_id
-            )
+            String(item.anime_id)
         )
     );
 
@@ -1457,9 +1389,7 @@ async function loadMyList(){
 // ADD MY LIST
 // =================================
 
-async function addToMyList(
-  animeId
-){
+async function addToMyList(animeId){
 
   const {
     data: {
@@ -1470,7 +1400,6 @@ async function addToMyList(
       .auth
       .getUser();
 
-
   if(!user){
 
     window.location.href =
@@ -1479,7 +1408,6 @@ async function addToMyList(
     return;
 
   }
-
 
   if(
     myListIds.has(
@@ -1490,7 +1418,6 @@ async function addToMyList(
     return;
 
   }
-
 
   const {
     error
@@ -1507,12 +1434,9 @@ async function addToMyList(
 
       });
 
-
   if(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
     showToast(
       "❌ My List mein add nahi hua"
@@ -1522,16 +1446,13 @@ async function addToMyList(
 
   }
 
-
   myListIds.add(
     String(animeId)
   );
 
-
   showToast(
     "❤️ My List mein add ho gaya"
   );
-
 
   renderAll();
 
@@ -1542,9 +1463,7 @@ async function addToMyList(
 // REMOVE MY LIST
 // =================================
 
-async function removeFromMyList(
-  animeId
-){
+async function removeFromMyList(animeId){
 
   const {
     data: {
@@ -1555,13 +1474,9 @@ async function removeFromMyList(
       .auth
       .getUser();
 
-
   if(!user){
-
     return;
-
   }
-
 
   const {
     error
@@ -1578,12 +1493,9 @@ async function removeFromMyList(
         String(animeId)
       );
 
-
   if(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
     showToast(
       "❌ Remove nahi hua"
@@ -1593,16 +1505,13 @@ async function removeFromMyList(
 
   }
 
-
   myListIds.delete(
     String(animeId)
   );
 
-
   showToast(
     "🗑️ My List se remove ho gaya"
   );
-
 
   renderAll();
 
@@ -1613,9 +1522,7 @@ async function removeFromMyList(
 // TOGGLE MY LIST
 // =================================
 
-function toggleMyList(
-  animeId
-){
+function toggleMyList(animeId){
 
   if(
     myListIds.has(
@@ -1623,15 +1530,11 @@ function toggleMyList(
     )
   ){
 
-    removeFromMyList(
-      animeId
-    );
+    removeFromMyList(animeId);
 
   }else{
 
-    addToMyList(
-      animeId
-    );
+    addToMyList(animeId);
 
   }
 
@@ -1647,14 +1550,12 @@ function buildGenres(){
   const genres =
     new Set();
 
-
   animeList.forEach(
     anime => {
 
       if(!anime.genre){
         return;
       }
-
 
       anime.genre
         .split(",")
@@ -1665,11 +1566,7 @@ function buildGenres(){
               genre.trim();
 
             if(clean){
-
-              genres.add(
-                clean
-              );
-
+              genres.add(clean);
             }
 
           }
@@ -1677,7 +1574,6 @@ function buildGenres(){
 
     }
   );
-
 
   genreList.innerHTML =
     `
@@ -1689,7 +1585,6 @@ function buildGenres(){
     </button>
     `;
 
-
   Array.from(genres)
     .slice(0,12)
     .forEach(
@@ -1700,18 +1595,14 @@ function buildGenres(){
             "button"
           );
 
-
         button.className =
           "genre-chip";
-
 
         button.dataset.genre =
           genre;
 
-
         button.textContent =
           genre;
-
 
         button.onclick =
           () => {
@@ -1738,14 +1629,12 @@ function buildGenres(){
 
           };
 
-
         genreList.appendChild(
           button
         );
 
       }
     );
-
 
   genreList
     .querySelector(
@@ -1797,7 +1686,6 @@ function getFilteredAnime(){
     .trim()
     .toLowerCase();
 
-
   return animeList.filter(
     anime => {
 
@@ -1807,31 +1695,22 @@ function getFilteredAnime(){
         )
         .toLowerCase();
 
-
       const genre =
         String(
           anime.genre || ""
         )
         .toLowerCase();
 
-
       const searchMatch =
         !search ||
-        title.includes(
-          search
-        ) ||
-        genre.includes(
-          search
-        );
-
+        title.includes(search) ||
+        genre.includes(search);
 
       const genreMatch =
-        selectedGenre ===
-        "all" ||
+        selectedGenre === "all" ||
         genre.includes(
           selectedGenre.toLowerCase()
         );
-
 
       return (
         searchMatch &&
@@ -1848,9 +1727,7 @@ function getFilteredAnime(){
 // CREATE CARD
 // =================================
 
-function createAnimeCard(
-  anime
-){
+function createAnimeCard(anime){
 
   const animeId =
     String(
@@ -1859,48 +1736,35 @@ function createAnimeCard(
       ""
     );
 
-
   const title =
     anime.title ||
     "Untitled Anime";
-
 
   const thumbnail =
     anime.thumbnail_url ||
     "";
 
-
   const genre =
     anime.genre ||
     "Anime";
-
 
   const status =
     anime.status ||
     "Available";
 
-
   const views =
-    viewCounts[
-      animeId
-    ] || 0;
-
+    viewCounts[animeId] || 0;
 
   const saved =
-    myListIds.has(
-      animeId
-    );
-
+    myListIds.has(animeId);
 
   const card =
     document.createElement(
       "article"
     );
 
-
   card.className =
     "anime-card";
-
 
   card.innerHTML =
     `
@@ -1972,7 +1836,6 @@ function createAnimeCard(
     </div>
     `;
 
-
   return card;
 
 }
@@ -1991,7 +1854,6 @@ function renderGrid(
   element.innerHTML =
     "";
 
-
   if(
     !list ||
     list.length === 0
@@ -2008,14 +1870,11 @@ function renderGrid(
 
   }
 
-
   list.forEach(
     anime => {
 
       element.appendChild(
-        createAnimeCard(
-          anime
-        )
+        createAnimeCard(anime)
       );
 
     }
@@ -2032,7 +1891,6 @@ function renderAll(){
 
   const filtered =
     getFilteredAnime();
-
 
   const top =
     [...filtered]
@@ -2060,17 +1918,14 @@ function renderAll(){
       )
       .slice(0,6);
 
-
   renderGrid(
     topGrid,
     top,
     "Abhi trending anime available nahi hai."
   );
 
-
   const latest =
     filtered.slice(0,6);
-
 
   renderGrid(
     latestGrid,
@@ -2078,17 +1933,14 @@ function renderAll(){
     "Abhi anime available nahi hai."
   );
 
-
   const recent =
     filtered.slice(0,6);
-
 
   renderGrid(
     recentGrid,
     recent,
     "Abhi recently added anime nahi hai."
   );
-
 
   const myAnime =
     animeList.filter(
@@ -2101,7 +1953,6 @@ function renderAll(){
           )
         )
     );
-
 
   renderGrid(
     myListGrid,
@@ -2132,23 +1983,19 @@ async function loadSchedule(){
         }
       );
 
-
   if(error){
 
     scheduleList.innerHTML =
       `
       <div class="message">
         ❌ Schedule load failed:
-        ${escapeHtml(
-          error.message
-        )}
+        ${escapeHtml(error.message)}
       </div>
       `;
 
     return;
 
   }
-
 
   if(
     !data ||
@@ -2166,10 +2013,8 @@ async function loadSchedule(){
 
   }
 
-
   scheduleList.innerHTML =
     "";
-
 
   data.forEach(
     item => {
@@ -2179,10 +2024,8 @@ async function loadSchedule(){
           "div"
         );
 
-
       div.className =
         "schedule-item";
-
 
       const date =
         item.release_at
@@ -2193,22 +2036,18 @@ async function loadSchedule(){
         :
         null;
 
-
       const timeText =
         date
         ?
         date.toLocaleString(
           "en-IN",
           {
-            dateStyle:
-              "medium",
-            timeStyle:
-              "short"
+            dateStyle:"medium",
+            timeStyle:"short"
           }
         )
         :
         "Time unavailable";
-
 
       div.innerHTML =
         `
@@ -2241,12 +2080,9 @@ async function loadSchedule(){
         </div>
 
         <div class="schedule-time">
-          ${escapeHtml(
-            timeText
-          )}
+          ${escapeHtml(timeText)}
         </div>
         `;
-
 
       scheduleList.appendChild(
         div
@@ -2277,13 +2113,11 @@ async function startApp(){
   const loggedIn =
     await checkLogin();
 
-
   if(!loggedIn){
-
     return;
-
   }
 
+  await loadProfile();
 
   await loadAnime();
 
