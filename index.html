@@ -66,7 +66,7 @@ header{
 .nav-links{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:15px;
 }
 
 .nav-links a{
@@ -79,35 +79,12 @@ header{
   color:#fff;
 }
 
-.sign-btn,
 .admin-btn{
   color:#fff !important;
   border:1px solid #393944;
   padding:8px 12px;
   border-radius:8px;
   background:transparent;
-}
-
-#profileName{
-  color:#fff;
-  border:1px solid #393944;
-  padding:8px 12px;
-  border-radius:8px;
-  font-size:12px;
-  max-width:130px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-#logoutBtn{
-  cursor:pointer;
-  color:#fff;
-  border:1px solid #393944;
-  padding:8px 12px;
-  border-radius:8px;
-  background:transparent;
-  font-size:12px;
 }
 
 /* HERO */
@@ -558,17 +535,6 @@ footer{
     font-size:9px;
   }
 
-  #profileName,
-  #logoutBtn{
-    display:block;
-    padding:6px 8px;
-    font-size:9px;
-  }
-
-  #profileName{
-    max-width:75px;
-  }
-
   .hero{
     min-height:360px;
   }
@@ -677,17 +643,6 @@ footer{
       <a href="#schedule">Schedule</a>
 
       <a href="#mylist">My List</a>
-
-      <span id="profileName">
-        Profile
-      </span>
-
-      <button
-        id="logoutBtn"
-        type="button"
-      >
-        Logout
-      </button>
 
       <a
         href="admin.html"
@@ -1097,127 +1052,6 @@ function escapeHtml(value){
 
 
 // =================================
-// LOGIN CHECK
-// =================================
-
-async function checkLogin(){
-
-  const { data } =
-    await supabaseClient
-      .auth
-      .getSession();
-
-  if(
-    !data ||
-    !data.session
-  ){
-
-    window.location.href =
-      "login.html";
-
-    return false;
-
-  }
-
-  return true;
-
-}
-
-
-// =================================
-// LOAD PROFILE
-// =================================
-
-async function loadProfile(){
-
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
-
-  if(!user){
-    return;
-  }
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("profiles")
-      .select("name,email")
-      .eq("id",user.id)
-      .maybeSingle();
-
-  if(error){
-
-    console.error(
-      "Profile error:",
-      error
-    );
-
-    return;
-
-  }
-
-  const profileName =
-    document.getElementById(
-      "profileName"
-    );
-
-  if(profileName){
-
-    profileName.textContent =
-      data?.name ||
-      user.email?.split("@")[0] ||
-      "Profile";
-
-  }
-
-}
-
-
-// =================================
-// LOGOUT
-// =================================
-
-document
-  .getElementById("logoutBtn")
-  .addEventListener(
-    "click",
-    async () => {
-
-      const {
-        error
-      } =
-        await supabaseClient
-          .auth
-          .signOut();
-
-      if(error){
-
-        console.error(error);
-
-        showToast(
-          "❌ Logout failed"
-        );
-
-        return;
-
-      }
-
-      window.location.href =
-        "login.html";
-
-    }
-  );
-
-
-// =================================
 // LOAD ANIME
 // =================================
 
@@ -1322,221 +1156,98 @@ async function loadViewCounts(){
 
 
 // =================================
-// LOAD MY LIST
+// LOCAL MY LIST
 // =================================
 
-async function loadMyList(){
+function loadMyList(){
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
+  try{
 
-  if(!user){
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          "animehindizone_my_list"
+        ) || "[]"
+      );
 
-    return;
+    myListIds =
+      new Set(
+        saved.map(
+          id => String(id)
+        )
+      );
 
   }
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("my_list")
-      .select("anime_id")
-      .eq(
-        "user_id",
-        user.id
-      );
-
-  if(error){
+  catch(error){
 
     console.error(
-      "My List error:",
+      "Local My List error:",
       error
     );
 
-    myListGrid.innerHTML =
-      `
-      <div class="message">
-        ❌ My List load nahi ho pa rahi.
-        ${escapeHtml(error.message)}
-      </div>
-      `;
-
-    return;
+    myListIds =
+      new Set();
 
   }
-
-  myListIds =
-    new Set(
-      (data || [])
-        .map(
-          item =>
-            String(item.anime_id)
-        )
-    );
 
 }
 
 
 // =================================
-// ADD MY LIST
+// SAVE LOCAL MY LIST
 // =================================
 
-async function addToMyList(animeId){
+function saveMyList(){
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
-
-  if(!user){
-
-    window.location.href =
-      "login.html";
-
-    return;
-
-  }
-
-  if(
-    myListIds.has(
-      String(animeId)
+  localStorage.setItem(
+    "animehindizone_my_list",
+    JSON.stringify(
+      Array.from(myListIds)
     )
-  ){
-
-    return;
-
-  }
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("my_list")
-      .insert({
-
-        user_id:
-          user.id,
-
-        anime_id:
-          String(animeId)
-
-      });
-
-  if(error){
-
-    console.error(error);
-
-    showToast(
-      "❌ My List mein add nahi hua"
-    );
-
-    return;
-
-  }
-
-  myListIds.add(
-    String(animeId)
   );
-
-  showToast(
-    "❤️ My List mein add ho gaya"
-  );
-
-  renderAll();
 
 }
 
 
 // =================================
-// REMOVE MY LIST
-// =================================
-
-async function removeFromMyList(animeId){
-
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
-
-  if(!user){
-    return;
-  }
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("my_list")
-      .delete()
-      .eq(
-        "user_id",
-        user.id
-      )
-      .eq(
-        "anime_id",
-        String(animeId)
-      );
-
-  if(error){
-
-    console.error(error);
-
-    showToast(
-      "❌ Remove nahi hua"
-    );
-
-    return;
-
-  }
-
-  myListIds.delete(
-    String(animeId)
-  );
-
-  showToast(
-    "🗑️ My List se remove ho gaya"
-  );
-
-  renderAll();
-
-}
-
-
-// =================================
-// TOGGLE MY LIST
+// ADD / REMOVE MY LIST
 // =================================
 
 function toggleMyList(animeId){
 
+  animeId =
+    String(animeId);
+
   if(
-    myListIds.has(
-      String(animeId)
-    )
+    myListIds.has(animeId)
   ){
 
-    removeFromMyList(animeId);
+    myListIds.delete(
+      animeId
+    );
 
-  }else{
-
-    addToMyList(animeId);
+    showToast(
+      "🗑️ My List se remove ho gaya"
+    );
 
   }
+
+  else{
+
+    myListIds.add(
+      animeId
+    );
+
+    showToast(
+      "❤️ My List mein add ho gaya"
+    );
+
+  }
+
+  saveMyList();
+
+  renderAll();
 
 }
 
@@ -1823,6 +1534,7 @@ function createAnimeCard(anime){
         <button
           class="list-btn"
           onclick="toggleMyList('${escapeHtml(animeId)}')"
+          title="My List"
         >
           ${
             saved
@@ -2110,24 +1822,17 @@ searchInput.addEventListener(
 
 async function startApp(){
 
-  const loggedIn =
-    await checkLogin();
+  // Login system completely removed
 
-  if(!loggedIn){
-    return;
-  }
-
-  await loadProfile();
+  loadMyList();
 
   await loadAnime();
 
   await loadViewCounts();
 
-  await loadMyList();
+  await loadSchedule();
 
   renderAll();
-
-  await loadSchedule();
 
 }
 
