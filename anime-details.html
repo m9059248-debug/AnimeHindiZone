@@ -146,6 +146,91 @@ header{
   margin-top:12px;
 }
 
+
+/* =========================
+   SHARE BOX
+========================= */
+
+.share-box{
+  background:#14141c;
+  border:1px solid #292936;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:20px;
+}
+
+.share-title{
+  color:#ff1744;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.share-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.share-btn{
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:bold;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
+.share-main{
+  background:#ff1744;
+}
+
+.share-main:hover{
+  background:#e9143d;
+}
+
+.copy-btn{
+  background:#33333f;
+}
+
+.copy-btn:hover{
+  background:#41414d;
+}
+
+.whatsapp-btn{
+  background:#25D366;
+}
+
+.whatsapp-btn:hover{
+  background:#1ebc59;
+}
+
+.telegram-btn{
+  background:#229ED9;
+}
+
+.telegram-btn:hover{
+  background:#1689bf;
+}
+
+.share-message{
+  color:#8affaa;
+  font-size:13px;
+  margin-top:10px;
+  display:none;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
 .section{
   background:#14141c;
   border:1px solid #292936;
@@ -225,7 +310,22 @@ header{
   text-decoration:none;
 }
 
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:650px){
+
+  .nav{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .nav a{
+    margin-left:8px;
+    margin-right:8px;
+  }
 
   .hero-content{
     align-items:flex-end;
@@ -245,12 +345,26 @@ header{
     font-size:13px;
   }
 
+  .share-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .share-btn{
+    width:100%;
+  }
+
 }
 
 </style>
 </head>
 
 <body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
@@ -282,6 +396,11 @@ header{
 
 <div class="container">
 
+
+<!-- =========================
+     BACK
+========================= -->
+
 <a
   href="index.html"
   class="back"
@@ -290,7 +409,9 @@ header{
 </a>
 
 
-<!-- ANIME DETAILS -->
+<!-- =========================
+     ANIME DETAILS
+========================= -->
 
 <div id="animeContainer">
 
@@ -301,7 +422,71 @@ header{
 </div>
 
 
-<!-- EPISODES -->
+<!-- =========================
+     SHARE ANIME
+========================= -->
+
+<div class="share-box">
+
+  <div class="share-title">
+    📤 Share Anime
+  </div>
+
+  <div class="share-buttons">
+
+    <button
+      class="share-btn share-main"
+      onclick="shareAnime()"
+    >
+      📤 Share
+    </button>
+
+
+    <button
+      class="share-btn copy-btn"
+      onclick="copyAnimeLink()"
+    >
+      📋 Copy Link
+    </button>
+
+
+    <a
+      id="whatsappShare"
+      class="share-btn whatsapp-btn"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🟢 WhatsApp
+    </a>
+
+
+    <a
+      id="telegramShare"
+      class="share-btn telegram-btn"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      ✈️ Telegram
+    </a>
+
+  </div>
+
+
+  <div
+    id="shareMessage"
+    class="share-message"
+  >
+    Link copied successfully!
+  </div>
+
+</div>
+
+
+<!-- =========================
+     EPISODES
+========================= -->
 
 <div class="section">
 
@@ -321,6 +506,7 @@ header{
   </div>
 
 </div>
+
 
 </div>
 
@@ -372,6 +558,21 @@ document.getElementById(
   "episodeContainer"
 );
 
+const shareMessage =
+document.getElementById(
+  "shareMessage"
+);
+
+const whatsappShare =
+document.getElementById(
+  "whatsappShare"
+);
+
+const telegramShare =
+document.getElementById(
+  "telegramShare"
+);
+
 
 // ==========================
 // ESCAPE HTML
@@ -405,6 +606,192 @@ function escapeHtml(value){
 
 
 // ==========================
+// SHARE LINK
+// ==========================
+
+function getAnimeShareLink(){
+
+  return window.location.href;
+
+}
+
+
+// ==========================
+// UPDATE SHARE LINKS
+// ==========================
+
+function updateShareLinks(){
+
+  const shareUrl =
+    getAnimeShareLink();
+
+  const shareText =
+    "Watch " +
+    (
+      document.title ||
+      "Anime"
+    ) +
+    " on AnimeHindiZone";
+
+
+  whatsappShare.href =
+    "https://wa.me/?text=" +
+    encodeURIComponent(
+      shareText +
+      "\n\n" +
+      shareUrl
+    );
+
+
+  telegramShare.href =
+    "https://t.me/share/url?url=" +
+    encodeURIComponent(
+      shareUrl
+    ) +
+    "&text=" +
+    encodeURIComponent(
+      shareText
+    );
+
+}
+
+
+// ==========================
+// NATIVE SHARE
+// ==========================
+
+async function shareAnime(){
+
+  const shareUrl =
+    getAnimeShareLink();
+
+  const shareTitle =
+    document.title ||
+    "AnimeHindiZone";
+
+  const shareText =
+    "Watch this anime on AnimeHindiZone";
+
+
+  if(
+    navigator.share
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          shareTitle,
+
+        text:
+          shareText,
+
+        url:
+          shareUrl
+
+      });
+
+    }
+    catch(error){
+
+      console.log(
+        "Share cancelled:",
+        error
+      );
+
+    }
+
+  }
+  else{
+
+    copyAnimeLink();
+
+  }
+
+}
+
+
+// ==========================
+// COPY LINK
+// ==========================
+
+async function copyAnimeLink(){
+
+  const shareUrl =
+    getAnimeShareLink();
+
+
+  try{
+
+    await navigator.clipboard.writeText(
+      shareUrl
+    );
+
+    showShareMessage(
+      "✅ Anime link copied!"
+    );
+
+  }
+  catch(error){
+
+    // Fallback
+    const textArea =
+      document.createElement(
+        "textarea"
+      );
+
+    textArea.value =
+      shareUrl;
+
+    document.body.appendChild(
+      textArea
+    );
+
+    textArea.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    textArea.remove();
+
+    showShareMessage(
+      "✅ Anime link copied!"
+    );
+
+  }
+
+}
+
+
+// ==========================
+// SHARE MESSAGE
+// ==========================
+
+function showShareMessage(message){
+
+  shareMessage.innerText =
+    message;
+
+  shareMessage.style.display =
+    "block";
+
+
+  setTimeout(
+    function(){
+
+      shareMessage.style.display =
+        "none";
+
+    },
+    2500
+  );
+
+}
+
+
+// ==========================
 // LOAD ANIME
 // ==========================
 
@@ -427,20 +814,22 @@ async function loadAnime(){
       `;
 
     return;
+
   }
 
 
   const {
     data,
     error
-  } = await supabaseClient
-    .from("anime")
-    .select("*")
-    .eq(
-      "anime_id",
-      animeId
-    )
-    .maybeSingle();
+  } =
+    await supabaseClient
+      .from("anime")
+      .select("*")
+      .eq(
+        "anime_id",
+        animeId
+      )
+      .maybeSingle();
 
 
   if(error){
@@ -449,11 +838,14 @@ async function loadAnime(){
       `
       <div class="error">
         ❌ Anime load failed:
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
       </div>
       `;
 
     return;
+
   }
 
 
@@ -474,12 +866,15 @@ async function loadAnime(){
       `;
 
     return;
+
   }
 
 
   renderAnime(data);
 
-  loadEpisodes(data.anime_id);
+  loadEpisodes(
+    data.anime_id
+  );
 
 }
 
@@ -494,7 +889,10 @@ function renderAnime(anime){
     anime.genre
       ? anime.genre
           .split(",")
-          .map(g => g.trim())
+          .map(
+            g =>
+              g.trim()
+          )
           .filter(Boolean)
       : [];
 
@@ -508,7 +906,9 @@ function renderAnime(anime){
       tags +=
         `
         <span class="tag">
-          ${escapeHtml(genre)}
+          ${escapeHtml(
+            genre
+          )}
         </span>
         `;
 
@@ -521,7 +921,9 @@ function renderAnime(anime){
     tags +=
       `
       <span class="tag">
-        ${escapeHtml(anime.language)}
+        ${escapeHtml(
+          anime.language
+        )}
       </span>
       `;
 
@@ -533,7 +935,9 @@ function renderAnime(anime){
     tags +=
       `
       <span class="tag">
-        ${escapeHtml(anime.status)}
+        ${escapeHtml(
+          anime.status
+        )}
       </span>
       `;
 
@@ -541,7 +945,10 @@ function renderAnime(anime){
 
 
   document.title =
-    (anime.title || "Anime") +
+    (
+      anime.title ||
+      "Anime"
+    ) +
     " - AnimeHindiZone";
 
 
@@ -556,7 +963,9 @@ function renderAnime(anime){
         `
         <img
           class="hero-bg"
-          src="${escapeHtml(anime.banner_url)}"
+          src="${escapeHtml(
+            anime.banner_url
+          )}"
           alt=""
         >
         `
@@ -564,10 +973,12 @@ function renderAnime(anime){
         ""
       }
 
+
       <div class="hero-overlay"></div>
 
 
       <div class="hero-content">
+
 
         ${
           anime.thumbnail_url
@@ -575,8 +986,12 @@ function renderAnime(anime){
           `
           <img
             class="poster"
-            src="${escapeHtml(anime.thumbnail_url)}"
-            alt="${escapeHtml(anime.title)}"
+            src="${escapeHtml(
+              anime.thumbnail_url
+            )}"
+            alt="${escapeHtml(
+              anime.title
+            )}"
             onerror="this.style.display='none'"
           >
           `
@@ -588,7 +1003,9 @@ function renderAnime(anime){
         <div class="info">
 
           <h1>
-            ${escapeHtml(anime.title)}
+            ${escapeHtml(
+              anime.title
+            )}
           </h1>
 
 
@@ -605,7 +1022,9 @@ function renderAnime(anime){
             `
             <div class="meta">
               📅 Season:
-              ${escapeHtml(anime.season)}
+              ${escapeHtml(
+                anime.season
+              )}
             </div>
             `
             :
@@ -629,6 +1048,10 @@ function renderAnime(anime){
     </div>
     `;
 
+
+  // Share links update
+  updateShareLinks();
+
 }
 
 
@@ -649,19 +1072,20 @@ async function loadEpisodes(animeId){
   const {
     data,
     error
-  } = await supabaseClient
-    .from("episodes")
-    .select("*")
-    .eq(
-      "anime_id",
-      animeId
-    )
-    .order(
-      "episode_number",
-      {
-        ascending:true
-      }
-    );
+  } =
+    await supabaseClient
+      .from("episodes")
+      .select("*")
+      .eq(
+        "anime_id",
+        animeId
+      )
+      .order(
+        "episode_number",
+        {
+          ascending:true
+        }
+      );
 
 
   if(error){
@@ -670,15 +1094,21 @@ async function loadEpisodes(animeId){
       `
       <div class="error">
         ❌ Episodes load failed:
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
       </div>
       `;
 
     return;
+
   }
 
 
-  if(!data || data.length === 0){
+  if(
+    !data ||
+    data.length === 0
+  ){
 
     episodeContainer.innerHTML =
       `
@@ -688,17 +1118,22 @@ async function loadEpisodes(animeId){
       `;
 
     return;
+
   }
 
 
-  episodeContainer.innerHTML = "";
+  episodeContainer.innerHTML =
+    "";
 
 
   data.forEach(
     episode => {
 
       const div =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       div.className =
         "episode";
@@ -732,7 +1167,11 @@ async function loadEpisodes(animeId){
 
         <a
           class="watch"
-          href="watch.html?id=${encodeURIComponent(animeId)}&episode=${encodeURIComponent(episode.episode_number)}"
+          href="watch.html?id=${encodeURIComponent(
+            animeId
+          )}&episode=${encodeURIComponent(
+            episode.episode_number
+          )}"
         >
           ▶ Watch Now
         </a>
@@ -740,7 +1179,9 @@ async function loadEpisodes(animeId){
         `;
 
 
-      episodeContainer.appendChild(div);
+      episodeContainer.appendChild(
+        div
+      );
 
     }
   );
