@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -25,6 +26,7 @@ header{
   background:#111118;
   padding:18px;
   border-bottom:1px solid #292936;
+  overflow:hidden;
 }
 
 header h1{
@@ -64,6 +66,12 @@ select{
   outline:none;
 }
 
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#ff1744;
+}
+
 textarea{
   min-height:100px;
   resize:vertical;
@@ -84,6 +92,20 @@ button{
 
 .primary:hover{
   background:#e9143d;
+}
+
+.secondary{
+  background:#33333f;
+  color:#fff;
+}
+
+.green{
+  background:#00a86b;
+  color:#fff;
+}
+
+.green:hover{
+  background:#00c77d;
 }
 
 .delete-btn{
@@ -113,6 +135,11 @@ button{
   color:#ff7d91;
 }
 
+.message.info{
+  background:#222231;
+  color:#ddd;
+}
+
 .anime-item{
   background:#0e0e15;
   border:1px solid #292936;
@@ -122,6 +149,11 @@ button{
   display:flex;
   gap:12px;
   align-items:center;
+  cursor:pointer;
+}
+
+.anime-item:hover{
+  border-color:#ff1744;
 }
 
 .anime-thumb{
@@ -208,6 +240,7 @@ button{
   background:#33333f;
   color:white;
 }
+
 .home-btn{
   float:left;
   background:#ff1744;
@@ -221,17 +254,60 @@ button{
 .home-btn:hover{
   background:#e9143d;
 }
+
 .episode-item{
   background:#0e0e15;
   border:1px solid #292936;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:10px;
+  padding:14px;
+  border-radius:10px;
+  margin-bottom:12px;
 }
 
 .episode-item a{
   color:#ff1744;
   word-break:break-all;
+}
+
+.quality-box{
+  background:#111119;
+  border:1px solid #30303d;
+  border-radius:10px;
+  padding:15px;
+  margin-top:12px;
+}
+
+.quality-title{
+  color:#ff1744;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.quality-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.link-box{
+  margin-top:12px;
+  padding:10px;
+  background:#0b0b10;
+  border-radius:8px;
+  border:1px solid #24242f;
+}
+
+.link-label{
+  font-size:12px;
+  color:#999;
+  margin-bottom:4px;
+}
+
+.link-text{
+  color:#ddd;
+  word-break:break-all;
+  font-size:13px;
 }
 
 .schedule-item{
@@ -268,19 +344,35 @@ button{
   display:none;
 }
 
+.episode-quality-summary{
+  color:#aaa;
+  font-size:13px;
+  margin-top:8px;
+}
+
 @media(max-width:600px){
+
+  .container{
+    padding:12px;
+  }
+
+  .box{
+    padding:15px;
+  }
+
+  header h1{
+    font-size:19px;
+    margin-top:8px;
+  }
 
   .search-result{
     align-items:flex-start;
+    flex-wrap:wrap;
   }
 
   .search-result img{
     width:65px;
     height:90px;
-  }
-
-  .search-result{
-    flex-wrap:wrap;
   }
 
   .search-info{
@@ -290,13 +382,30 @@ button{
   .search-result button{
     width:100%;
   }
+
+  .anime-item{
+    align-items:flex-start;
+  }
+
+  .library-actions{
+    align-items:stretch;
+  }
+
+  .quality-actions button{
+    width:100%;
+  }
+
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+
+<!-- =====================================
+LOGIN
+===================================== -->
 
 <div id="loginScreen" class="container">
 
@@ -330,25 +439,31 @@ button{
 </div>
 
 
-<!-- ADMIN -->
+<!-- =====================================
+ADMIN
+===================================== -->
 
 <div id="adminPanel" class="hidden">
 
 <header>
+
 <a
   href="index.html"
   class="home-btn"
 >
   🏠 Home
 </a>
-  <button
-    class="logout"
-    onclick="logoutAdmin()"
-  >
-    Logout
-  </button>
 
-  <h1>🔥 AnimeHindiZone Admin</h1>
+<button
+  class="logout"
+  onclick="logoutAdmin()"
+>
+  Logout
+</button>
+
+<h1>
+🔥 AnimeHindiZone Admin
+</h1>
 
 </header>
 
@@ -356,7 +471,9 @@ button{
 <div class="container">
 
 
-<!-- SEARCH ANIME -->
+<!-- =====================================
+SEARCH ANIME
+===================================== -->
 
 <div class="box">
 
@@ -381,7 +498,9 @@ button{
 </div>
 
 
-<!-- ADD NEW ANIME -->
+<!-- =====================================
+ADD NEW ANIME
+===================================== -->
 
 <div class="box">
 
@@ -457,7 +576,9 @@ Completed
 </div>
 
 
-<!-- ANIME LIBRARY -->
+<!-- =====================================
+ANIME LIBRARY
+===================================== -->
 
 <div class="box">
 
@@ -479,7 +600,9 @@ Anime load ho rahe hain...
 </div>
 
 
-<!-- SELECTED ANIME -->
+<!-- =====================================
+SELECTED ANIME
+===================================== -->
 
 <div
   id="animeDetails"
@@ -494,7 +617,9 @@ Anime load ho rahe hain...
 </div>
 
 
-<!-- ADD EPISODE -->
+<!-- =====================================
+ADD EPISODE
+===================================== -->
 
 <div
   id="episodeForm"
@@ -504,33 +629,103 @@ Anime load ho rahe hain...
 
 <h2>➕ Add Episode</h2>
 
+<p class="small">
+Selected anime ke liye episode number aur title enter karo.
+Uske baad jis quality ko add karna hai uska Stream + Download link bharo.
+</p>
+
 <input
   id="episodeNumber"
   type="number"
-  placeholder="Episode Number"
+  min="1"
+  placeholder="Episode Number e.g. 1"
 >
 
 <input
   id="episodeTitle"
-  placeholder="Episode Title"
+  placeholder="Episode Title e.g. The Beginning"
+>
+
+
+<!-- 480P -->
+
+<div class="quality-box">
+
+<div class="quality-title">
+📱 480p
+</div>
+
+<input
+  id="stream480"
+  placeholder="480p Stream Link"
 >
 
 <input
-  id="videoUrl"
-  placeholder="Video URL"
+  id="download480"
+  placeholder="480p Download Link"
 >
+
+</div>
+
+
+<!-- 720P -->
+
+<div class="quality-box">
+
+<div class="quality-title">
+📺 720p
+</div>
+
+<input
+  id="stream720"
+  placeholder="720p Stream Link"
+>
+
+<input
+  id="download720"
+  placeholder="720p Download Link"
+>
+
+</div>
+
+
+<!-- 1080P -->
+
+<div class="quality-box">
+
+<div class="quality-title">
+🔥 1080p
+</div>
+
+<input
+  id="stream1080"
+  placeholder="1080p Stream Link"
+>
+
+<input
+  id="download1080"
+  placeholder="1080p Download Link"
+>
+
+</div>
+
 
 <button
   class="primary"
+  style="margin-top:15px;width:100%;"
   onclick="addEpisode()"
 >
   ➕ Add Episode
 </button>
 
+<div id="episodeMessage"></div>
+
 </div>
 
 
-<!-- EPISODES -->
+<!-- =====================================
+EPISODES
+===================================== -->
 
 <div
   id="episodeList"
@@ -545,7 +740,9 @@ Anime load ho rahe hain...
 </div>
 
 
-<!-- ADD SCHEDULE -->
+<!-- =====================================
+ADD SCHEDULE
+===================================== -->
 
 <div
   id="scheduleForm"
@@ -594,7 +791,9 @@ Release Date & Time
 </div>
 
 
-<!-- SCHEDULE LIST -->
+<!-- =====================================
+SCHEDULE LIST
+===================================== -->
 
 <div
   id="scheduleList"
@@ -615,6 +814,7 @@ Release Date & Time
 
 
 <script>
+
 
 // =====================================
 // SUPABASE
@@ -789,7 +989,7 @@ async function searchAnime(){
 
 
   message.className =
-    "message";
+    "message info";
 
   message.textContent =
     "🔎 Anime search ho raha hai...";
@@ -1414,7 +1614,7 @@ function fillAnimeForm(
     "message success";
 
   message.textContent =
-    "✅ Poster, banner aur anime details automatically fill ho gayi. Ab Add Anime dabao.";
+    "✅ Anime details automatically fill ho gayi. Ab Add Anime dabao.";
 
 }
 
@@ -1613,7 +1813,7 @@ async function addAnime(){
 
 
   message.className =
-    "message";
+    "message info";
 
   message.textContent =
     "Anime add ho raha hai...";
@@ -1687,7 +1887,7 @@ async function addAnime(){
 
 
 // =====================================
-// CLEAR FORM
+// CLEAR ANIME FORM
 // =====================================
 
 function clearAnimeForm(){
@@ -2005,7 +2205,7 @@ async function deleteAnime(
 
 
   message.className =
-    "message";
+    "message info";
 
   message.textContent =
     "Anime delete ho raha hai...";
@@ -2036,70 +2236,11 @@ async function deleteAnime(
   }
 
 
-  if(
-    selectedAnime &&
-    selectedAnime.id === animeId
-  ){
-
-    selectedAnime =
-      null;
+  selectedAnime =
+    null;
 
 
-    document
-      .getElementById(
-        "animeDetails"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "episodeForm"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "episodeList"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "scheduleForm"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "scheduleList"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "episodesContainer"
-      )
-      .innerHTML =
-        "";
-
-    document
-      .getElementById(
-        "scheduleContainer"
-      )
-      .innerHTML =
-        "";
-
-  }
+  hideSelectedSections();
 
 
   message.className =
@@ -2112,6 +2253,54 @@ async function deleteAnime(
 
 
   await loadAnimeLibrary();
+
+}
+
+
+// =====================================
+// HIDE SELECTED SECTIONS
+// =====================================
+
+function hideSelectedSections(){
+
+  document
+    .getElementById(
+      "animeDetails"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "episodeForm"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "episodeList"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "scheduleForm"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "scheduleList"
+    )
+    .style.display =
+      "none";
 
 }
 
@@ -2179,7 +2368,7 @@ function selectAnimeFromDatabase(
 
 
 // =====================================
-// SHOW SELECTED
+// SHOW SELECTED ANIME
 // =====================================
 
 function showSelectedAnime(){
@@ -2288,6 +2477,199 @@ function showSelectedAnime(){
 
 
 // =====================================
+// GET QUALITY INPUTS
+// =====================================
+
+function getQualityInputs(){
+
+  const qualities = [];
+
+
+  const stream480 =
+    document
+      .getElementById(
+        "stream480"
+      )
+      .value
+      .trim();
+
+
+  const download480 =
+    document
+      .getElementById(
+        "download480"
+      )
+      .value
+      .trim();
+
+
+  const stream720 =
+    document
+      .getElementById(
+        "stream720"
+      )
+      .value
+      .trim();
+
+
+  const download720 =
+    document
+      .getElementById(
+        "download720"
+      )
+      .value
+      .trim();
+
+
+  const stream1080 =
+    document
+      .getElementById(
+        "stream1080"
+      )
+      .value
+      .trim();
+
+
+  const download1080 =
+    document
+      .getElementById(
+        "download1080"
+      )
+      .value
+      .trim();
+
+
+  if(
+    stream480 ||
+    download480
+  ){
+
+    qualities.push({
+
+      quality:"480p",
+
+      stream_url:
+        stream480,
+
+      download_url:
+        download480
+
+    });
+
+  }
+
+
+  if(
+    stream720 ||
+    download720
+  ){
+
+    qualities.push({
+
+      quality:"720p",
+
+      stream_url:
+        stream720,
+
+      download_url:
+        download720
+
+    });
+
+  }
+
+
+  if(
+    stream1080 ||
+    download1080
+  ){
+
+    qualities.push({
+
+      quality:"1080p",
+
+      stream_url:
+        stream1080,
+
+      download_url:
+        download1080
+
+    });
+
+  }
+
+
+  return qualities;
+
+}
+
+
+// =====================================
+// CLEAR EPISODE FORM
+// =====================================
+
+function clearEpisodeForm(){
+
+  document
+    .getElementById(
+      "episodeNumber"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "episodeTitle"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "stream480"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "download480"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "stream720"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "download720"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "stream1080"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "download1080"
+    )
+    .value =
+      "";
+
+}
+
+
+// =====================================
 // ADD EPISODE
 // =====================================
 
@@ -2304,47 +2686,308 @@ async function addEpisode(){
 
 
   const episodeNumber =
-    document.getElementById(
-      "episodeNumber"
-    ).value;
+    document
+      .getElementById(
+        "episodeNumber"
+      )
+      .value;
 
 
   const episodeTitle =
+    document
+      .getElementById(
+        "episodeTitle"
+      )
+      .value
+      .trim();
+
+
+  const message =
     document.getElementById(
-      "episodeTitle"
-    ).value.trim();
-
-
-  const videoUrl =
-    document.getElementById(
-      "videoUrl"
-    ).value.trim();
-
-
-  if(
-    !episodeNumber ||
-    !videoUrl
-  ){
-
-    alert(
-      "Episode number aur video URL required hai."
+      "episodeMessage"
     );
+
+
+  const qualityLinks =
+    getQualityInputs();
+
+
+  if(!episodeNumber){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Episode number required hai.";
 
     return;
   }
 
 
+  if(
+    qualityLinks.length === 0
+  ){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Kam se kam ek quality ka Stream ya Download Link add karo.";
+
+    return;
+  }
+
+
+  for(
+    const link of qualityLinks
+  ){
+
+    if(
+      !link.stream_url &&
+      !link.download_url
+    ){
+
+      message.className =
+        "message error";
+
+      message.textContent =
+        "❌ Quality ka link missing hai.";
+
+      return;
+    }
+
+  }
+
+
+  message.className =
+    "message info";
+
+  message.textContent =
+    "Episode save ho raha hai...";
+
+
+  const episodeTitleFinal =
+    episodeTitle ||
+    "Episode " +
+    episodeNumber;
+
+
+  // =================================
+  // CHECK EXISTING EPISODE
+  // =================================
+
   const {
-    error
+    data:existingEpisode,
+    error:episodeCheckError
   } =
     await supabaseClient
       .from("episodes")
-      .insert([{
+      .select("id")
+      .eq(
+        "anime_id",
+        selectedAnime.id
+      )
+      .eq(
+        "episode_number",
+        Number(
+          episodeNumber
+        )
+      )
+      .maybeSingle();
 
-        anime_id:
-          selectedAnime.id,
 
-        anime_title:
+  if(
+    episodeCheckError &&
+    episodeCheckError.code !== "PGRST116"
+  ){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Episode check failed: " +
+      episodeCheckError.message;
+
+    return;
+  }
+
+
+  let episodeId = null;
+
+
+  // =================================
+  // IF EPISODE ALREADY EXISTS
+  // =================================
+
+  if(existingEpisode){
+
+    episodeId =
+      existingEpisode.id;
+
+  }else{
+
+    // ===============================
+    // CREATE NEW EPISODE
+    // ===============================
+
+    const {
+      data:newEpisode,
+      error:episodeError
+    } =
+      await supabaseClient
+        .from("episodes")
+        .insert([{
+
+          anime_id:
+            selectedAnime.id,
+
+          anime_title:
+            selectedAnime.title,
+
+          episode_number:
+            Number(
+              episodeNumber
+            ),
+
+          episode_title:
+            episodeTitleFinal,
+
+          video_url:
+            qualityLinks[0]
+              ?.stream_url ||
+            ""
+
+        }])
+        .select()
+        .single();
+
+
+    if(episodeError){
+
+      message.className =
+        "message error";
+
+      message.textContent =
+        "❌ Episode add failed: " +
+        episodeError.message;
+
+      return;
+    }
+
+
+    episodeId =
+      newEpisode.id;
+
+  }
+
+
+  // =================================
+  // GET CURRENT USER
+  // =================================
+
+  const {
+    data:userData
+  } =
+    await supabaseClient.auth
+      .getUser();
+
+
+  const user =
+    userData?.user;
+
+
+  if(!user){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Admin login session nahi mili. Dobara login karo.";
+
+    return;
+  }
+
+
+  // =================================
+  // CHECK DUPLICATE QUALITIES
+  // =================================
+
+  const {
+    data:existingLinks,
+    error:existingLinksError
+  } =
+    await supabaseClient
+      .from("episode_links")
+      .select(
+        "quality"
+      )
+      .eq(
+        "anime_name",
+        selectedAnime.title
+      )
+      .eq(
+        "episode_number",
+        Number(
+          episodeNumber
+        )
+      );
+
+
+  if(existingLinksError){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Quality links check failed: " +
+      existingLinksError.message;
+
+    return;
+  }
+
+
+  const existingQualitySet =
+    new Set(
+      (existingLinks || [])
+        .map(
+          item =>
+            item.quality
+        )
+    );
+
+
+  const duplicateQuality =
+    qualityLinks.find(
+      item =>
+        existingQualitySet.has(
+          item.quality
+        )
+    );
+
+
+  if(duplicateQuality){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ " +
+      duplicateQuality.quality +
+      " already added hai is episode me.";
+
+    return;
+  }
+
+
+  // =================================
+  // SAVE QUALITY LINKS
+  // =================================
+
+  const rows =
+    qualityLinks.map(
+      link => ({
+
+        anime_name:
           selectedAnime.title,
 
         episode_number:
@@ -2352,53 +2995,59 @@ async function addEpisode(){
             episodeNumber
           ),
 
-        episode_title:
-          episodeTitle ||
-          "Episode " +
-          episodeNumber,
+        quality:
+          link.quality,
 
-        video_url:
-          videoUrl
+        stream_url:
+          link.stream_url ||
+          "",
 
-      }]);
+        download_url:
+          link.download_url ||
+          "",
 
+        created_by:
+          user.id
 
-  if(error){
-
-    alert(
-      "❌ Episode add failed: " +
-      error.message
+      })
     );
+
+
+  const {
+    error:linksError
+  } =
+    await supabaseClient
+      .from("episode_links")
+      .insert(
+        rows
+      );
+
+
+  if(linksError){
+
+    message.className =
+      "message error";
+
+    message.textContent =
+      "❌ Quality links save failed: " +
+      linksError.message;
 
     return;
   }
 
 
-  alert(
-    "✅ Episode successfully add ho gaya!"
-  );
+  message.className =
+    "message success";
+
+  message.textContent =
+    "✅ Episode " +
+    episodeNumber +
+    " successfully add ho gaya! " +
+    qualityLinks.length +
+    " quality save hui.";
 
 
-  document
-    .getElementById(
-      "episodeNumber"
-    )
-    .value =
-      "";
-
-  document
-    .getElementById(
-      "episodeTitle"
-    )
-    .value =
-      "";
-
-  document
-    .getElementById(
-      "videoUrl"
-    )
-    .value =
-      "";
+  clearEpisodeForm();
 
 
   displayEpisodes();
@@ -2476,67 +3125,199 @@ async function displayEpisodes(){
     "";
 
 
-  data.forEach(
-    ep => {
+  for(
+    const ep of data
+  ){
 
-      const div =
-        document.createElement(
-          "div"
-        );
-
-      div.className =
-        "episode-item";
-
-
-      div.innerHTML =
-
-        "<b>Episode " +
-        escapeHtml(
-          String(
-            ep.episode_number
-          )
-        ) +
-        "</b>" +
-
-        "<p style='margin-top:5px'>" +
-        escapeHtml(
-          ep.episode_title ||
-          ""
-        ) +
-        "</p>" +
-
-        "<p style='margin-top:8px'>" +
-
-        "<a href='" +
-        escapeAttribute(
-          ep.video_url ||
-          "#"
-        ) +
-        "' target='_blank'>" +
-
-        "▶ Watch Video" +
-
-        "</a>" +
-
-        "</p>" +
-
-        "<button " +
-        "class='delete-btn' " +
-        "onclick='deleteEpisode(" +
-        ep.id +
-        ")'>" +
-
-        "🗑️ Delete Episode" +
-
-        "</button>";
-
-
-      container.appendChild(
-        div
+    const div =
+      document.createElement(
+        "div"
       );
 
+    div.className =
+      "episode-item";
+
+
+    const qualityData =
+      await getEpisodeLinks(
+        ep.episode_number
+      );
+
+
+    let qualityHTML =
+      "";
+
+
+    if(
+      qualityData.length === 0
+    ){
+
+      qualityHTML =
+        '<div class="episode-quality-summary">' +
+        "⚠️ Quality links nahi mile." +
+        "</div>";
+
+    }else{
+
+      qualityHTML =
+        qualityData
+          .map(
+            link => {
+
+              return `
+
+                <div class="quality-box">
+
+                  <div class="quality-title">
+                    ${escapeHtml(link.quality)}
+                  </div>
+
+                  ${
+                    link.stream_url
+                    ?
+                    `
+                    <div class="link-box">
+
+                      <div class="link-label">
+                        ▶ Stream Link
+                      </div>
+
+                      <div class="link-text">
+                        ${escapeHtml(link.stream_url)}
+                      </div>
+
+                    </div>
+                    `
+                    :
+                    ""
+                  }
+
+                  ${
+                    link.download_url
+                    ?
+                    `
+                    <div class="link-box">
+
+                      <div class="link-label">
+                        ⬇ Download Link
+                      </div>
+
+                      <div class="link-text">
+                        ${escapeHtml(link.download_url)}
+                      </div>
+
+                    </div>
+                    `
+                    :
+                    ""
+                  }
+
+                </div>
+
+              `;
+
+            }
+          )
+          .join("");
+
     }
-  );
+
+
+    div.innerHTML =
+
+      "<b>Episode " +
+      escapeHtml(
+        String(
+          ep.episode_number
+        )
+      ) +
+      "</b>" +
+
+      "<p style='margin-top:5px'>" +
+      escapeHtml(
+        ep.episode_title ||
+        ""
+      ) +
+      "</p>" +
+
+      qualityHTML +
+
+      "<button " +
+      "class='delete-btn' " +
+      "onclick='deleteEpisode(" +
+      escapeAttribute(
+        String(
+          ep.id
+        )
+      ) +
+      ")'>" +
+
+      "🗑️ Delete Episode" +
+
+      "</button>";
+
+
+    container.appendChild(
+      div
+    );
+
+  }
+
+}
+
+
+// =====================================
+// GET EPISODE LINKS
+// =====================================
+
+async function getEpisodeLinks(
+  episodeNumber
+){
+
+  if(!selectedAnime){
+
+    return [];
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("episode_links")
+      .select("*")
+      .eq(
+        "anime_name",
+        selectedAnime.title
+      )
+      .eq(
+        "episode_number",
+        Number(
+          episodeNumber
+        )
+      )
+      .order(
+        "quality",
+        {
+          ascending:true
+        }
+      );
+
+
+  if(error){
+
+    console.error(
+      "Episode Links Error:",
+      error
+    );
+
+    return [];
+
+  }
+
+
+  return data || [];
 
 }
 
@@ -2558,6 +3339,47 @@ async function deleteEpisode(
   if(!confirmDelete){
 
     return;
+
+  }
+
+
+  // Get episode first
+  const {
+    data:episodeData
+  } =
+    await supabaseClient
+      .from("episodes")
+      .select(
+        "anime_id,episode_number"
+      )
+      .eq(
+        "id",
+        id
+      )
+      .maybeSingle();
+
+
+  if(episodeData){
+
+    /*
+      Quality links table me delete policy
+      agar available nahi hui to yaha error aa sakta hai.
+      Episode delete fir bhi continue hoga.
+    */
+
+    await supabaseClient
+      .from("episode_links")
+      .delete()
+      .eq(
+        "anime_name",
+        selectedAnime.title
+      )
+      .eq(
+        "episode_number",
+        Number(
+          episodeData.episode_number
+        )
+      );
 
   }
 
@@ -2658,17 +3480,11 @@ async function addSchedule(){
 
 
   message.className =
-    "message";
+    "message info";
 
   message.textContent =
     "Schedule save ho raha hai...";
 
-
-  /*
-    datetime-local browser se local time deta hai.
-    new Date() usko user's local timezone ke according
-    UTC ISO format me convert karta hai.
-  */
 
   const releaseDate =
     new Date(
@@ -2726,12 +3542,6 @@ async function addSchedule(){
 
 
   if(error){
-
-    console.error(
-      "Schedule Error:",
-      error
-    );
-
 
     message.className =
       "message error";
@@ -3177,6 +3987,7 @@ supabaseClient.auth
 
     }
   );
+
 
 </script>
 
