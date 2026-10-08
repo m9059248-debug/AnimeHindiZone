@@ -151,11 +151,111 @@ iframe{
   background:#ff1744;
 }
 
+
+/* =================================
+   QUALITY SECTION
+================================= */
+
+.quality-section{
+  background:#14141c;
+  border:1px solid #292936;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.quality-section h2{
+  color:#ff1744;
+  margin-bottom:15px;
+}
+
+.quality-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.quality-btn{
+  background:#22222c;
+  color:#fff;
+  border:1px solid #363642;
+  padding:10px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.quality-btn:hover{
+  background:#ff1744;
+  border-color:#ff1744;
+}
+
+.quality-btn.active{
+  background:#ff1744;
+  border-color:#ff1744;
+}
+
+
+/* =================================
+   LINK BUTTONS
+================================= */
+
+.link-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.stream-btn,
+.download-btn{
+  display:inline-block;
+  padding:11px 18px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#fff;
+  font-weight:bold;
+}
+
+.stream-btn{
+  background:#ff1744;
+}
+
+.stream-btn:hover{
+  background:#e9143d;
+}
+
+.download-btn{
+  background:#00a86b;
+}
+
+.download-btn:hover{
+  background:#00c77d;
+}
+
+.no-link{
+  color:#888;
+  font-size:14px;
+  margin-top:10px;
+}
+
+.current-quality{
+  color:#aaa;
+  font-size:13px;
+  margin-top:12px;
+}
+
+
+/* =================================
+   EPISODES
+================================= */
+
 .section{
   background:#14141c;
   border:1px solid #292936;
   border-radius:12px;
   padding:20px;
+  margin-bottom:20px;
 }
 
 .section h2{
@@ -169,7 +269,16 @@ iframe{
   font-size:13px;
 }
 
+
+/* =================================
+   MOBILE
+================================= */
+
 @media(max-width:600px){
+
+  .container{
+    padding:14px;
+  }
 
   .info h1{
     font-size:20px;
@@ -184,14 +293,42 @@ iframe{
     margin-left:8px;
   }
 
+  .quality-buttons{
+    display:grid;
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+  .quality-btn{
+    width:100%;
+    padding:10px 5px;
+  }
+
+  .link-buttons{
+    display:grid;
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .stream-btn,
+  .download-btn{
+    text-align:center;
+    padding:11px 8px;
+  }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
 
+
+<!-- =================================
+HEADER
+================================= -->
 
 <header>
 
@@ -232,7 +369,9 @@ iframe{
 </a>
 
 
-<!-- VIDEO -->
+<!-- =================================
+VIDEO
+================================= -->
 
 <div class="video-box">
 
@@ -269,7 +408,44 @@ iframe{
 </div>
 
 
-<!-- EPISODE NAVIGATION -->
+<!-- =================================
+QUALITY
+================================= -->
+
+<div
+  id="qualitySection"
+  class="quality-section"
+  style="display:none;"
+>
+
+  <h2>
+    🎥 Quality
+  </h2>
+
+
+  <div
+    id="qualityButtons"
+    class="quality-buttons"
+  ></div>
+
+
+  <div
+    id="currentQuality"
+    class="current-quality"
+  ></div>
+
+
+  <div
+    id="linkButtons"
+    class="link-buttons"
+  ></div>
+
+</div>
+
+
+<!-- =================================
+EPISODES
+================================= -->
 
 <div class="section">
 
@@ -359,6 +535,37 @@ document.getElementById(
   "viewInfo"
 );
 
+const qualitySection =
+document.getElementById(
+  "qualitySection"
+);
+
+const qualityButtons =
+document.getElementById(
+  "qualityButtons"
+);
+
+const currentQuality =
+document.getElementById(
+  "currentQuality"
+);
+
+const linkButtons =
+document.getElementById(
+  "linkButtons"
+);
+
+
+// =================================
+// CURRENT DATA
+// =================================
+
+let currentEpisode = null;
+
+let qualityLinks = [];
+
+let selectedQuality = null;
+
 
 // =================================
 // ESCAPE HTML
@@ -392,6 +599,46 @@ function escapeHtml(value){
 
 
 // =================================
+// SAFE URL
+// =================================
+
+function safeUrl(url){
+
+  if(!url){
+
+    return "";
+
+  }
+
+  try{
+
+    const parsed =
+      new URL(url);
+
+    if(
+      parsed.protocol === "http:" ||
+      parsed.protocol === "https:"
+    ){
+
+      return parsed.href;
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Invalid URL:",
+      error
+    );
+
+  }
+
+  return "";
+
+}
+
+
+// =================================
 // RECORD ANIME VIEW
 // =================================
 
@@ -407,7 +654,7 @@ async function recordAnimeView(){
   try{
 
     const {
-      data: {
+      data:{
         user
       }
     } =
@@ -446,12 +693,6 @@ async function recordAnimeView(){
 
 
     if(error){
-
-      /*
-        Agar same user ne
-        same anime pehle hi dekha hai,
-        to duplicate error ko ignore karenge.
-      */
 
       if(
         error.code === "23505"
@@ -501,7 +742,10 @@ async function recordAnimeView(){
 
 async function loadEpisode(){
 
-  if(!animeId || !episodeNumber){
+  if(
+    !animeId ||
+    !episodeNumber
+  ){
 
     videoContainer.innerHTML =
       `
@@ -543,7 +787,7 @@ async function loadEpisode(){
     videoContainer.innerHTML =
       `
       <div class="message error">
-        ❌ Video load failed:
+        ❌ Episode load failed:
         ${escapeHtml(
           error.message
         )}
@@ -569,6 +813,10 @@ async function loadEpisode(){
   }
 
 
+  currentEpisode =
+    data;
+
+
   episodeTitle.textContent =
     data.episode_title ||
     "Episode " +
@@ -576,27 +824,419 @@ async function loadEpisode(){
 
 
   episodeMeta.textContent =
-    (data.anime_title || animeId) +
+    (
+      data.anime_title ||
+      animeId
+    ) +
     " • Episode " +
     data.episode_number;
 
 
   document.title =
-    (data.anime_title || "Anime") +
+    (
+      data.anime_title ||
+      "Anime"
+    ) +
     " - Episode " +
     data.episode_number;
 
 
-  // VIDEO LOAD
+  // =================================
+  // LOAD QUALITY LINKS
+  // =================================
 
-  loadVideo(
-    data.video_url
+  await loadQualityLinks(
+    data.anime_title
   );
 
 
-  // VIEW RECORD
+  // =================================
+  // OLD VIDEO FALLBACK
+  // =================================
+
+  /*
+    Agar episode_links me links nahi mile,
+    to purana episodes.video_url use hoga.
+  */
+
+  if(
+    qualityLinks.length === 0
+  ){
+
+    loadVideo(
+      data.video_url
+    );
+
+  }
+
 
   recordAnimeView();
+
+}
+
+
+// =================================
+// LOAD QUALITY LINKS
+// =================================
+
+async function loadQualityLinks(
+  animeTitle
+){
+
+  qualitySection.style.display =
+    "none";
+
+  qualityButtons.innerHTML =
+    "";
+
+  linkButtons.innerHTML =
+    "";
+
+  currentQuality.textContent =
+    "";
+
+
+  if(
+    !animeTitle ||
+    !episodeNumber
+  ){
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from(
+        "episode_links"
+      )
+      .select("*")
+      .eq(
+        "anime_name",
+        animeTitle
+      )
+      .eq(
+        "episode_number",
+        Number(
+          episodeNumber
+        )
+      );
+
+
+  if(error){
+
+    console.error(
+      "Quality links load failed:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !data ||
+    data.length === 0
+  ){
+
+    return;
+
+  }
+
+
+  /*
+    Quality order:
+    1080p -> 720p -> 480p
+  */
+
+  const order = {
+
+    "1080p":1,
+
+    "720p":2,
+
+    "480p":3
+
+  };
+
+
+  qualityLinks =
+    data.sort(
+      (a,b) => {
+
+        return (
+          (order[a.quality] || 99) -
+          (order[b.quality] || 99)
+        );
+
+      }
+    );
+
+
+  qualitySection.style.display =
+    "block";
+
+
+  qualityLinks.forEach(
+    link => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "quality-btn";
+
+
+      button.textContent =
+        link.quality;
+
+
+      button.onclick =
+        function(){
+
+          selectQuality(
+            link.quality
+          );
+
+        };
+
+
+      qualityButtons.appendChild(
+        button
+      );
+
+    }
+  );
+
+
+  /*
+    Default:
+    highest available quality
+  */
+
+  selectQuality(
+    qualityLinks[0].quality
+  );
+
+}
+
+
+// =================================
+// SELECT QUALITY
+// =================================
+
+function selectQuality(
+  quality
+){
+
+  const selected =
+    qualityLinks.find(
+      item =>
+        item.quality ===
+        quality
+    );
+
+
+  if(!selected){
+
+    return;
+
+  }
+
+
+  selectedQuality =
+    selected;
+
+
+  // =================================
+  // ACTIVE QUALITY BUTTON
+  // =================================
+
+  document
+    .querySelectorAll(
+      ".quality-btn"
+    )
+    .forEach(
+      button => {
+
+        if(
+          button.textContent ===
+          quality
+        ){
+
+          button.classList.add(
+            "active"
+          );
+
+        }else{
+
+          button.classList.remove(
+            "active"
+          );
+
+        }
+
+      }
+    );
+
+
+  currentQuality.textContent =
+    "Selected Quality: " +
+    quality;
+
+
+  // =================================
+  // STREAM
+  // =================================
+
+  if(
+    selected.stream_url
+  ){
+
+    loadVideo(
+      selected.stream_url
+    );
+
+  }else{
+
+    videoContainer.innerHTML =
+      `
+      <div class="message">
+        ▶ ${escapeHtml(
+          quality
+        )} ka Stream Link available nahi hai.
+      </div>
+      `;
+
+  }
+
+
+  // =================================
+  // BUTTONS
+  // =================================
+
+  linkButtons.innerHTML =
+    "";
+
+
+  const streamUrl =
+    safeUrl(
+      selected.stream_url
+    );
+
+
+  const downloadUrl =
+    safeUrl(
+      selected.download_url
+    );
+
+
+  if(streamUrl){
+
+    const streamButton =
+      document.createElement(
+        "a"
+      );
+
+
+    streamButton.className =
+      "stream-btn";
+
+
+    streamButton.href =
+      streamUrl;
+
+
+    streamButton.target =
+      "_blank";
+
+
+    streamButton.rel =
+      "noopener noreferrer";
+
+
+    streamButton.textContent =
+      "▶ Stream " +
+      quality;
+
+
+    linkButtons.appendChild(
+      streamButton
+    );
+
+  }
+
+
+  if(downloadUrl){
+
+    const downloadButton =
+      document.createElement(
+        "a"
+      );
+
+
+    downloadButton.className =
+      "download-btn";
+
+
+    downloadButton.href =
+      downloadUrl;
+
+
+    downloadButton.target =
+      "_blank";
+
+
+    downloadButton.rel =
+      "noopener noreferrer";
+
+
+    /*
+      Browser cross-origin links par
+      download attribute ignore kar sakta hai,
+      isliye link ko Download button ke
+      roop me show kar rahe hain.
+    */
+
+    downloadButton.setAttribute(
+      "download",
+      ""
+    );
+
+
+    downloadButton.textContent =
+      "⬇ Download " +
+      quality;
+
+
+    linkButtons.appendChild(
+      downloadButton
+    );
+
+  }
+
+
+  if(
+    !streamUrl &&
+    !downloadUrl
+  ){
+
+    linkButtons.innerHTML =
+      `
+      <div class="no-link">
+        Is quality ke links available nahi hain.
+      </div>
+      `;
+
+  }
 
 }
 
@@ -605,14 +1245,22 @@ async function loadEpisode(){
 // LOAD VIDEO
 // =================================
 
-function loadVideo(url){
+function loadVideo(
+  url
+){
 
-  if(!url){
+  const safe =
+    safeUrl(
+      url
+    );
+
+
+  if(!safe){
 
     videoContainer.innerHTML =
       `
       <div class="message error">
-        ❌ Is episode ka video URL available nahi hai.
+        ❌ Is quality ka valid video URL available nahi hai.
       </div>
       `;
 
@@ -622,7 +1270,7 @@ function loadVideo(url){
 
 
   const lowerUrl =
-    url.toLowerCase();
+    safe.toLowerCase();
 
 
   const isVideoFile =
@@ -653,7 +1301,7 @@ function loadVideo(url){
 
 
     video.src =
-      url;
+      safe;
 
 
     video.addEventListener(
@@ -686,7 +1334,7 @@ function loadVideo(url){
 
 
   // =================================
-  // IFRAME / EMBED VIDEO
+  // IFRAME / EMBED
   // =================================
 
   const iframe =
@@ -696,7 +1344,7 @@ function loadVideo(url){
 
 
   iframe.src =
-    url;
+    safe;
 
 
   iframe.allowFullscreen =
@@ -749,8 +1397,7 @@ async function loadEpisodeList(){
       .order(
         "episode_number",
         {
-          ascending:
-            true
+          ascending:true
         }
       );
 
